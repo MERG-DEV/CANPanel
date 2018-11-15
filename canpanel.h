@@ -69,11 +69,11 @@ CANPanel Version History
 #include "io-canpanel.h"
 #include <TickTime.h>
 
-#ifdef CANPanel
-    #include "max6951.h"
-#elif defined CANLED
 
-#endif
+#include "max6951.h"
+
+
+
 
 
 #define MANU_ID         MANU_MERG

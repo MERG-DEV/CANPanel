@@ -230,6 +230,7 @@ void setLed( BYTE ledNumber, BOOL ledState )
 
     digNum = --ledNumber/8;
     segNum = ledNumber % 8;
+    digValue = 1 << segNum;
     
     // ??? update in memory status arrays, then send to chip
     sendMxCmd( MX_DIG_BOTH + digNum, digValue);
@@ -245,6 +246,9 @@ void flashLed( BYTE ledNumber )
 
     digNum = --ledNumber/8;
     segNum = ledNumber % 8;
+    digValueOn = 1 << segNum;
+    digValueOff = 0;
+    
     // ??? update in memory status arrays, then send to chip
     sendMxCmd( MX_DIG_P0 + digNum, digValueOn);
     sendMxCmd( MX_DIG_P1 + digNum, digValueOff);

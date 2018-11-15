@@ -191,7 +191,7 @@ typedef struct
     BYTE        ledNumber;
 } ModuleEvsEntry;    
 
-typedef ModuleEvsEntry  ModuleEvs[EVperEVT / sizeof(ModuleEvsEntry)];
+typedef ModuleEvsEntry  ModuleEvs[EVperEVT/ sizeof(ModuleEvsEntry)];
 
 typedef struct
 {
@@ -201,6 +201,7 @@ typedef struct
 
 
 extern rom     ModuleNvDefs    *NV;          // Pointer to node variables structure
+extern const rom BYTE topofflim;
 
 
 void	panelFlimInit(void);

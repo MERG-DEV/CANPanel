@@ -70,10 +70,14 @@ const rom char          module_type[] = MODULE_TYPE;
 // Node and event variables at a fixed place in ROM, starting on a segment boundary
 // so they can be written to as required 
 
-#pragma romdata	flimdata	// Node and event variables
+#pragma romdata	FLIMDATA	// Node and event variables
 
 const rom NodevarTable	nodeVarTable = { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,0xFF,0xFF };           
-const rom EventTableEntry  eventTable[EVT_NUM];
+// const rom EventTableEntry  eventTable[EVT_NUM];
+const rom EventTableEntry  eventTable[1];
+const rom BYTE topofflim;
+#pragma romdata PARAMETERS
+const rom BYTE extraparm;
 
 #pragma romdata
 
