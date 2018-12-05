@@ -267,7 +267,7 @@ BYTE findHardCodedEvent( WORD eventNode, WORD eventNum  )
     
     eventIndex = 0xFF;
     
-    for (i=0;i<HARDCODED_MAX_BUTTON;i++)
+    for (i=0;i<HARDCODED_MAX_BUTTON*2;i++)
         if ((HardCodedEvents[i].evNodeNum == eventNode) && (HardCodedEvents[i].evEventNum == eventNum))
             eventIndex = i;
     
@@ -280,7 +280,7 @@ BOOL processHardCodedEvent( WORD eventNode, WORD eventNum, BYTE eventIndex, BYTE
     BOOL    eventProcessed = TRUE;
     
     // Hard Coded only processes ON events
-    // Process short event ON wiht node number zero
+    // Process short event ON with node number zero
     // or long event on with node number non-zero
     
     if (((eventNode == 0) && (msg[d0] == OPC_ASON)) 
