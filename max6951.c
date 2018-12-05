@@ -175,7 +175,7 @@ WORD_VAL ledTestCycle( WORD_VAL testStatus )
         segCount = testStatus.byte.LB;
         if (segCount == 0)       // start of digit
         {
-//            sendMxCmd( MX_DIG_BOTH + digCount++, 0 );   // Clear last digit and move to next
+            sendMxCmd( MX_DIG_BOTH + digCount++, 0 );   // Clear last digit and move to next
             if (++digCount > 7)
                 digCount = 0;            
         }
@@ -223,35 +223,64 @@ void clearAllLeds(void)
        
 }
 
+// Set flashLed TRUE to flash the LED (ledState is then don't care)
+// Set flashLed FALSE and ledState TRUE to turn LED on
+// Set flashLed FALSE and ledState FALSE to turn LED off
+
+void setLedState( BYTE ledNumber, BOOL ledState, BOOL flashLed)
+
+{
+   BYTE    digNum, segNum, digValue, planeValueLED, planeValueFlash;
+
+    planeValueLED = ledsMap[0][digNum];    // \_ Current status of LEDs stored in memory for this "digit"
+    planeValueFlash = ledsMap[1][digNum];  // /      
+            
+    digNum = --ledNumber/8;     // Work out "digit" number from LED number
+    segNum = ledNumber % 8;     // Eork out "segment" number ie: LED in this "digit"
+    digValue = 1 << segNum;     // Bit map for this LED in this "digit"
+
+    if (flashLed) // flash led
+    {    
+        planeValueLED |= digValue;        // Combine this LED flashing with existing LEDs status
+        planeValueFlash &= ~digValue;    
+    }
+    else
+    {    
+        if (ledState) // turn LED on
+        {    
+            planeValueLED |= digValue;        // Combine this LED on with existing LEDs status
+            planeValueFlash |= digValue;
+        }
+        else           // turn LED off
+        {  
+            planeValueLED &= ~digValue;        // Combine this LED off with existing LEDs status
+            planeValueFlash &= ~digValue;
+        }
+    }
+    
+    // Update in memory status arrays, then send to chip
+    
+    ledsMap[0][digNum] = planeValueLED;    
+    ledsMap[1][digNum] = planeValueFlash;     
+
+    sendMxCmd( MX_DIG_P0 + digNum, planeValueLED);
+    sendMxCmd( MX_DIG_P1 + digNum, planeValueFlash);
+}
+
 void setLed( BYTE ledNumber, BOOL ledState )
 
 {
-    BYTE    digNum, segNum, digValue;
-
-    digNum = --ledNumber/8;
-    segNum = ledNumber % 8;
-    digValue = 1 << segNum;
+    setLedState(ledNumber, ledState, FALSE);
+} 
     
-    // ??? update in memory status arrays, then send to chip
-    sendMxCmd( MX_DIG_BOTH + digNum, digValue);
-}
-
+ 
 
 // Set LED to flashing state (use setLed to clear flashing state)
 
 void flashLed( BYTE ledNumber )
 
 {
-    BYTE    digNum, segNum, digValueOn, digValueOff;
-
-    digNum = --ledNumber/8;
-    segNum = ledNumber % 8;
-    digValueOn = 1 << segNum;
-    digValueOff = 0;
-    
-    // ??? update in memory status arrays, then send to chip
-    sendMxCmd( MX_DIG_P0 + digNum, digValueOn);
-    sendMxCmd( MX_DIG_P1 + digNum, digValueOff);
+       setLedState(ledNumber, FALSE, TRUE);
 }
 
 

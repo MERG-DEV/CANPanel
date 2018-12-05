@@ -1,5 +1,5 @@
-#ifndef __BURNDEN_H
-#define __BURNDEN_H
+#ifndef __HARDCODED_H
+#define __HARDCODED_H
 
 /*
 
@@ -53,23 +53,42 @@ events.h - Definitions for CBUS event handling for Burnden Park project
 #include "max6951.h"
 
 
-#define BURNDEN_MAX_BUTTON  16          // 16 BUTTONS
-#define MAX_STORAGE_ROAD    11          // 12 STORAGE ROADS
-#define COMPUTE_NODE        80          // Node number for CANCOMPUTE route set events
-
+#define HARDCODED_MAX_BUTTON  17            // 17 BUTTONS
+#define LED_GROUPS  2                       // Number of groups of mutually exclusive route LEDs
+#define MAX_STORAGE_ROAD    13              // 13 STORAGE ROADS
+#define COMPUTE_NODE        80              // Node number for CANCOMPUTE route set events
+#define ROUTE_SETUP_TIME    3 * ONE_SECOND  // Route setup time in seconds when using simulated feedback
 
 typedef struct
 {
     BYTE                buttonId;
     BYTE                ledRow;        // Corresponding LED for this button
     BYTE                ledColumn;
-} BurndenEntry;
+} HardCodedEntry;
 
-void BurndenInit(void);
-void burndenFlashSelected( BYTE button );
+// Data structure for hard coded simple event table
 
-BOOL    parseBurndenEvent( BYTE *msg );
+typedef enum
+{
+    evActLedOff = 0,
+    evActLedOn,
+    evActFlashLed
+} evActions;
+
+
+typedef struct
+{
+    WORD        evNodeNum;
+    WORD        evEventNum;
+    BYTE        ledNumber;
+    evActions   ledAction;
+} HCEvTable;
 
 
 
-#endif	// __BURNDEN_H
+void initHardCoded(void);
+BYTE hardCodedProducerMap( BYTE button );
+void hardCodedFlashSelected( BYTE button );
+void checkWaitingRoutes();
+        
+#endif	// __HARDCODED_H

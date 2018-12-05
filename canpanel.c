@@ -48,14 +48,15 @@
 */
 
 #define  BURNDEN = TRUE     // Set this for hard coding for Burnden Park project
-#define  PROD_EVENT_NODE = 800  // Node number for produced events, set to -1 to use node number of this module
+#define  PROD_EVENT_NODE = 0L  
+// Node number for produced events, set to -1 to use node number of this module, set 0 for short events
         
 #include "canpanel.h"       // Also contains current version and build number
 // #include "max6951.h"
 #include "paneltest.h"
 #include "buttonscan.h"
 #include <FLiM.h>
-#include "burnden.h"
+#include "hardCoded.h"
 
 
 
@@ -160,7 +161,6 @@ void main(void)
     DWORD       timeDiff;
   
     canPanelInit(mainStatus);
-    BurndenInit();
     startTime.Val = tickGet();
  
     mainStatus.started = FALSE;
@@ -173,6 +173,9 @@ void main(void)
         if (!mainStatus.started && (tickTimeSince(startTime) > (NV->sendSodDelay * HUNDRED_MILI_SECOND) + TWO_SECOND))
         {
             mainStatus.started = TRUE;
+#ifdef HARDCODED            
+            initHardCoded();
+#endif            
             if (NV->sendSodDelay > 0)
                 sendStartupSod(START_SOD_EVENT);
             
@@ -221,20 +224,25 @@ void main(void)
         if (mainStatus.started)
         {
             button = keyScan();
-
+            
             if (button != 0xFF)
-            {    
-                cbusSendEvent( 0, -1, button, TRUE );
-
-                burndenFlashSelected( button );
-               
-
+            {   
+                
+#ifdef HARDCODED                
+                button = hardCodedProducerMap(button);
+//                hardCodedFlashSelected( button ); // Only used when flashing in response to events wasn't implemented
+#endif                
+                cbusSendEvent( 0, 0 , button, TRUE );
             }    
         }
       
         // Check for any flashing status LEDs
         checkFlashing();
         
+#ifdef HARDCODED
+        // Check for any routes waiting to be setup
+        checkWaitingRoutes();
+#endif        
      } // main loop
 } // main
  

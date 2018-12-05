@@ -89,7 +89,7 @@ CANPanel Version History
 
 // Debug events sent
 
-#define START_SOD_EVENT      0x81
+#define START_SOD_EVENT      1000
 // DEFINE DEFAULT VALUES
 
 // Time delays 
