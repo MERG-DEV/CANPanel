@@ -66,68 +66,50 @@
 
 // Array of buttons and their LEDs and feedbacks 
 
-#define RUN_LED1 26  // LED number to light when up and running
-#define RUN_LED2 30  // LED number to light when up and running
-#define RUN_LED3 27  // LED number to light when up and running
-#define RUN_LED4 31  // LED number to light when up and running
+#define RUN_LED 23  // LED number to light when up and running
 
-
-
-
-
-const rom BYTE    hardCodedButtons[HARDCODED_MAX_BUTTON] = {64,80,96,112,81,97,82,98,84,100,69,101,70,86,65,66};
-const rom BYTE    hardCodedLeds[HARDCODED_MAX_BUTTON] =    {48,56,64 ,33,41,49,42,50,35,43,51,44,45,53 ,36,37};
-const rom BYTE    ledGroupLimits[LED_GROUPS+1] = {1,10,20,30,40};
+const rom BYTE    hardCodedButtons[HARDCODED_MAX_BUTTON] = {80,96,112,65,81,97,82,98,67,83,99,84,69,101,70,86,118};
+const rom BYTE    hardCodedLeds[HARDCODED_MAX_BUTTON] =    {48,56,64 ,33,41,49,42,50,35,43,51,44,45,53 ,36,37,62};
+const rom BYTE    ledGroupLimits[LED_GROUPS+1] = {0,MAX_STORAGE_ROAD, HARDCODED_MAX_BUTTON};
 
 const rom HCEvTable HardCodedEvents[] = 
-{   
-//   Button events that start LED flashing - Node Number, event number, LED number, Group, action
-//  {450,64,25,4,evActFlashLed},   // FYUPBH correct
-    {450,64,1,4,evActFlashLed},   // FYUPBH dummmy led always out
-    {450,80,32,0,evActFlashLed},    // FY01A
-    {450,96,24,1,evActFlashLed},     // FY01D
-//    {450,112,8,5,evActFlashLed},     // FYUPVH   
-    {450,112,1,5,evActFlashLed},     // FYUPVH   
-    
-    {450,81,16,0,evActFlashLed},     // FY02A
-    {450,97,17,1,evActFlashLed},     // FY02D
-    {450,82,9,0,evActFlashLed},      // FY03A
-    {450,98,18,1,evActFlashLed},     // FY03D
-    {451,84,11,2,evActFlashLed},    // FY04D
-    {451,100,20,3,evActFlashLed},     // FY04A
-    {451,69,12,2,evActFlashLed},    // FY05D
-    {451,101,21,3,evActFlashLed},     // FY05A
-//    {451,70,28,6,evActFlashLed},    // FYREL
-    {451,70,1,6,evActFlashLed},    // FYREL
-    
-    {451,86,13,2,evActFlashLed},    // FY06D
-    {451,65,22,3,evActFlashLed},    // FY06A
-//    {451,66,23,7,evActFlashLed},    // FYDNVH
-    {451,66,1,7,evActFlashLed},    // FYDNVH
-    
-  //    Feedback events from CANCOMPUTE(s) that set LED on steady - Node Number, event number, LED number, action
-//    {80,13,25,4,evActLedOn},    // FYUPBH correct
-    {80,13,1,4,evActLedOn},    // FYUPBH dummmy led always out
-    {80,7,32,0,evActLedOn},     // FY01A
-    {80,1,24,1,evActLedOn},     // FY01D
-//    {80,14,8,5,evActLedOn},     // FYUPVH
-    {80,14,1,5,evActLedOn},     // FYUPVH
-    
-    {80,8,16,0,evActLedOn},     // FY02A
-    {80,2,17,1,evActLedOn},     // FY02D
-    {80,9,9,0,evActLedOn},      // FY03A
-    {80,3,18,1,evActLedOn},     // FY03D
-    {80,10,11,2,evActLedOn},    // FY04D
-    {80,4,20,3,evActLedOn},     // FY04A
-    {80,11,12,2,evActLedOn},    // FY05D
-    {80,5,21,3,evActLedOn},     // FY05A
-//    {80,15,28,6,evActLedOn},    // FYREL
-    {80,15,1,6,evActLedOn},    // FYREL
-    
-    {80,12,13,2,evActLedOn},    // FY06D
-    {80,6,22,3,evActLedOn},    // FY06A
-//    {80,16,23,7,evActLedOn}     // FYDNVH
-    {80,16,1,7,evActLedOn}     // FYDNVH
+{
+//   Button events that start LED flashing
+    {0,1,48,0,evActFlashLed},    // Node Number, event number, LED number, action
+    {0,2,56,0,evActFlashLed},
+    {0,3,64,0,evActFlashLed},
+    {0,4,33,0,evActFlashLed},   
+    {0,5,41,0,evActFlashLed},
+    {0,6,49,0,evActFlashLed},
+    {0,7,42,0,evActFlashLed},
+    {0,8,50,0,evActFlashLed},
+    {0,9,35,0,evActFlashLed},
+    {0,10,43,0,evActFlashLed},
+    {0,11,51,0,evActFlashLed},
+    {0,12,44,0,evActFlashLed},
+    {0,13,45,0,evActFlashLed},
+    {0,20,53,1,evActFlashLed},
+    {0,21,36,1,evActFlashLed},
+    {0,22,37,1,evActFlashLed},
+    {0,23,62,1,evActFlashLed},
+//    Feedback events from CANCOMPUTE(s) that set LED on steady
+    {80,1,48,0,evActLedOn},    // Node Number, event number, LED number, action
+    {80,2,56,0,evActLedOn},
+    {80,3,64,0,evActLedOn},
+    {80,4,33,0,evActLedOn},   
+    {80,5,41,0,evActLedOn},
+    {80,6,49,0,evActLedOn},
+    {80,7,42,0,evActLedOn},
+    {80,8,50,0,evActLedOn},
+    {80,9,35,0,evActLedOn},
+    {80,10,43,0,evActLedOn},
+    {80,11,51,0,evActLedOn},
+    {80,12,44,0,evActLedOn},
+    {80,13,45,0,evActLedOn},
+    {80,14,53,1,evActLedOn},
+    {80,15,36,1,evActLedOn},
+    {80,16,37,1,evActLedOn},
+    {80,17,62,1,evActLedOn},
     
 };      
         
@@ -136,7 +118,6 @@ const rom HCEvTable HardCodedEvents[] =
 
 
 BYTE    ledNum;
-BYTE    segCount;
 BYTE    waitingRoute;
 
 TickValue  routeRequestedTime;
@@ -149,13 +130,9 @@ TickValue  routeRequestedTime;
 void initHardCoded(void)
 
 {
-    ledNum = 1;
-    segCount = 0;
+//    ledNum = 35;
     waitingRoute = 0;       // No route waiting for setup
-    setLed(RUN_LED1, TRUE );
-    setLed(RUN_LED2, TRUE );
-    setLed(RUN_LED3, TRUE );
-    setLed(RUN_LED4, TRUE );    
+    setLed(RUN_LED, TRUE );
 } // eventsInit
 
 
@@ -196,29 +173,14 @@ void clearhardCodedLeds( BYTE groupId )
 
 {
     BYTE i;
-  
-    for (i=0;i<HARDCODED_MAX_BUTTON;i++)
-    {    
-        if (HardCodedEvents[i].groupId == groupId)
-           setLed(HardCodedEvents[i].ledNumber, FALSE);
-    }    
     
-//  clearAllLeds();
-    
-//    if (groupId < LED_GROUPS)
-//    {
-//         
-//        for (i=ledGroupLimits[groupId]; i<ledGroupLimits[groupId+1]; i++)
-//                setLed(hardCodedLeds[i], FALSE);
-//    }
+    if (groupId < LED_GROUPS)
+    {
+        for (i=ledGroupLimits[groupId]; i<ledGroupLimits[groupId+1]; i++)
+                setLed(hardCodedLeds[i], FALSE);
+    }
 }
 
-void TurnOnNextLed()
-
-{
-    clearAllLeds();
-     setLed(ledNum++, TRUE);
-}    
 
 // Flashes selected LED instead of acting on incoming event
 
@@ -227,7 +189,11 @@ void hardCodedFlashSelected( BYTE button )
     int aIndex;
      
        
-
+//    digcount = ledNum / 8
+//       segCount = (segCount = 0 ? 1 : segCount<<1);    // Next segment bit in digit byte
+//   
+//    sendMxCmd( MX_DIG_BOTH + digCount, segCount);   // Turn on one segment
+// 
   
     BYTE i;
     

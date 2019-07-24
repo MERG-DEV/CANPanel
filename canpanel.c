@@ -47,7 +47,9 @@
 
 */
 
-#define  BURNDEN = TRUE     // Set this for hard coding for Burnden Park project
+// #define  BURNDEN = TRUE     // Set this for hard coding for Burnden Park project
+#define  KIMBLE = TRUE
+
 #define  PROD_EVENT_NODE = 0L  
 // Node number for produced events, set to -1 to use node number of this module, set 0 for short events
         
@@ -165,7 +167,10 @@ void main(void)
  
     mainStatus.started = FALSE;
     mainStatus.panelMode = testOff;
-   
+#ifdef HARDCODED            
+    initHardCoded();
+#endif 
+    
     while (TRUE)
     {
         // Startup delay for CBUS about 2 seconds to let other modules get powered up - ISR will be running so incoming packets processed
@@ -173,10 +178,8 @@ void main(void)
         if (!mainStatus.started && (tickTimeSince(startTime) > (NV->sendSodDelay * HUNDRED_MILI_SECOND) + TWO_SECOND))
         {
             mainStatus.started = TRUE;
-#ifdef HARDCODED            
-            initHardCoded();
-#endif            
-            if (NV->sendSodDelay > 0)
+           
+//            if (NV->sendSodDelay > 0)
                 sendStartupSod(START_SOD_EVENT);
             
             if (NV->testFlags.startInTest)
@@ -186,7 +189,9 @@ void main(void)
             }    
         }
                
- 
+//        for (i=1; i<64; i++)
+//            TurnOnNextLed();
+            
       // Test mode checks here will be in NV - for this test build start in test display mode and cycle test modes when button pressed.
       //TODO - add in parsing CBUS command in approp place
         mainStatus.msgReceived = checkCBUS(mainStatus.panelMode == displayMSG);    // Consume any CBUS message - display it if not display message mode
@@ -228,11 +233,19 @@ void main(void)
             if (button != 0xFF)
             {   
                 
-#ifdef HARDCODED                
+#ifdef HARDCODED  
+#ifdef BURNDEN
                 button = hardCodedProducerMap(button);
 //                hardCodedFlashSelected( button ); // Only used when flashing in response to events wasn't implemented
 #endif                
+#endif              
+                
+#ifdef BURNDEN                
                 cbusSendEvent( 0, 0 , button, TRUE );
+#else
+                cbusSendEvent( 0, -1 , button, TRUE );
+//                TurnOnNextLed();
+#endif
             }    
         }
       
@@ -241,7 +254,7 @@ void main(void)
         
 #ifdef HARDCODED
         // Check for any routes waiting to be setup
-        checkWaitingRoutes();
+       // checkWaitingRoutes();
 #endif        
      } // main loop
 } // main

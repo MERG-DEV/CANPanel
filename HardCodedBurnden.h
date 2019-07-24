@@ -53,9 +53,9 @@ events.h - Definitions for CBUS event handling for Burnden Park project
 #include "max6951.h"
 
 
-#define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
-#define MAX_STORAGE_ROAD    16                // 13 STORAGE ROADS
+#define HARDCODED_MAX_BUTTON  17            // 17 BUTTONS
+#define LED_GROUPS  2                       // Number of groups of mutually exclusive route LEDs
+#define MAX_STORAGE_ROAD    13              // 13 STORAGE ROADS
 #define COMPUTE_NODE        80              // Node number for CANCOMPUTE route set events
 #define ROUTE_SETUP_TIME    3 * ONE_SECOND  // Route setup time in seconds when using simulated feedback
 
@@ -91,6 +91,5 @@ void initHardCoded(void);
 BYTE hardCodedProducerMap( BYTE button );
 void hardCodedFlashSelected( BYTE button );
 void checkWaitingRoutes();
-void TurnOnNextLed();
         
 #endif	// __HARDCODED_H

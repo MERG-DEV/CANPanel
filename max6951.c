@@ -232,13 +232,13 @@ void setLedState( BYTE ledNumber, BOOL ledState, BOOL flashLed)
 {
    BYTE    digNum, segNum, digValue, planeValueLED, planeValueFlash;
 
-    planeValueLED = ledsMap[0][digNum];    // \_ Current status of LEDs stored in memory for this "digit"
-    planeValueFlash = ledsMap[1][digNum];  // /      
-            
     digNum = --ledNumber/8;     // Work out "digit" number from LED number
     segNum = ledNumber % 8;     // Eork out "segment" number ie: LED in this "digit"
     digValue = 1 << segNum;     // Bit map for this LED in this "digit"
-
+    
+    planeValueLED = ledsMap[0][digNum];    // \_ Current status of LEDs stored in memory for this "digit"
+    planeValueFlash = ledsMap[1][digNum];  // /   
+    
     if (flashLed) // flash led
     {    
         planeValueLED |= digValue;        // Combine this LED flashing with existing LEDs status
