@@ -67,15 +67,31 @@ const rom char          module_type[] = MODULE_TYPE;
 
 #define AMPERAGE_EVENT  1
 
+#ifdef DEFFFLOP
+    #define DPB 0x1B
+#else
+    #define DPB 0x13
+#endif
+
 // Node and event variables at a fixed place in ROM, starting on a segment boundary
 // so they can be written to as required 
 
 #pragma romdata	FLIMDATA	// Node and event variables
 
-const rom NodevarTable	nodeVarTable = { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,0xFF,0xFF };           
+const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB};   
+
 // const rom EventTableEntry  eventTable[EVT_NUM];
 const rom EventTableEntry  eventTable[1];
 const rom BYTE topofflim;
+
 #pragma romdata PARAMETERS
 const rom BYTE extraparm;
 
@@ -99,7 +115,7 @@ BOOL	FlashStatus;			// Control flash on/off of LED during FLiM setup etc
 #pragma code APP
 
 
-// cmdFLimInit called during initialisation 
+// panelFLimInit called during initialisation 
 
 void	panelFlimInit(void)
 
@@ -110,14 +126,28 @@ void	panelFlimInit(void)
 
         // Initialise node variables
 
-	NVPtr = &(nodeVarTable.nodevars[0]);         // Node Variables table
+//	NVPtr = &(nvTable.nodeArray[0]);         // Node Variables table
+    NVPtr = (rom NodeBytes*)&(nvTable[0]);         // Node Variables table
+
     NV = (rom ModuleNvDefs*) NVPtr;
 	EVTPtr = &(eventTable[0]);           // Event table
 	NV_changed = FALSE;
         FlashStatus = FALSE;
+        
+    initDefaultNVs();    
+        
+        
+    initButtonStatus();    
 
  
 } // PanelFlimInit
+
+
+void    initDefaultNVs(void)
+
+{
+   
+}
 
 
 //void SaveNodeDetails(WORD Node_id, BOOL	FLiMmode)

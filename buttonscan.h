@@ -99,6 +99,8 @@ typedef struct
 
 void initKeyscan(void);
 BYTE keyScan( void );
+BYTE buttonNumber( BYTE buttonCode );
+BYTE buttonCode( BYTE buttonNumber );
 
 #ifdef RETURN_LOOKUP
     BYTE keyLookup( BYTE buttonNum, MatrixState buttonState );

@@ -243,7 +243,7 @@ void main(void)
 #ifdef BURNDEN                
                 cbusSendEvent( 0, 0 , button, TRUE );
 #else
-                cbusSendEvent( 0, -1 , button, TRUE );
+                sendButtonEvent( button );
 //                TurnOnNextLed();
 #endif
             }    

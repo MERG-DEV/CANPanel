@@ -151,12 +151,16 @@ typedef struct
         PbSettings      pbSettings;                     // Array of settings one byte per pushbutton
 } ModuleNvDefs;
 
-
 typedef union
 {
         NodeBytes   	nodevars[NV_NUM];
         ModuleNvDefs    panelNVs;
 } NodevarTable;
+
+typedef struct
+{
+        NodeBytes   	nodeArray[NV_NUM];
+} NodeTable;        
 
 
 // Event table definitions
@@ -203,9 +207,23 @@ typedef struct
 extern rom     ModuleNvDefs    *NV;          // Pointer to node variables structure
 extern const rom BYTE topofflim;
 
+// Data structures for in memory status
+
+typedef struct
+{
+    BOOL    eventON:1;
+}   PbStatus;
+
+
+
 
 void	panelFlimInit(void);
+void    initDefaultNVs(void);
 
+// In panelEvents
+
+void initButtonStatus();
+void sendButtonEvent( BYTE button );
 
 
 #ifdef	__cplusplus

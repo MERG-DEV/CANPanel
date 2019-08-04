@@ -48,8 +48,13 @@ This work is licensed under the:
 #include "canpanel.h"
 #include "callbacks.h"
 #include "ticktime.h"
+#include "buttonscan.h"
 
+#pragma udata BUTSTAT
 
+PbStatus        buttonStatus[NUM_PBS];
+
+#pragma udata MAIN_VARS
 
 #pragma code APP
 
@@ -145,6 +150,26 @@ BOOL processEvent( BYTE eventIndex, BYTE *msg )
         } // while more entries   
     }
 
+}
+
+void initButtonStatus()
+{
+    BYTE i;
+    
+    for (i=0; i < NUM_PBS; i++)    
+        buttonStatus[i].eventON = FALSE;
+}
+
+void sendButtonEvent( BYTE button )
+
+{
+    BOOL    eventState;
+    BYTE    buttonNum;
+    
+    buttonNum = buttonNumber(button);
+    eventState = (NV->pbSettings[buttonNum].flipflop ? !buttonStatus[buttonNum].eventON : TRUE);
+    buttonStatus[buttonNum].eventON = eventState;
+    cbusSendEvent( 0, -1 , button, eventState );
 }
 
 

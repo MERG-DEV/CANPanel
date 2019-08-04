@@ -57,9 +57,13 @@ BYTE    singleKeyLookupTable[] = { 0,0 }; // KEY_LOOKUPS;
 
 KeyCombinationLookupEntry   keyCombinationLookupTable[] = { 0,0 }; //  COMBINATION_LOOKUPS;
 
-#pragma code APP
+#pragma udata BUTSTAT
 
 KeypadStatus    keyStatus;
+
+#pragma udata MAIN_VARS
+
+#pragma code APP
 
 void initKeyscan(void)
 {
@@ -100,19 +104,19 @@ BYTE keyScan( void )
 
 // This routine does one scan of the keypad, updating any debounce counts. It returns the value
 // of the currently pressed key, when the press has been debounced.
-// IF no valid key (or combination) is  pressed, or there has been no chnage, then 0xFF is returned.
+// IF no valid key (or combination) is  pressed, or there has been no change, then 0xFF is returned.
 
-// NOTE: this code is optmiased by using specific binary patterns for the bit masks.
-// Thse are defined in matrix.h which is application hardware specific.
+// NOTE: this code is optmised by using specific binary patterns for the bit masks.
+// These are defined in matrix.h which is application hardware specific.
 // You need to generate a matrix.h file specific to your hardware
-// If there are paticular hardware differenes, conditional code changes may also be required
+// If there are particular hardware differences, conditional code changes may also be required
 
 // The keypad control pins are shared with the LCD output and the SPI clock.
 // The LCD routines must leave LCD CS disabled
 // The SPI routines must leave all SPI device CS signals disabled and the SPI module disabled to enable normal I/O operation
 // Interrupts are disabled during the strobe out and read in sequence in case LCD or SPI operations happen in the ISR
 
-// This routine does NOT block during the debounce, and should be called repeatadly from the main loop,
+// This routine does NOT block during the debounce, and should be called repeatedly from the main loop,
 // It will return the new keycode when the debounce period has completed.
 
 {
@@ -261,6 +265,20 @@ BYTE keyScan( void )
     return ( returnCode );
 
 }   // keyscan
+
+BYTE buttonNumber( BYTE buttonCode )
+
+{
+    // Return a button number from 0 to 63 from the row/column button code
+    return( ((buttonCode >> 2) & 0xFC) + (buttonCode & 0x0F ) );
+}
+
+BYTE buttonCode( BYTE buttonNumber )
+
+{
+    // Return a row/column button code from a 0 to 63 button number
+    return( ((buttonNumber & 0xF0) << 2) + (buttonNumber & 0x0F ) );
+}
 
 
 
