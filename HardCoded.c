@@ -81,6 +81,7 @@ const rom BYTE    ledGroupLimits[LED_GROUPS+1] = {1,10,20,30,40};
 
 const rom HCEvTable HardCodedEvents[] = 
 {   
+#ifdef KFY
 //   Button events that start LED flashing - Node Number, event number, LED number, Group, action
 //  {450,64,25,4,evActFlashLed},   // FYUPBH correct
     {450,64,1,4,evActFlashLed},   // FYUPBH dummmy led always out
@@ -130,7 +131,10 @@ const rom HCEvTable HardCodedEvents[] =
     {80,16,1,7,evActLedOn}     // FYDNVH
     
 };      
-        
+
+#elif defined KSIGNALS
+
+#endif
 
 #pragma udata MAIN_VARS
 
@@ -152,10 +156,15 @@ void initHardCoded(void)
     ledNum = 1;
     segCount = 0;
     waitingRoute = 0;       // No route waiting for setup
+    
+#ifdef KSIGNALS
+#else    
     setLed(RUN_LED1, TRUE );
     setLed(RUN_LED2, TRUE );
     setLed(RUN_LED3, TRUE );
-    setLed(RUN_LED4, TRUE );    
+    setLed(RUN_LED4, TRUE );
+#endif
+    
 } // eventsInit
 
 
