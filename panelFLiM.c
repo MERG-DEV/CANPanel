@@ -67,9 +67,11 @@ const rom char          module_type[] = MODULE_TYPE;
 
 #define AMPERAGE_EVENT  1
 
-#ifdef DEFFFLOP
+#ifdef DEFFFLOP         // Set default NV to flip flop mode
     #define DPB 0x1B
-#else
+#elif defined( DEFPBON) // Set default NV to push button on only mode
+    #define DPB 0x11
+#else                   // Set default NV to on/off (typicaly toggle switches)
     #define DPB 0x13
 #endif
 

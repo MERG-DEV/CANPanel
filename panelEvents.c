@@ -163,13 +163,24 @@ void initButtonStatus()
 void sendButtonEvent( BYTE button )
 
 {
-    BOOL    eventState;
+    BOOL    eventState, buttonOn;
     BYTE    buttonNum;
     
+    buttonOn = !(button & 0x80);  // MS bit set for button off
+    button &= 0x7F;               // Clear MS bit to leave just button number
     buttonNum = buttonNumber(button);
-    eventState = (NV->pbSettings[buttonNum].flipflop ? !buttonStatus[buttonNum].eventON : TRUE);
-    buttonStatus[buttonNum].eventON = eventState;
-    cbusSendEvent( 0, -1 , button, eventState );
+    
+    if (buttonOn)  // Button down or switch on
+    {    
+        eventState = (NV->pbSettings[buttonNum].flipflop ? !buttonStatus[buttonNum].eventON : TRUE);
+        buttonStatus[buttonNum].eventON = eventState;
+        cbusSendEvent( 0, -1 , button, eventState );
+    }    
+    else // Button up or switch off
+    {
+        if (NV->pbSettings[buttonNum].sendOff & !NV->pbSettings[buttonNum].flipflop)
+            cbusSendEvent( 0, -1 , button, FALSE );
+    }    
 }
 
 

@@ -133,7 +133,20 @@ const rom HCEvTable HardCodedEvents[] =
 };      
 
 #elif defined KSIGNALS
-
+//   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
+    {431,9,60,0xFF,evActLedFollow},     // FB: Down Home Clear
+    {431,10,61,0xFF,evActLedFollow},    // FB: Down Home Danger
+    {432,9,48,0xFF,evActLedFollow},     // FB: Up Starter Clear
+    {432,10,41,0xFF,evActLedFollow},    // FB: Up Starter Danger      
+    {432,11,64,0xFF,evActLedFollow},    // FB: Goods Loop Starter Clear
+    {432,12,57,0xFF,evActLedFollow},    // FB: Goods Loop Starter Danger    
+    {434,9,40,0xFF,evActLedFollow},     // FB: Up Outer Home Clear
+    {434,10,33,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
+    {434,11,50,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
+    {434,12,51,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
+    {452,103,9,0xFF,evActLedFollow}     // Emergency stop all
+    
+};
 #endif
 
 #pragma udata MAIN_VARS
@@ -206,9 +219,9 @@ void clearhardCodedLeds( BYTE groupId )
 {
     BYTE i;
   
-    for (i=0;i<HARDCODED_MAX_BUTTON;i++)
+    for (i=0;i<HARDCODED_MAX_LED;i++)
     {    
-        if (HardCodedEvents[i].groupId == groupId)
+        if ((groupId != 0xFF) && (HardCodedEvents[i].groupId == groupId))
            setLed(HardCodedEvents[i].ledNumber, FALSE);
     }    
     
@@ -309,7 +322,7 @@ BYTE findHardCodedEvent( WORD eventNode, WORD eventNum  )
     
     eventIndex = 0xFF;
     
-    for (i=0;i<HARDCODED_MAX_BUTTON*2;i++)
+    for (i=0;i<HARDCODED_MAX_LED*HARDCODED_LED_STATES;i++)
         if ((HardCodedEvents[i].evNodeNum == eventNode) && (HardCodedEvents[i].evEventNum == eventNum))
             eventIndex = i;
     
@@ -320,23 +333,42 @@ BOOL processHardCodedEvent( WORD eventNode, WORD eventNum, BYTE eventIndex, BYTE
 
 {
     BOOL    eventProcessed = TRUE;
+    BOOL    onEvent;
     
-    // Hard Coded only processes ON events
     // Process short event ON with node number zero
     // or long event on with node number non-zero
     
-    if (((eventNode == 0) && (msg[d0] == OPC_ASON)) 
-    ||  ((eventNode != 0) && (msg[d0] == OPC_ACON))) 
-    {
-        clearhardCodedLeds(HardCodedEvents[eventIndex].groupId);
-        if (HardCodedEvents[eventIndex].ledAction == evActFlashLed)
-            flashLed(HardCodedEvents[eventIndex].ledNumber);
-        else
-            setLed(HardCodedEvents[eventIndex].ledNumber, HardCodedEvents[eventIndex].ledAction );
-    }
-    else
-        eventProcessed = FALSE;
+    onEvent = ((eventNode == 0) && (msg[d0] == OPC_ASON)) 
+            ||((eventNode != 0) && (msg[d0] == OPC_ACON));
     
+    switch (HardCodedEvents[eventIndex].ledAction)
+    {
+        case evActFlashLed:
+            if (onEvent)
+            {
+                flashLed(HardCodedEvents[eventIndex].ledNumber);
+                clearhardCodedLeds(HardCodedEvents[eventIndex].groupId);
+            }    
+            break;
+            
+        case evActLedOn:
+        case evActLedOff:
+            if (onEvent)
+                setLed(HardCodedEvents[eventIndex].ledNumber, HardCodedEvents[eventIndex].ledAction );
+            break;
+        
+        case evActLedFollow:
+            setLed(HardCodedEvents[eventIndex].ledNumber, onEvent );
+            break;
+            
+        case evActLedFollowInv:    
+            setLed(HardCodedEvents[eventIndex].ledNumber, !onEvent );
+            break;
+            
+        default:
+            eventProcessed = FALSE;
+    }
+   
     return( eventProcessed );
 }
  

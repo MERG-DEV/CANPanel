@@ -70,9 +70,10 @@ void initKeyscan(void)
     BYTE i;
     
     keyStatus.status.statusByte = 0;
+    keyStatus.currentKey = 0xFF;
     
     for (i=0; i<COLUMN_OUTPUTS; i++)
-        keyStatus.buttonState.stateArray[i] = COLUMN_MASK;  // No buttons presseed (button inputs are active low)  ??? NEED TO ALLOW FOR MULTIPLE MASKS
+        keyStatus.buttonState.stateArray[i] = COLUMN_MASK;  // No buttons pressed (button inputs are active low)  ??? NEED TO ALLOW FOR MULTIPLE MASKS
     
     // Keypad strobe  output pins - intialise all high
     
@@ -104,7 +105,8 @@ BYTE keyScan( void )
 
 // This routine does one scan of the keypad, updating any debounce counts. It returns the value
 // of the currently pressed key, when the press has been debounced.
-// IF no valid key (or combination) is  pressed, or there has been no change, then 0xFF is returned.
+// If a key has been released (or switch turned off) then the value is returned with the MSbit set
+// IF no valid key (or combination) is  pressed, or there has been no debounced change, then 0xFF is returned.
 
 // NOTE: this code is optmised by using specific binary patterns for the bit masks.
 // These are defined in matrix.h which is application hardware specific.
@@ -127,8 +129,8 @@ BYTE keyScan( void )
     BYTE        returnCode;
     BOOL        oneButtonPressed;
     BOOL        multiButtonsPressed;
-    BYTE        buttonNum, colNum, rowBits, rowNum;
-    BOOL        intState;
+    BYTE        buttonNum, colNum, rowBits, rowNum, rowDiff;
+    BOOL        intState, keyOff;
     
 
 
@@ -138,6 +140,7 @@ BYTE keyScan( void )
     multiButtonsPressed = FALSE;
     buttonNum = colNum = 0;
     rowBits = 0xFF;
+    
 
     for ( strobeCount = 0; strobeCount < COLUMN_OUTPUTS; strobeCount++)
     {
@@ -198,10 +201,10 @@ BYTE keyScan( void )
             }
         #endif
         #ifdef RETURN_ROW_COLUMN
-            if (strobedValue.Val != ROW_MASK )
+            if (strobedValue.Val != keyStatus.buttonState.stateArray[strobeCount] )
             {
                 colNum = strobeCount;
-                rowBits = ~strobedValue.Val;
+                rowBits = strobedValue.Val;
             }
         #endif
 
@@ -218,46 +221,59 @@ BYTE keyScan( void )
 
     if (keyStatus.status.deBouncing)
     {    
-        if (matrixEquals(newButtonState, keyStatus.pendingState))       // Still the same as when we started debouncing?
+        if (matrixEquals(&newButtonState, &keyStatus.pendingState))       // Still the same as when we started debouncing?
         {
             if (tickTimeSince( keyStatus.debounceStart) > KEY_DEBOUNCE_TIME)
             {
-                keyStatus.buttonState.stateVal[0] = keyStatus.pendingState.stateVal[0];
-                keyStatus.buttonState.stateVal[1] = keyStatus.pendingState.stateVal[1];
-                keyStatus.status.deBouncing = FALSE;
-                
                 #ifdef RETURN_LOOKUP
                     returnCode = keyLookup( buttonNum, newButtonState ); 
                 #endif
 
                 #ifdef RETURN_ROW_COLUMN
-                   if (rowBits != 0 && rowBits != 0xFF) // 0xFF means this is a button release ??? will need option of off events later
-                   {
-                        for (rowNum = 0; (rowBits & 0x01) != 0x01; rowNum++)
-                            rowBits >>= 1;  // Count the bit number that is set
-                        returnCode  = (rowNum << 4) + colNum;
-                   }     
+
+                // Find which bit has changed
+                rowDiff = keyStatus.buttonState.stateArray[colNum] ^ rowBits;
+                keyOff = ~rowBits & rowDiff;
+
+                if (rowDiff != 0)
+                {    
+                    for (rowNum = 0; rowDiff != 0; rowNum++)
+                        rowDiff >>=1;
+
+                        returnCode = (--rowNum << 4) + colNum;  // Combine row/column for event number
+                        keyStatus.currentKey = returnCode;
+
+                    if (keyOff)
+                    {    
+                        returnCode |= 0x80; // Set MSbit for key off 
+                        keyStatus.currentKey = 0xFF;
+                    }   
+                }        
+
                 #endif
-            }
-        }
-        else
-        {
-            if (matrixEquals(newButtonState, keyStatus.buttonState))    // value reverted, so cancel debounce
+
+                updateButtonState( &newButtonState, &keyStatus.buttonState);
+                
                 keyStatus.status.deBouncing = FALSE;
-            else                                            // value changed during debounce, so restart debounce
+            } // if debounce finished
+        }
+        else // changed during debounce
+        {
+            if (matrixEquals(&newButtonState, &keyStatus.buttonState))    // value reverted, so cancel debounce
+                keyStatus.status.deBouncing = FALSE;
+            else   // value changed during debounce, so restart debounce
             {
-                keyStatus.pendingState.stateVal[0] = newButtonState.stateVal[0];
-                keyStatus.pendingState.stateVal[1] = newButtonState.stateVal[1];
+                updateButtonState( &newButtonState, &keyStatus.pendingState);
                 keyStatus.debounceStart.Val = tickGet();
             }
         }
     }
     else // no debounce in progress - see if anything has changed
     {
-        if (matrixChanged(newButtonState, keyStatus.buttonState))
+        if (matrixChanged(&newButtonState, &keyStatus.buttonState))
         {
-            keyStatus.pendingState.stateVal[0] = newButtonState.stateVal[0];
-            keyStatus.pendingState.stateVal[1] = newButtonState.stateVal[1];
+            updateButtonState( &newButtonState, &keyStatus.pendingState);
+                        
             keyStatus.status.deBouncing = TRUE;
             keyStatus.debounceStart.Val = tickGet();
         }
@@ -265,6 +281,35 @@ BYTE keyScan( void )
     return ( returnCode );
 
 }   // keyscan
+
+BOOL matrixEquals( MatrixState *newState, MatrixState *currentState)
+{
+    BYTE column;
+    BOOL matrixChanged;
+    
+    matrixChanged = FALSE;
+            
+    for ( column = 0; column < COLUMN_OUTPUTS; column++)
+    {
+        matrixChanged = matrixChanged || (newState->stateArray[column] != currentState->stateArray[column]);
+    }
+    
+    return( !matrixChanged );
+}
+
+VOID updateButtonState( MatrixState *srcButtonState, MatrixState *dstButtonState)
+
+{
+    BYTE col;
+    
+    dstButtonState->stateVal[0] = srcButtonState->stateVal[0];
+    dstButtonState->stateVal[1] = srcButtonState->stateVal[1];
+
+    for ( col = 0; col < COLUMN_OUTPUTS; col++)
+        dstButtonState->stateArray[col] = srcButtonState->stateArray[col];    
+    
+}
+
 
 BYTE buttonNumber( BYTE buttonCode )
 

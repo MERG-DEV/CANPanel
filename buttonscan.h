@@ -69,7 +69,7 @@ typedef union
 } MatrixState;
 
 #define matrixChanged(a,b)  ((a.stateVal[0] != b.stateVal[0]) || (a.stateVal[1] != b.stateVal[1]))
-#define matrixEquals(a,b)   ((a.stateVal[0] == b.stateVal[0]) && (a.stateVal[1] == b.stateVal[1]))
+// #define matrixEquals(a,b)   ((a.stateVal[0] == b.stateVal[0]) && (a.stateVal[1] == b.stateVal[1]))
 
 typedef struct
 {
@@ -99,6 +99,8 @@ typedef struct
 
 void initKeyscan(void);
 BYTE keyScan( void );
+BOOL matrixEquals( MatrixState *newState, MatrixState *currentState);
+VOID updateButtonState( MatrixState *srcButtonState, MatrixState *dstButtonState);
 BYTE buttonNumber( BYTE buttonCode );
 BYTE buttonCode( BYTE buttonNumber );
 

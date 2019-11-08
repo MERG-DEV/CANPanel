@@ -53,8 +53,24 @@ events.h - Definitions for CBUS event handling for Burnden Park project
 #include "max6951.h"
 
 
+#ifdef KFY
+
 #define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
+#define HARDCODED_MAX_LED     16
+#define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
+
+#elif defined KSIGNALS
+
+#define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
+#define HARDCODED_MAX_LED     11
+#define HARDCODED_LED_STATES    1           // Steady (on or off)
+#define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
+
+#endif
+
+
+
 #define MAX_STORAGE_ROAD    16                // 13 STORAGE ROADS
 #define COMPUTE_NODE        80              // Node number for CANCOMPUTE route set events
 #define ROUTE_SETUP_TIME    3 * ONE_SECOND  // Route setup time in seconds when using simulated feedback
@@ -72,7 +88,9 @@ typedef enum
 {
     evActLedOff = 0,
     evActLedOn,
-    evActFlashLed
+    evActFlashLed,
+    evActLedFollow,
+    evActLedFollowInv        
 } evActions;
 
 

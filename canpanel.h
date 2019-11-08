@@ -48,6 +48,8 @@
 	
 CANPanel Version History
 
+    12/09/19 Ver 1b BETA 5 - Recode keyscan to implement support for on/off toggle switches (detection and sending of OFF event)
+             Ver 1b BETA 4 - Flip/Flop pushbutton support and hardcoded LED responses for Kimble layout
     07/01/17 Ver 1b WIP 2 - Keyscan works for pushbuttons (make = event on) - test routines moved to separate source file and various tests implemented
                             Put into FLiM and allocate a node number working, read NVs ok (although they don't do anything yet)
     21/02/15 Ver 1a WIP 1 - initial testing
@@ -57,8 +59,8 @@ CANPanel Version History
 
 #define MAJOR_VER 	1
 #define MINOR_VER 	'b'        // Minor version character
-#define BETA        3
-#define WIP         3
+#define BETA        5
+#define WIP         5
 
 #include "hwsettings.h"
 #include <GenericTypeDefs.h>
