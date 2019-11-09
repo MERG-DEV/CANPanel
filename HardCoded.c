@@ -144,6 +144,10 @@ const rom HCEvTable HardCodedEvents[] =
     {434,10,33,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
     {434,11,50,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
     {434,12,51,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
+    {435,12,56,0xFF,evActLedFollow},     // FB: Down Starter Clear       
+    {435,13,49,0xFF,evActLedFollow},     // FB: Down Starter Danger
+    {435,14,58,0xFF,evActLedFollow},     // FB: MPD Exit Clear       
+    {435,15,59,0xFF,evActLedFollow},     // FB: MPD Exit Danger
     {452,103,9,0xFF,evActLedFollow}     // Emergency stop all
     
 };
