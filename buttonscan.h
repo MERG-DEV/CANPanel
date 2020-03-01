@@ -68,7 +68,7 @@ typedef union
     DWORD   stateVal[2];
 } MatrixState;
 
-#define matrixChanged(a,b)  ((a.stateVal[0] != b.stateVal[0]) || (a.stateVal[1] != b.stateVal[1]))
+// #define matrixChanged(a,b)  ((a.stateVal[0] != b.stateVal[0]) || (a.stateVal[1] != b.stateVal[1]))
 // #define matrixEquals(a,b)   ((a.stateVal[0] == b.stateVal[0]) && (a.stateVal[1] == b.stateVal[1]))
 
 typedef struct

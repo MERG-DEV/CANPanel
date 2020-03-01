@@ -79,11 +79,13 @@ const rom BYTE    hardCodedButtons[HARDCODED_MAX_BUTTON] = {64,80,96,112,81,97,8
 const rom BYTE    hardCodedLeds[HARDCODED_MAX_BUTTON] =    {48,56,64 ,33,41,49,42,50,35,43,51,44,45,53 ,36,37};
 const rom BYTE    ledGroupLimits[LED_GROUPS+1] = {1,10,20,30,40};
 
+// Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
+
 const rom HCEvTable HardCodedEvents[] = 
 {   
 #ifdef KFY
 //   Button events that start LED flashing - Node Number, event number, LED number, Group, action
-    {450,64,25,4,evActFlashLed},   // FYUPBH correct
+    {450,64,25,0,evActFlashLed},   // FYUPBH correct
 //    {450,64,1,0,evActFlashLed},   // FYUPBH dummy led always out
     {450,80,32,0,evActFlashLed},    // FY01A
     {450,96,24,1,evActFlashLed},     // FY01D
@@ -132,6 +134,7 @@ const rom HCEvTable HardCodedEvents[] =
     
 };      
 
+// Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
 #elif defined KSIGNALS
 //   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
     {431,9,60,0xFF,evActLedFollow},     // FB: Down Home Clear
@@ -144,11 +147,23 @@ const rom HCEvTable HardCodedEvents[] =
     {434,10,33,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
     {434,11,50,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
     {434,12,51,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
-    {435,12,56,0xFF,evActLedFollow},     // FB: Down Starter Clear       
-    {435,13,49,0xFF,evActLedFollow},     // FB: Down Starter Danger
-    {435,14,58,0xFF,evActLedFollow},     // FB: MPD Exit Clear       
-    {435,15,59,0xFF,evActLedFollow},     // FB: MPD Exit Danger
-    {452,103,9,0xFF,evActLedFollow}     // Emergency stop all
+    {435,16,56,0xFF,evActLedFollow},     // FB: Down Starter Clear       
+    {435,15,49,0xFF,evActLedFollow},     // FB: Down Starter Danger
+    {435,13,59,0xFF,evActLedFollow},     // FB: MPD Exit Clear       
+    {435,14,58,0xFF,evActLedFollow},     // FB: MPD Exit Danger
+    {452,103,9,0xFF,evActLedFollow},     // Emergency stop all
+//    {80,8,52,0xFF,evActLedFollow},     // Emergency stop all
+//    {80,9,53,0xFF,evActLedFollow},     // Emergency stop all
+//    {80,10,54,0xFF,evActLedFollow},     // Emergency stop all
+//    {80,11,55,0xFF,evActLedFollow},     // Emergency stop all
+//    {80,12,42,0xFF,evActLedFollow},     // Emergency stop all
+//    {80,13,43,0xFF,evActLedFollow},     // Emergency stop all  
+//    {80,14,44,0xFF,evActLedFollow},     // Emergency stop all
+//    {80,15,45,0xFF,evActLedFollow},     // Emergency stop all
+//    {80,16,46,0xFF,evActLedFollow}     // Emergency stop all
+
+            
+    
     
 };
 #endif
@@ -350,12 +365,14 @@ BOOL processHardCodedEvent( WORD eventNode, WORD eventNum, BYTE eventIndex, BYTE
         case evActFlashLed:
             if (onEvent)
             {
-                flashLed(HardCodedEvents[eventIndex].ledNumber);
                 clearhardCodedLeds(HardCodedEvents[eventIndex].groupId);
+                flashLed(HardCodedEvents[eventIndex].ledNumber);
             }    
             break;
             
         case evActLedOn:
+            clearhardCodedLeds(HardCodedEvents[eventIndex].groupId);
+            // drop through
         case evActLedOff:
             if (onEvent)
                 setLed(HardCodedEvents[eventIndex].ledNumber, HardCodedEvents[eventIndex].ledAction );

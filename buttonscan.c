@@ -270,7 +270,7 @@ BYTE keyScan( void )
     }
     else // no debounce in progress - see if anything has changed
     {
-        if (matrixChanged(&newButtonState, &keyStatus.buttonState))
+        if (!matrixEquals(&newButtonState, &keyStatus.buttonState))
         {
             updateButtonState( &newButtonState, &keyStatus.pendingState);
                         
