@@ -52,7 +52,7 @@
     // The config values are pasted in to this source file after using the <Window->PIC memory views->Configuration Bits> menu entry in MPLABX
 
 #ifdef CPUF18K
-    #pragma config FOSC=HS1, PLLCFG=ON, FCMEN=OFF, IESO=OFF, SOSCSEL = DIG   
+    #pragma config FOSC=HS2, PLLCFG=ON, FCMEN=OFF, IESO=OFF, SOSCSEL = DIG   
     #pragma config PWRTEN=OFF, BOREN=OFF, BORV=3, WDTEN = OFF, WDTPS=256
     #pragma config MCLRE=ON, CANMX=PORTB
     #pragma config XINST=OFF, BBSIZ=BB1K, STVREN=OFF
