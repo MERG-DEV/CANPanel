@@ -63,7 +63,7 @@ events.h - Definitions for CBUS event handling
 #elif defined KSIGNALS
 
 #define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     11
+#define HARDCODED_MAX_LED     53           // Number of LED consumer event definitions implemeneted
 #define HARDCODED_LED_STATES    1           // Steady (on or off)
 #define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
 
