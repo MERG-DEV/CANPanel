@@ -2,7 +2,7 @@
 
  Copyright (C) Pete Brownlow 2018   software@upsys.co.uk
 
- Routines for CBUS event management - hard coded version for Burnden Park project
+ Routines for CBUS event management - hard coded version 
 
   This work is licensed under the:
       Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
@@ -82,7 +82,7 @@ const rom BYTE    ledGroupLimits[LED_GROUPS+1] = {1,10,20,30,40};
 const rom HCEvTable HardCodedEvents[] = 
 {   
 #ifdef KFY
-//   Button events that start LED flashing - Node Number, event number, LED number, Group, action
+//   Button events that start LED flashing - Node NumbeFr, event number, LED number, Group, action
     {450,64,25,4,evActFlashLed},   // FYUPBH correct
 //    {450,64,1,0,evActFlashLed},   // FYUPBH dummy led always out
     {450,80,32,0,evActFlashLed},    // FY01A
@@ -151,6 +151,64 @@ const rom HCEvTable HardCodedEvents[] =
     {452,103,9,0xFF,evActLedFollow}     // Emergency stop all
     
 };
+
+#elif defined MSM
+//   Button events that start LED flashing - Node NumbeFr, event number, LED number, Group, action
+    {462,64,25,4,evActFlashLed},   // FYUPBH correct
+    {462,64,1,0,evActFlashLed},   // FYUPBH dummy led always out
+    {462,80,32,0,evActFlashLed},    // FY01A
+    {462,96,24,1,evActFlashLed},     // FY01D
+    {462,112,8,1,evActFlashLed},     // FYUPVH   
+    {462,112,1,5,evActFlashLed},     // FYUPVH   
+    
+    {462,81,16,0,evActFlashLed},     // FY02A
+    {462,97,17,1,evActFlashLed},     // FY02D
+    {462,82,9,0,evActFlashLed},      // FY03A
+    {462,98,18,1,evActFlashLed},     // FY03D
+    {462,84,11,2,evActFlashLed},    // FY04D
+    {462,100,20,3,evActFlashLed},     // FY04A
+    {462,69,12,2,evActFlashLed},    // FY05D
+    {462,101,21,3,evActFlashLed},     // FY05A
+    {462,70,28,2,evActFlashLed},    // FYREL
+    {462,70,1,6,evActFlashLed},    // FYREL
+    
+    {462,86,13,2,evActFlashLed},    // FY06D
+    {462,65,22,3,evActFlashLed},    // FY06A
+    {462,66,23,3,evActFlashLed},    // FYDNVH
+    {462,66,1,7,evActFlashLed},    // FYDNVH
+    {462,66,23,3,evActFlashLed},    // FYDNVH
+    {462,66,1,7,evActFlashLed},    // FYDNVH            
+    
+  //    Feedback events from CANCOMPUTE(s) that set LED on steady - Node Number, event number, LED number, group, action
+    {80,1,24,1,evActLedOn},     // FY01D
+    {80,2,17,1,evActLedOn},     // FY02D
+    {80,3,18,1,evActLedOn},     // FY03D
+    {80,4,20,1,evActLedOn},     // FY04D
+            
+    {80,11,24,1,evActLedOn},     // PL01D
+    {80,12,17,1,evActLedOn},     // PL02D
+    {80,13,18,1,evActLedOn},     // PL03D
+    {80,14,20,1,evActLedOn},     // HS01DM
+    {80,15,20,1,evActLedOn},     // HS01DG            
+ 
+    {80,21,24,1,evActLedOn},     // FY01A
+    {80,22,17,1,evActLedOn},     // FY02A
+    {80,23,18,1,evActLedOn},     // FY03A
+    {80,24,20,1,evActLedOn},     // FY04A
+  
+    {80,31,24,1,evActLedOn},     // PL01A
+    {80,32,17,1,evActLedOn},     // PL02A
+    {80,33,18,1,evActLedOn},     // PL03A
+    {80,34,20,1,evActLedOn},     // HS01AM
+    {80,35,20,1,evActLedOn},     // HS01AG                     
+            
+    {80,41,24,1,evActLedOn},     // G2M
+    {80,42,17,1,evActLedOn},     // M2G
+    {80,43,18,1,evActLedOn},     // MS
+    {80,44,20,1,evActLedOn},     // FY04A         
+};      
+
+
 #endif
 
 #pragma udata MAIN_VARS

@@ -5,7 +5,7 @@
 
  Copyright (C) Pete Brownlow 2014-2017   software@upsys.co.uk
 
-events.h - Definitions for CBUS event handling for Burnden Park project
+events.h - Definitions for CBUS event handling 
  
   This work is licensed under the:
       Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
@@ -67,6 +67,12 @@ events.h - Definitions for CBUS event handling for Burnden Park project
 #define HARDCODED_LED_STATES    1           // Steady (on or off)
 #define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
 
+#elif defined MSM
+
+#define HARDCODED_MAX_BUTTON  22            // Number of BUTTONS
+#define HARDCODED_MAX_LED     22            // Number of LEDs
+#define HARDCODED_LED_STATES    2           // Flashing and steady
+#define LED_GROUPS  6                       // Number of groups of mutually exclusive route LEDs
 #endif
 
 

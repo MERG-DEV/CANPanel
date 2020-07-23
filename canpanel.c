@@ -244,7 +244,7 @@ void main(void)
                 cbusSendEvent( 0, 0 , button, TRUE );
 #else
                 sendButtonEvent( button );
-//                TurnOnNextLed();
+                  TurnOnNextLed();
 #endif
             }    
         }
