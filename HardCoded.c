@@ -151,19 +151,62 @@ const rom HCEvTable HardCodedEvents[] =
     {435,15,49,0xFF,evActLedFollow},     // FB: Down Starter Danger
     {435,13,59,0xFF,evActLedFollow},     // FB: MPD Exit Clear       
     {435,14,58,0xFF,evActLedFollow},     // FB: MPD Exit Danger
-    {452,103,9,0xFF,evActLedFollow},     // Emergency stop all
-//    {80,8,52,0xFF,evActLedFollow},     // Emergency stop all
-//    {80,9,53,0xFF,evActLedFollow},     // Emergency stop all
-//    {80,10,54,0xFF,evActLedFollow},     // Emergency stop all
-//    {80,11,55,0xFF,evActLedFollow},     // Emergency stop all
-//    {80,12,42,0xFF,evActLedFollow},     // Emergency stop all
-//    {80,13,43,0xFF,evActLedFollow},     // Emergency stop all  
-//    {80,14,44,0xFF,evActLedFollow},     // Emergency stop all
-//    {80,15,45,0xFF,evActLedFollow},     // Emergency stop all
-//    {80,16,46,0xFF,evActLedFollow}     // Emergency stop all
-
+    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
+    {406,11,21,0xFF,evActLedFollowInv},     // 19A indicator
+    {406,11,2,0xFF,evActLedFollow},     // 19A reverse indicator
+    {406,9,1,0xFF,evActLedFollow},     // 19B indicator
+    {406,10,20,0xFF,evActLedFollowInv},     // 18A indicator
+    {406,10,31,0xFF,evActLedFollowInv},     // 18A alt indicator
+    {406,10,30,0xFF,evActLedFollow},     // 18A reverse indicator
             
+    {407,11,28,0xFF,evActLedFollowInv},     // 18B indicator
+    {407,11,63,0xFF,evActLedFollowInv},     // 18B alt indicator
+            
+    {407,10,3,0xFF,evActLedFollowInv},     // 27A indicator (swap  polarity for new panel))
+    {407,10,36,0xFF,evActLedFollowInv},     // 27A alt indicator (swap  polarity for new panel))
+    {407,9,25,0xFF,evActLedFollow},     // 27B indicator
+    {408,10,19,0xFF,evActLedFollow},     // 15A indicator
+    {408,10,12,0xFF,evActLedFollowInv},     // 15A reverse indicator
+    {408,9,32,0xFF,evActLedFollowInv},     // 15B indicator
+    {409,9,18,0xFF,evActLedFollowInv},  // 8 indicator
+    {409,9,17,0xFF,evActLedFollowInv},  // 8 Alt indicator
+    {409,9,45,0xFF,evActLedFollow},  // 8 Reverse indicator
+    {410,9,46,0xFF,evActLedFollowInv},     // 9 indicator
+    {410,9,38,0xFF,evActLedFollowInv},     // 9 alt indicator
+    {410,9,47,0xFF,evActLedFollow},     // 9 reverse indicator
+    {410,10,62,0xFF,evActLedFollow},   // 12 indicator
+            
+//  Test events for finding out which LEDs are which - leave commented out for normal use
+            
+    {80,17,3,0xFF,evActLedFollow},     
+    {80,18,5,0xFF,evActLedFollow},     
+    {80,19,6,0xFF,evActLedFollow},     
+    {80,20,7,0xFF,evActLedFollow},     
+    {80,21,8,0xFF,evActLedFollow},     
+    {80,22,18,0xFF,evActLedFollow},      
+    {80,23,20,0xFF,evActLedFollow},    
+    {80,24,22,0xFF,evActLedFollow},    
+    {80,25,23,0xFF,evActLedFollow},    
+    {80,26,27,0xFF,evActLedFollow},    
     
+    {80,27,28,0xFF,evActLedFollow},    
+    {80,28,29,0xFF,evActLedFollow},    
+    {80,29,33,0xFF,evActLedFollow},    
+    {80,30,34,0xFF,evActLedFollow},    
+    {80,31,35,0xFF,evActLedFollow},    
+    {80,32,37,0xFF,evActLedFollow},      
+    {80,33,39,0xFF,evActLedFollow},    
+    {80,34,42,0xFF,evActLedFollow},    
+    {80,35,43,0xFF,evActLedFollow},    
+     
+    {80,36,44,0xFF,evActLedFollow},    
+    
+    {80,37,45,0xFF,evActLedFollow},    
+    {80,38,46,0xFF,evActLedFollow},    
+    {80,39,47,0xFF,evActLedFollow},    
+    {80,40,54,0xFF,evActLedFollow},    
+    {80,41,55,0xFF,evActLedFollow}     
+        
     
 };
 #endif
