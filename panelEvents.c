@@ -165,6 +165,7 @@ void sendButtonEvent( BYTE button )
 {
     BOOL    eventState, buttonOn;
     BYTE    buttonNum;
+    WORD    buttonNode;
     
     buttonOn = !(button & 0x80);  // MS bit set for button off
     button &= 0x7F;               // Clear MS bit to leave just button number
@@ -174,7 +175,8 @@ void sendButtonEvent( BYTE button )
     {    
         eventState = (NV->pbSettings[buttonNum].flipflop ? !buttonStatus[buttonNum].eventON : TRUE);
         buttonStatus[buttonNum].eventON = eventState;
-        cbusSendEvent( 0, -1 , button, eventState );
+        buttonNode = (NV->spooofNode == 0 ? -1 : NV->spooofNode);
+        cbusSendEvent( 0, buttonNode , button, eventState );
     }    
     else // Button up or switch off
     {

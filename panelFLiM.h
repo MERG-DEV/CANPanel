@@ -147,7 +147,9 @@ typedef struct
         BYTE            testFrameSize;                  // Size of each test frame to send, from 1 to 8 data bytes
         BYTE            testBlockSize;                  // Initial test block size, will be doubled each time if incTestBlock is set
         BYTE            testFrameDelay;                 // Delay, in 100uS units, between frame transmissions (set 0 for max rate continuous)
-        BYTE            spareNV[7];
+        BYTE            spareByteNV[1];
+        WORD            spooofNode;                     // When non zero, send all pushbuttons events from this node instead of ours.
+        BYTE            spareNV[4];
         PbSettings      pbSettings;                     // Array of settings one byte per pushbutton
 } ModuleNvDefs;
 

@@ -2,7 +2,7 @@
 
  Copyright (C) Pete Brownlow 2018   software@upsys.co.uk
 
- Routines for CBUS event management - hard coded version for Burnden Park project
+ Routines for CBUS event management - hard coded version 
 
   This work is licensed under the:
       Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
@@ -77,15 +77,20 @@
 
 const rom BYTE    hardCodedButtons[HARDCODED_MAX_BUTTON] = {64,80,96,112,81,97,82,98,84,100,69,101,70,86,65,66};
 const rom BYTE    hardCodedLeds[HARDCODED_MAX_BUTTON] =    {48,56,64 ,33,41,49,42,50,35,43,51,44,45,53 ,36,37};
-const rom BYTE    ledGroupLimits[LED_GROUPS+1] = {1,10,20,30};
+const rom BYTE    ledGroupLimits[LED_GROUPS+1] = {1,10,20,30,40};
 
 // Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
 
 const rom HCEvTable HardCodedEvents[] = 
 {   
 #ifdef KFY
+<<<<<<< HEAD
+//   Button events that start LED flashing - Node NumbeFr, event number, LED number, Group, action
+    {450,64,25,4,evActFlashLed},   // FYUPBH correct
+=======
 //   Button events that start LED flashing - Node Number, event number, LED number, Group, action
     {450,64,25,0,evActFlashLed},   // FYUPBH correct
+>>>>>>> 82e75f9ec921f01977bfa35c93d860ddb150389d
 //    {450,64,1,0,evActFlashLed},   // FYUPBH dummy led always out
     {450,80,32,0,evActFlashLed},    // FY01A
     {450,96,24,1,evActFlashLed},     // FY01D
@@ -137,50 +142,10 @@ const rom HCEvTable HardCodedEvents[] =
 // Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
 #elif defined KSIGNALS
 //   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
-    {431,9,58,0xFF,evActLedFollow},     // FB: Down Home Clear
-    {431,10,59,0xFF,evActLedFollow},    // FB: Down Home Danger
-    {432,9,56,0xFF,evActLedFollowInv},     // FB: Up Starter Clear
-    {432,10,49,0xFF,evActLedFollowInv},    // FB: Up Starter Danger      
-    {432,11,60,0xFF,evActLedFollow},    // FB: Goods Loop Starter Clear
-    {432,12,61,0xFF,evActLedFollow},    // FB: Goods Loop Starter Danger    
-    {434,9,42,0xFF,evActLedFollow},     // FB: Up Outer Home Clear
-    {434,10,43,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
-    {434,11,45,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
-    {434,12,46,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
-    {435,16,50,0xFF,evActLedFollow},     // FB: Down Starter Clear       
-    {435,15,51,0xFF,evActLedFollow},     // FB: Down Starter Danger
-    {435,13,52,0xFF,evActLedFollowInv},     // FB: MPD Exit Clear       
-    {435,14,53,0xFF,evActLedFollowInv},     // FB: MPD Exit Danger
-//    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
-    {406,11,15,0xFF,evActLedFollowInv},     // 19A indicator
-    {406,11,14,0xFF,evActLedFollow},     // 19A reverse indicator
-    {406,9,13,0xFF,evActLedFollow},     // 19B normal indicator
-    {406,10,10,0xFF,evActLedFollowInv},     // 18A indicator
-    {406,10,11,0xFF,evActLedFollow},     // 18A reverse indicator
-    {407,11,12,0xFF,evActLedFollowInv},     // 18B indicator
-           
-    {407,10,9,0xFF,evActLedFollow},     // 27A normal 
-    {407,9,16,0xFF,evActLedFollowInv},     // 27B reversed indicator
-    {407,9,7,0xFF,evActLedFollow},     // 27B normal indicator            
-    {408,10,5,0xFF,evActLedFollow},     // 15A normal indicator
-    {408,10,4,0xFF,evActLedFollowInv},     // 15A reverse indicator
-    {408,9,3,0xFF,evActLedFollowInv},     // 15B normal indicator
-    {409,9,8,0xFF,evActLedFollowInv},  // 8 normal indicator
-    {409,9,1,0xFF,evActLedFollow},  // 8 Reverse indicator
-    {410,9,2,0xFF,evActLedFollowInv},     // 9 normal indicator
-    {410,10,6,0xFF,evActLedFollow},   // 10 reverse indicator
-            
-//  Test events for finding out which LEDs are which - leave commented out for normal use
-            
-    {80,20,1,0xFF,evNextLed}   
-};
-
-#elif defined KSIGNALMAN
-//   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
     {431,9,60,0xFF,evActLedFollow},     // FB: Down Home Clear
     {431,10,61,0xFF,evActLedFollow},    // FB: Down Home Danger
-    {432,9,48,0xFF,evActLedFollowInv},     // FB: Up Starter Clear
-    {432,10,41,0xFF,evActLedFollowInv},    // FB: Up Starter Danger      
+    {432,9,48,0xFF,evActLedFollow},     // FB: Up Starter Clear
+    {432,10,41,0xFF,evActLedFollow},    // FB: Up Starter Danger      
     {432,11,64,0xFF,evActLedFollow},    // FB: Goods Loop Starter Clear
     {432,12,57,0xFF,evActLedFollow},    // FB: Goods Loop Starter Danger    
     {434,9,40,0xFF,evActLedFollow},     // FB: Up Outer Home Clear
@@ -191,32 +156,121 @@ const rom HCEvTable HardCodedEvents[] =
     {435,15,49,0xFF,evActLedFollow},     // FB: Down Starter Danger
     {435,13,59,0xFF,evActLedFollow},     // FB: MPD Exit Clear       
     {435,14,58,0xFF,evActLedFollow},     // FB: MPD Exit Danger
-//    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
-    {406,11,63,0xFF,evActLedFollowInv},     // 19A normal indicator
-    {406,11,30,0xFF,evActLedFollow},     // 19A reverse indicator
-    {406,9,47,0xFF,evActLedFollow},     // 19B normal indicator
-    {406,10,31,0xFF,evActLedFollowInv},     // 18A indicator
-    {406,10,38,0xFF,evActLedFollow},     // 18A reverse indicator
-    {407,11,21,0xFF,evActLedFollowInv},     // 18B indicator
-//            
-//    {407,11,28,0xFF,evActLedFollowInv},     // 18B indicator
-//    {407,11,63,0xFF,evActLedFollowInv},     // 18B alt indicator
-//            
-    {407,10,29,0xFF,evActLedFollow},     // 27A normal indicator 
-    {407,9,5,0xFF,evActLedFollow},     // 27B reversed indicator
-    {407,9,54,0xFF,evActLedFollowInv},     // 27B normal indicator          
-    {408,10,7,0xFF,evActLedFollow},     // 15A normal indicator
-    {408,10,14,0xFF,evActLedFollowInv},     // 15A reverse indicator
-    {408,9,39,0xFF,evActLedFollowInv},     // 15B normal indicator
-    {409,9,23,0xFF,evActLedFollowInv},  // 8 normal indicator
-    {409,9,46,0xFF,evActLedFollow},  // 8 Reverse indicator
-    {410,9,13,0xFF,evActLedFollowInv},     // 9 normal indicator
-    {410,10,6,0xFF,evActLedFollow},   // 10 reverse indicator
-    {452,39,22,0xFF,evActLedFollow},   // Stop all indicator
-     
+    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
+    {406,11,21,0xFF,evActLedFollowInv},     // 19A indicator
+    {406,11,2,0xFF,evActLedFollow},     // 19A reverse indicator
+    {406,9,1,0xFF,evActLedFollow},     // 19B indicator
+    {406,10,20,0xFF,evActLedFollowInv},     // 18A indicator
+    {406,10,31,0xFF,evActLedFollowInv},     // 18A alt indicator
+    {406,10,30,0xFF,evActLedFollow},     // 18A reverse indicator
+            
+    {407,11,28,0xFF,evActLedFollowInv},     // 18B indicator
+    {407,11,63,0xFF,evActLedFollowInv},     // 18B alt indicator
+            
+    {407,10,3,0xFF,evActLedFollowInv},     // 27A indicator (swap  polarity for new panel))
+    {407,10,36,0xFF,evActLedFollowInv},     // 27A alt indicator (swap  polarity for new panel))
+    {407,9,25,0xFF,evActLedFollow},     // 27B indicator
+    {408,10,19,0xFF,evActLedFollow},     // 15A indicator
+    {408,10,12,0xFF,evActLedFollowInv},     // 15A reverse indicator
+    {408,9,32,0xFF,evActLedFollowInv},     // 15B indicator
+    {409,9,18,0xFF,evActLedFollowInv},  // 8 indicator
+    {409,9,17,0xFF,evActLedFollowInv},  // 8 Alt indicator
+    {409,9,45,0xFF,evActLedFollow},  // 8 Reverse indicator
+    {410,9,46,0xFF,evActLedFollowInv},     // 9 indicator
+    {410,9,38,0xFF,evActLedFollowInv},     // 9 alt indicator
+    {410,9,47,0xFF,evActLedFollow},     // 9 reverse indicator
+    {410,10,62,0xFF,evActLedFollow},   // 12 indicator
+            
 //  Test events for finding out which LEDs are which - leave commented out for normal use
             
-};  
+    {80,17,3,0xFF,evActLedFollow},     
+    {80,18,5,0xFF,evActLedFollow},     
+    {80,19,6,0xFF,evActLedFollow},     
+    {80,20,7,0xFF,evActLedFollow},     
+    {80,21,8,0xFF,evActLedFollow},     
+    {80,22,18,0xFF,evActLedFollow},      
+    {80,23,20,0xFF,evActLedFollow},    
+    {80,24,22,0xFF,evActLedFollow},    
+    {80,25,23,0xFF,evActLedFollow},    
+    {80,26,27,0xFF,evActLedFollow},    
+    
+    {80,27,28,0xFF,evActLedFollow},    
+    {80,28,29,0xFF,evActLedFollow},    
+    {80,29,33,0xFF,evActLedFollow},    
+    {80,30,34,0xFF,evActLedFollow},    
+    {80,31,35,0xFF,evActLedFollow},    
+    {80,32,37,0xFF,evActLedFollow},      
+    {80,33,39,0xFF,evActLedFollow},    
+    {80,34,42,0xFF,evActLedFollow},    
+    {80,35,43,0xFF,evActLedFollow},    
+     
+    {80,36,44,0xFF,evActLedFollow},    
+    
+    {80,37,45,0xFF,evActLedFollow},    
+    {80,38,46,0xFF,evActLedFollow},    
+    {80,39,47,0xFF,evActLedFollow},    
+    {80,40,54,0xFF,evActLedFollow},    
+    {80,41,55,0xFF,evActLedFollow}     
+        
+    
+};
+
+#elif defined MSM
+//   Button events that start LED flashing - Node NumbeFr, event number, LED number, Group, action
+    {462,64,25,4,evActFlashLed},   // FYUPBH correct
+    {462,64,1,0,evActFlashLed},   // FYUPBH dummy led always out
+    {462,80,32,0,evActFlashLed},    // FY01A
+    {462,96,24,1,evActFlashLed},     // FY01D
+    {462,112,8,1,evActFlashLed},     // FYUPVH   
+    {462,112,1,5,evActFlashLed},     // FYUPVH   
+    
+    {462,81,16,0,evActFlashLed},     // FY02A
+    {462,97,17,1,evActFlashLed},     // FY02D
+    {462,82,9,0,evActFlashLed},      // FY03A
+    {462,98,18,1,evActFlashLed},     // FY03D
+    {462,84,11,2,evActFlashLed},    // FY04D
+    {462,100,20,3,evActFlashLed},     // FY04A
+    {462,69,12,2,evActFlashLed},    // FY05D
+    {462,101,21,3,evActFlashLed},     // FY05A
+    {462,70,28,2,evActFlashLed},    // FYREL
+    {462,70,1,6,evActFlashLed},    // FYREL
+    
+    {462,86,13,2,evActFlashLed},    // FY06D
+    {462,65,22,3,evActFlashLed},    // FY06A
+    {462,66,23,3,evActFlashLed},    // FYDNVH
+    {462,66,1,7,evActFlashLed},    // FYDNVH
+    {462,66,23,3,evActFlashLed},    // FYDNVH
+    {462,66,1,7,evActFlashLed},    // FYDNVH            
+    
+  //    Feedback events from CANCOMPUTE(s) that set LED on steady - Node Number, event number, LED number, group, action
+    {80,1,24,1,evActLedOn},     // FY01D
+    {80,2,17,1,evActLedOn},     // FY02D
+    {80,3,18,1,evActLedOn},     // FY03D
+    {80,4,20,1,evActLedOn},     // FY04D
+            
+    {80,11,24,1,evActLedOn},     // PL01D
+    {80,12,17,1,evActLedOn},     // PL02D
+    {80,13,18,1,evActLedOn},     // PL03D
+    {80,14,20,1,evActLedOn},     // HS01DM
+    {80,15,20,1,evActLedOn},     // HS01DG            
+ 
+    {80,21,24,1,evActLedOn},     // FY01A
+    {80,22,17,1,evActLedOn},     // FY02A
+    {80,23,18,1,evActLedOn},     // FY03A
+    {80,24,20,1,evActLedOn},     // FY04A
+  
+    {80,31,24,1,evActLedOn},     // PL01A
+    {80,32,17,1,evActLedOn},     // PL02A
+    {80,33,18,1,evActLedOn},     // PL03A
+    {80,34,20,1,evActLedOn},     // HS01AM
+    {80,35,20,1,evActLedOn},     // HS01AG                     
+            
+    {80,41,24,1,evActLedOn},     // G2M
+    {80,42,17,1,evActLedOn},     // M2G
+    {80,43,18,1,evActLedOn},     // MS
+    {80,44,20,1,evActLedOn},     // FY04A         
+};      
+
 
 #endif
 
@@ -242,7 +296,6 @@ void initHardCoded(void)
     waitingRoute = 0;       // No route waiting for setup
     
 #ifdef KSIGNALS
-#elif defined KSIGNALMAN
 #else    
     setLed(RUN_LED1, TRUE );
     setLed(RUN_LED2, TRUE );
@@ -386,7 +439,7 @@ void checkWaitingRoutes()
 
 // Returns index into hard coded event table
 
-BYTE findHardCodedEvent( BYTE startIndex, WORD eventNode, WORD eventNum  )
+BYTE findHardCodedEvent( WORD eventNode, WORD eventNum  )
 
 {
     BYTE    i;
@@ -394,12 +447,9 @@ BYTE findHardCodedEvent( BYTE startIndex, WORD eventNode, WORD eventNum  )
     
     eventIndex = 0xFF;
     
-    for (i=startIndex;i<HARDCODED_MAX_LED*HARDCODED_LED_STATES;i++)
+    for (i=0;i<HARDCODED_MAX_LED*HARDCODED_LED_STATES;i++)
         if ((HardCodedEvents[i].evNodeNum == eventNode) && (HardCodedEvents[i].evEventNum == eventNum))
-        {    
             eventIndex = i;
-            break;
-        }    
     
     return( eventIndex);
 }
@@ -440,12 +490,6 @@ BOOL processHardCodedEvent( WORD eventNode, WORD eventNum, BYTE eventIndex, BYTE
             
         case evActLedFollowInv:    
             setLed(HardCodedEvents[eventIndex].ledNumber, !onEvent );
-            break;
-            
-        case evNextLed:  // Used to diagnose which LED lights for each LED number - sends event with the event number equal to the LED number it is lighting, steps through LEDs sequenetially each time called
-            clearAllLeds(); 
-            cbusSendEvent( 0, -1, ledNum, TRUE );
-            setLed( ledNum++, TRUE );
             break;
             
         default:
