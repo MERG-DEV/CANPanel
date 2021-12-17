@@ -54,6 +54,12 @@ extern "C" {
 
 // We'll be using event hash tables for fast access - at the expense of some RAM
 #define HASH_TABLE
+    
+// Whether to support AREQ and ASRQ commands
+// Whether to enable MULTI
+#ifdef __18F26K80
+#define AREQ_SUPPORT
+#endif
 
 // Whether to enable servos
 //#define SERVO
@@ -64,10 +70,6 @@ extern "C" {
 // Whether to enable BOUNCE
 //#define BOUNCE
 
-#ifdef __18F26K80
-//Whether to support ANALOGUE INPUTS
-//#define ANALOGUE
-#endif
     
 // enable this for additional validation checks
 //#define SAFETY
@@ -101,10 +103,9 @@ extern "C" {
  * Actions
  */
 
-#define CONSUMER_ACTION_T	unsigned char
-#define PRODUCER_ACTION_T	unsigned char
+#define ACTION_T	unsigned char
+#define HAPPENING_T	unsigned char
 #define NO_ACTION   0
-
 
 /*
  * EVENTS

@@ -151,6 +151,20 @@ const rom HCEvTable HardCodedEvents[] =
     {435,15,51,0xFF,evActLedFollow},     // FB: Down Starter Danger
     {435,13,52,0xFF,evActLedFollowInv},     // FB: MPD Exit Clear       
     {435,14,53,0xFF,evActLedFollowInv},     // FB: MPD Exit Danger
+
+    {436,16,54,0xFF,evActLedFollowInv},     // FB: Up Home Clear       
+    {436,15,55,0xFF,evActLedFollowInv},     // FB: Up Home Danger
+    {435,12,48,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Clear       
+    {435,11,41,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Danger   
+    {431,11,24,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
+    {431,12,17,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger   
+    {432,14,32,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
+    {432,13,25,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger              
+    {432,16,29,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Clear       
+    {432,15,30,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Danger               
+    {433,14,40,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Clear       
+    {433,13,33,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Danger               
+            
 //    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
     {406,11,15,0xFF,evActLedFollowInv},     // 19A indicator
     {406,11,14,0xFF,evActLedFollow},     // 19A reverse indicator
@@ -172,7 +186,7 @@ const rom HCEvTable HardCodedEvents[] =
             
 //  Test events for finding out which LEDs are which - leave commented out for normal use
             
-    {80,20,1,0xFF,evNextLed}   
+//    {80,20,1,0xFF,evNextLed}   
 };
 
 #elif defined KSIGNALMAN
@@ -213,10 +227,196 @@ const rom HCEvTable HardCodedEvents[] =
     {410,9,13,0xFF,evActLedFollowInv},     // 9 normal indicator
     {410,10,6,0xFF,evActLedFollow},   // 10 reverse indicator
     {452,39,22,0xFF,evActLedFollow},   // Stop all indicator
+            
+    {431,11,2,0xFF,evActLedFollow},   // FB: Shunt from Up line 12 Danger
+    {431,12,1,0xFF,evActLedFollow},   // FB: Shunt from Up line 12 Clear     
+    {432,13,26,0xFF,evActLedFollow},   // FB: Shunt from Bay Clear 
+    {432,14,18,0xFF,evActLedFollow},   // FB: Shunt from Bay Danger  
+    {432,15,16,0xFF,evActLedFollow},   // FB: Shunt Dn Plat to Up Clear  
+    {432,16,8,0xFF,evActLedFollow},   // FB: Shunt Dn Plat to Up Danger  
+    {433,13,34,0xFF,evActLedFollow},   // FB: Shunt Dn Plat to Goods Clear 
+    {433,14,35,0xFF,evActLedFollow},   // FB: Shunt Dn Plat to Goods Danger  
+    {435,11,36,0xFF,evActLedFollow},   // FB: Up Refuge Starter Clear
+    {435,12,37,0xFF,evActLedFollow},   // FB: Up Refuge Starter Danger
+    {436,15,42,0xFF,evActLedFollow},   // FB: FB Up Home Clear
+    {436,16,43,0xFF,evActLedFollow},   // FB: FB Up Home Clear
+            
+    {400,11,19,0xFF,evActLedFollow},   // Up Yard Short
+    {400,12,27,0xFF,evActLedFollow},   // Down Yard Short 
+    {411,9,11,0xFF,evActLedFollow},   // Down Main Short    
+    {411,10,3,0xFF,evActLedFollow},   // Up Main Short    
+    {411,11,20,0xFF,evActLedFollow},   // Brewery Short    
+    {411,12,12,0xFF,evActLedFollow},   // MPD Short    
      
 //  Test events for finding out which LEDs are which - leave commented out for normal use
             
 };  
+
+// Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
+#elif defined BURNDENPARK
+//   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
+    {431,9,58,0xFF,evActLedFollow},     // FB: Down Home Clear
+    {431,10,59,0xFF,evActLedFollow},    // FB: Down Home Danger
+    {432,9,56,0xFF,evActLedFollowInv},     // FB: Up Starter Clear
+    {432,10,49,0xFF,evActLedFollowInv},    // FB: Up Starter Danger      
+    {432,11,60,0xFF,evActLedFollow},    // FB: Goods Loop Starter Clear
+    {432,12,61,0xFF,evActLedFollow},    // FB: Goods Loop Starter Danger    
+    {434,9,42,0xFF,evActLedFollow},     // FB: Up Outer Home Clear
+    {434,10,43,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
+    {434,11,45,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
+    {434,12,46,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
+    {435,16,50,0xFF,evActLedFollow},     // FB: Down Starter Clear       
+    {435,15,51,0xFF,evActLedFollow},     // FB: Down Starter Danger
+    {435,13,52,0xFF,evActLedFollowInv},     // FB: MPD Exit Clear       
+    {435,14,53,0xFF,evActLedFollowInv},     // FB: MPD Exit Danger
+
+    {436,16,54,0xFF,evActLedFollowInv},     // FB: Up Home Clear       
+    {436,15,55,0xFF,evActLedFollowInv},     // FB: Up Home Danger
+    {435,12,48,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Clear       
+    {435,11,41,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Danger   
+    {431,11,24,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
+    {431,12,17,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger   
+    {432,14,32,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
+    {432,13,25,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger              
+    {432,16,29,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Clear       
+    {432,15,30,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Danger               
+    {433,14,40,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Clear       
+    {433,13,33,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Danger               
+            
+//    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
+    {406,11,15,0xFF,evActLedFollowInv},     // 19A indicator
+    {406,11,14,0xFF,evActLedFollow},     // 19A reverse indicator
+    {406,9,13,0xFF,evActLedFollow},     // 19B normal indicator
+    {406,10,10,0xFF,evActLedFollowInv},     // 18A indicator
+    {406,10,11,0xFF,evActLedFollow},     // 18A reverse indicator
+    {407,11,12,0xFF,evActLedFollowInv},     // 18B indicator
+           
+    {407,10,9,0xFF,evActLedFollow},     // 27A normal 
+    {407,9,16,0xFF,evActLedFollowInv},     // 27B reversed indicator
+    {407,9,7,0xFF,evActLedFollow},     // 27B normal indicator            
+    {408,10,5,0xFF,evActLedFollow},     // 15A normal indicator
+    {408,10,4,0xFF,evActLedFollowInv},     // 15A reverse indicator
+    {408,9,3,0xFF,evActLedFollowInv},     // 15B normal indicator
+    {409,9,8,0xFF,evActLedFollowInv},  // 8 normal indicator
+    {409,9,1,0xFF,evActLedFollow},  // 8 Reverse indicator
+    {410,9,2,0xFF,evActLedFollowInv},     // 9 normal indicator
+    {410,10,6,0xFF,evActLedFollow},   // 10 reverse indicator
+            
+//  Test events for finding out which LEDs are which - leave commented out for normal use
+            
+    {80,20,1,0xFF,evNextLed}   
+};
+
+// Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
+#elif defined BURNDENSHED
+//   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
+    {431,9,58,0xFF,evActLedFollow},     // FB: Down Home Clear
+    {431,10,59,0xFF,evActLedFollow},    // FB: Down Home Danger
+    {432,9,56,0xFF,evActLedFollowInv},     // FB: Up Starter Clear
+    {432,10,49,0xFF,evActLedFollowInv},    // FB: Up Starter Danger      
+    {432,11,60,0xFF,evActLedFollow},    // FB: Goods Loop Starter Clear
+    {432,12,61,0xFF,evActLedFollow},    // FB: Goods Loop Starter Danger    
+    {434,9,42,0xFF,evActLedFollow},     // FB: Up Outer Home Clear
+    {434,10,43,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
+    {434,11,45,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
+    {434,12,46,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
+    {435,16,50,0xFF,evActLedFollow},     // FB: Down Starter Clear       
+    {435,15,51,0xFF,evActLedFollow},     // FB: Down Starter Danger
+    {435,13,52,0xFF,evActLedFollowInv},     // FB: MPD Exit Clear       
+    {435,14,53,0xFF,evActLedFollowInv},     // FB: MPD Exit Danger
+
+    {436,16,54,0xFF,evActLedFollowInv},     // FB: Up Home Clear       
+    {436,15,55,0xFF,evActLedFollowInv},     // FB: Up Home Danger
+    {435,12,48,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Clear       
+    {435,11,41,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Danger   
+    {431,11,24,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
+    {431,12,17,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger   
+    {432,14,32,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
+    {432,13,25,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger              
+    {432,16,29,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Clear       
+    {432,15,30,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Danger               
+    {433,14,40,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Clear       
+    {433,13,33,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Danger               
+            
+//    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
+    {406,11,15,0xFF,evActLedFollowInv},     // 19A indicator
+    {406,11,14,0xFF,evActLedFollow},     // 19A reverse indicator
+    {406,9,13,0xFF,evActLedFollow},     // 19B normal indicator
+    {406,10,10,0xFF,evActLedFollowInv},     // 18A indicator
+    {406,10,11,0xFF,evActLedFollow},     // 18A reverse indicator
+    {407,11,12,0xFF,evActLedFollowInv},     // 18B indicator
+           
+    {407,10,9,0xFF,evActLedFollow},     // 27A normal 
+    {407,9,16,0xFF,evActLedFollowInv},     // 27B reversed indicator
+    {407,9,7,0xFF,evActLedFollow},     // 27B normal indicator            
+    {408,10,5,0xFF,evActLedFollow},     // 15A normal indicator
+    {408,10,4,0xFF,evActLedFollowInv},     // 15A reverse indicator
+    {408,9,3,0xFF,evActLedFollowInv},     // 15B normal indicator
+    {409,9,8,0xFF,evActLedFollowInv},  // 8 normal indicator
+    {409,9,1,0xFF,evActLedFollow},  // 8 Reverse indicator
+    {410,9,2,0xFF,evActLedFollowInv},     // 9 normal indicator
+    {410,10,6,0xFF,evActLedFollow},   // 10 reverse indicator
+            
+//  Test events for finding out which LEDs are which - leave commented out for normal use
+            
+//    {80,20,1,0xFF,evNextLed}   
+};
+
+// Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
+#elif defined INGLEBOROUGH
+//   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
+    {431,9,58,0xFF,evActLedFollow},     // FB: Down Home Clear
+    {431,10,59,0xFF,evActLedFollow},    // FB: Down Home Danger
+    {432,9,56,0xFF,evActLedFollowInv},     // FB: Up Starter Clear
+    {432,10,49,0xFF,evActLedFollowInv},    // FB: Up Starter Danger      
+    {432,11,60,0xFF,evActLedFollow},    // FB: Goods Loop Starter Clear
+    {432,12,61,0xFF,evActLedFollow},    // FB: Goods Loop Starter Danger    
+    {434,9,42,0xFF,evActLedFollow},     // FB: Up Outer Home Clear
+    {434,10,43,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
+    {434,11,45,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
+    {434,12,46,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
+    {435,16,50,0xFF,evActLedFollow},     // FB: Down Starter Clear       
+    {435,15,51,0xFF,evActLedFollow},     // FB: Down Starter Danger
+    {435,13,52,0xFF,evActLedFollowInv},     // FB: MPD Exit Clear       
+    {435,14,53,0xFF,evActLedFollowInv},     // FB: MPD Exit Danger
+
+    {436,16,54,0xFF,evActLedFollowInv},     // FB: Up Home Clear       
+    {436,15,55,0xFF,evActLedFollowInv},     // FB: Up Home Danger
+    {435,12,48,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Clear       
+    {435,11,41,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Danger   
+    {431,11,24,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
+    {431,12,17,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger   
+    {432,14,32,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
+    {432,13,25,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger              
+    {432,16,29,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Clear       
+    {432,15,30,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Danger               
+    {433,14,40,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Clear       
+    {433,13,33,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Danger               
+            
+//    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
+    {406,11,15,0xFF,evActLedFollowInv},     // 19A indicator
+    {406,11,14,0xFF,evActLedFollow},     // 19A reverse indicator
+    {406,9,13,0xFF,evActLedFollow},     // 19B normal indicator
+    {406,10,10,0xFF,evActLedFollowInv},     // 18A indicator
+    {406,10,11,0xFF,evActLedFollow},     // 18A reverse indicator
+    {407,11,12,0xFF,evActLedFollowInv},     // 18B indicator
+           
+    {407,10,9,0xFF,evActLedFollow},     // 27A normal 
+    {407,9,16,0xFF,evActLedFollowInv},     // 27B reversed indicator
+    {407,9,7,0xFF,evActLedFollow},     // 27B normal indicator            
+    {408,10,5,0xFF,evActLedFollow},     // 15A normal indicator
+    {408,10,4,0xFF,evActLedFollowInv},     // 15A reverse indicator
+    {408,9,3,0xFF,evActLedFollowInv},     // 15B normal indicator
+    {409,9,8,0xFF,evActLedFollowInv},  // 8 normal indicator
+    {409,9,1,0xFF,evActLedFollow},  // 8 Reverse indicator
+    {410,9,2,0xFF,evActLedFollowInv},     // 9 normal indicator
+    {410,10,6,0xFF,evActLedFollow},   // 10 reverse indicator
+            
+//  Test events for finding out which LEDs are which - leave commented out for normal use
+            
+//    {80,20,1,0xFF,evNextLed}   
+};
+
 
 #endif
 
@@ -442,7 +642,7 @@ BOOL processHardCodedEvent( WORD eventNode, WORD eventNum, BYTE eventIndex, BYTE
             setLed(HardCodedEvents[eventIndex].ledNumber, !onEvent );
             break;
             
-        case evNextLed:  // Used to diagnose which LED lights for each LED number - sends event with the event number equal to the LED number it is lighting, steps through LEDs sequenetially each time called
+        case evNextLed:  // Used to diagnose which LED lights for each LED number - sends event with the event number equal to the LED number it is lighting, steps through LEDs sequentially each time called
             clearAllLeds(); 
             cbusSendEvent( 0, -1, ledNum, TRUE );
             setLed( ledNum++, TRUE );

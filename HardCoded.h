@@ -56,21 +56,21 @@ events.h - Definitions for CBUS event handling
 #ifdef KFY
 
 #define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     16
+#define HARDCODED_MAX_LED     24
 #define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
 
 #elif defined KSIGNALS
 
 #define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     30           // Number of LED consumer event definitions implemeneted
+#define HARDCODED_MAX_LED     42           // Number of LED consumer event definitions implemeneted
 #define HARDCODED_LED_STATES    1           // Steady (on or off)
 #define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
 
 #elif defined KSIGNALMAN
 
 #define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     31          // Number of LED consumer event definitions implemeneted
+#define HARDCODED_MAX_LED     49          // Number of LED consumer event definitions implemeneted
 #define HARDCODED_LED_STATES    1           // Steady (on or off)
 #define LED_GROUPS  4                       /
 
@@ -80,8 +80,29 @@ events.h - Definitions for CBUS event handling
 #define HARDCODED_MAX_LED     22            // Number of LEDs
 #define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  6                       // Number of groups of mutually exclusive route LEDs
-#endif
 
+
+#elif defined BURNDENPARK
+
+#define HARDCODED_MAX_BUTTON  22            // Number of BUTTONS
+#define HARDCODED_MAX_LED     22            // Number of LEDs
+#define HARDCODED_LED_STATES    2           // Flashing and steady
+#define LED_GROUPS  6                       // Number of groups of mutually exclusive route LEDs
+
+#elif defined BURNDENSHED
+
+#define HARDCODED_MAX_BUTTON  43            // Number of BUTTONS
+#define HARDCODED_MAX_LED     43            // Number of LEDs
+#define HARDCODED_LED_STATES    2           // Flashing and steady
+#define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
+
+#elif defined INGLEBOROUGH
+
+#define HARDCODED_MAX_BUTTON  43            // Number of BUTTONS
+#define HARDCODED_MAX_LED     43            // Number of LEDs
+#define HARDCODED_LED_STATES    2           // Flashing and steady
+#define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
+#endif
 
 
 #define MAX_STORAGE_ROAD    16                // 13 STORAGE ROADS
