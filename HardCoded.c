@@ -77,7 +77,7 @@
 
 const rom BYTE    hardCodedButtons[HARDCODED_MAX_BUTTON] = {64,80,96,112,81,97,82,98,84,100,69,101,70,86,65,66};
 const rom BYTE    hardCodedLeds[HARDCODED_MAX_BUTTON] =    {48,56,64 ,33,41,49,42,50,35,43,51,44,45,53 ,36,37};
-const rom BYTE    ledGroupLimits[LED_GROUPS+1] = {1,10,20,30};
+const rom BYTE    ledGroupLimits[LED_GROUPS] = {1};
 
 // Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
 
@@ -255,24 +255,32 @@ const rom HCEvTable HardCodedEvents[] =
 // Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
 #elif defined BURNDENPARK
 //   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
-    {431,9,58,0xFF,evActLedFollow},     // FB: Down Home Clear
-    {431,10,59,0xFF,evActLedFollow},    // FB: Down Home Danger
-    {432,9,56,0xFF,evActLedFollowInv},     // FB: Up Starter Clear
-    {432,10,49,0xFF,evActLedFollowInv},    // FB: Up Starter Danger      
-    {432,11,60,0xFF,evActLedFollow},    // FB: Goods Loop Starter Clear
-    {432,12,61,0xFF,evActLedFollow},    // FB: Goods Loop Starter Danger    
-    {434,9,42,0xFF,evActLedFollow},     // FB: Up Outer Home Clear
-    {434,10,43,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
-    {434,11,45,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
-    {434,12,46,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
-    {435,16,50,0xFF,evActLedFollow},     // FB: Down Starter Clear       
-    {435,15,51,0xFF,evActLedFollow},     // FB: Down Starter Danger
-    {435,13,52,0xFF,evActLedFollowInv},     // FB: MPD Exit Clear       
-    {435,14,53,0xFF,evActLedFollowInv},     // FB: MPD Exit Danger
+    {1719,12,42,0xFF,evActLedFollow},     // FB: 26
+    {1719,12,43,0xFF,evActLedFollowInv},    // FB: 26
+    {1719,11,49,0xFF,evActLedFollow},     // FB: 25
+    {1719,11,57,0xFF,evActLedFollowInv},    // FB: 25
+    {1719,10,50,0xFF,evActLedFollow},    // FB: 24N
+    {1719,10,23,0xFF,evActLedFollowInv},    // FB: 24R
+    {1719,9,41,0xFF,evActLedFollowInv},     // FB: 23AN?
+    {1719,9,30,0xFF,evActLedFollow},    // FB: 23ABR (use FB for 23A? for now)      
+    {1719,13,7,0xFF,evActLedFollow},    // FB: 23BN
+    {1718,10,51,0xFF,evActLedFollow},     // FB: 21N
+    {1718,10,60,0xFF,evActLedFollowInv},     // FB: 21R       
+    {1718,11,44,0xFF,evActLedFollowInv},     // FB: 22N
+    {1718,11,52,0xFF,evActLedFollow},     // FB: 22R       
+    {1718,9,31,0xFF,evActLedFollow},     // FB: 20N
+    {1718,9,63,0xFF,evActLedFollowInv},     // FB: 20R
+    {1716,12,31,0xFF,evActLedFollow},     // FB: 19N
+    {1716,12,63,0xFF,evActLedFollowInv},     // FB: 19R
+    {1716,11,39,0xFF,evActLedFollow},     // FB: 18N
+    {1716,11,47,0xFF,evActLedFollowInv},     // FB: 18R
+    {1716,10,59,0xFF,evActLedFollowInv},     // FB: 17N
+    {1716,10,58,0xFF,evActLedFollow},     // FB: 17R
+    {1716,9,59,0xFF,evActLedFollowInv},     // FB: 16N
+    {1716,9,9,0xFF,evActLedFollow},     // FB: 16R
+            
+            
 
-    {436,16,54,0xFF,evActLedFollowInv},     // FB: Up Home Clear       
-    {436,15,55,0xFF,evActLedFollowInv},     // FB: Up Home Danger
-    {435,12,48,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Clear       
     {435,11,41,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Danger   
     {431,11,24,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
     {431,12,17,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger   
@@ -299,8 +307,8 @@ const rom HCEvTable HardCodedEvents[] =
     {408,9,3,0xFF,evActLedFollowInv},     // 15B normal indicator
     {409,9,8,0xFF,evActLedFollowInv},  // 8 normal indicator
     {409,9,1,0xFF,evActLedFollow},  // 8 Reverse indicator
-    {410,9,2,0xFF,evActLedFollowInv},     // 9 normal indicator
-    {410,10,6,0xFF,evActLedFollow},   // 10 reverse indicator
+    {1710,4,33,0xFF,evActLedFollow},     // Shed overload
+    {1750,1000,15,0xFF,evActLedFollow},   // SoD for panel run light
             
 //  Test events for finding out which LEDs are which - leave commented out for normal use
             
@@ -310,111 +318,85 @@ const rom HCEvTable HardCodedEvents[] =
 // Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
 #elif defined BURNDENSHED
 //   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
-    {431,9,58,0xFF,evActLedFollow},     // FB: Down Home Clear
-    {431,10,59,0xFF,evActLedFollow},    // FB: Down Home Danger
-    {432,9,56,0xFF,evActLedFollowInv},     // FB: Up Starter Clear
-    {432,10,49,0xFF,evActLedFollowInv},    // FB: Up Starter Danger      
-    {432,11,60,0xFF,evActLedFollow},    // FB: Goods Loop Starter Clear
-    {432,12,61,0xFF,evActLedFollow},    // FB: Goods Loop Starter Danger    
-    {434,9,42,0xFF,evActLedFollow},     // FB: Up Outer Home Clear
-    {434,10,43,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
-    {434,11,45,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
-    {434,12,46,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
-    {435,16,50,0xFF,evActLedFollow},     // FB: Down Starter Clear       
-    {435,15,51,0xFF,evActLedFollow},     // FB: Down Starter Danger
-    {435,13,52,0xFF,evActLedFollowInv},     // FB: MPD Exit Clear       
-    {435,14,53,0xFF,evActLedFollowInv},     // FB: MPD Exit Danger
-
-    {436,16,54,0xFF,evActLedFollowInv},     // FB: Up Home Clear       
-    {436,15,55,0xFF,evActLedFollowInv},     // FB: Up Home Danger
-    {435,12,48,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Clear       
-    {435,11,41,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Danger   
-    {431,11,24,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
-    {431,12,17,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger   
-    {432,14,32,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
-    {432,13,25,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger              
-    {432,16,29,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Clear       
-    {432,15,30,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Danger               
-    {433,14,40,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Clear       
-    {433,13,33,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Danger               
+    {1711,2,47,0xFF,evActLedFollowInv},    // FB: 1AN
+    {1714,13,39,0xFF,evActLedFollow},     // FB: 1BN
+    {1711,2,46,0xFF,evActLedFollow},    // FB: 1ABR     
+    {1711,3,58,0xFF,evActLedFollowInv},     // FB: 2R
+    {1711,3,59,0xFF,evActLedFollow},     // FB: 2N       
+    {1711,4,55,0xFF,evActLedFollow},     // FB: 3R
+    {1711,4,50,0xFF,evActLedFollowInv},     // FB: 3N   
+    {1714,11,2,0xFF,evActLedFollow},     // FB: 8R
+    {1714,11,18,0xFF,evActLedFollowInv},     // FB: 8N       
             
-//    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
-    {406,11,15,0xFF,evActLedFollowInv},     // 19A indicator
-    {406,11,14,0xFF,evActLedFollow},     // 19A reverse indicator
-    {406,9,13,0xFF,evActLedFollow},     // 19B normal indicator
-    {406,10,10,0xFF,evActLedFollowInv},     // 18A indicator
-    {406,10,11,0xFF,evActLedFollow},     // 18A reverse indicator
-    {407,11,12,0xFF,evActLedFollowInv},     // 18B indicator
-           
-    {407,10,9,0xFF,evActLedFollow},     // 27A normal 
-    {407,9,16,0xFF,evActLedFollowInv},     // 27B reversed indicator
-    {407,9,7,0xFF,evActLedFollow},     // 27B normal indicator            
-    {408,10,5,0xFF,evActLedFollow},     // 15A normal indicator
-    {408,10,4,0xFF,evActLedFollowInv},     // 15A reverse indicator
-    {408,9,3,0xFF,evActLedFollowInv},     // 15B normal indicator
-    {409,9,8,0xFF,evActLedFollowInv},  // 8 normal indicator
-    {409,9,1,0xFF,evActLedFollow},  // 8 Reverse indicator
-    {410,9,2,0xFF,evActLedFollowInv},     // 9 normal indicator
-    {410,10,6,0xFF,evActLedFollow},   // 10 reverse indicator
+            
+    {1714,15,41,0xFF,evActLedFollow},    // FB: 7AN
+    {1714,15,7,0xFF,evActLedFollow},     // FB: 7BN
+    {1714,15,30,0xFF,evActLedFollowInv}, // FB: 7ABR  
+    {1714,9,35,0xFF,evActLedFollowInv},    // FB: 9AN
+    {1714,9,10,0xFF,evActLedFollowInv},     // FB: 9BN
+    {1714,9,54,0xFF,evActLedFollow}, // FB: 9ABR     
+            
+            
+            
+    {1711,7,60,0xFF,evActLedFollowInv},    // FB: 10AN
+    {1714,14,26,0xFF,evActLedFollow},     // FB: 10BN
+    {1711,7,38,0xFF,evActLedFollow}, // FB: 10ABR     
+    {1711,5,42,0xFF,evActLedFollowInv},     // FB: 11R
+    {1711,5,43,0xFF,evActLedFollow},     // FB: 11N    
+
+    {1751,67,51,0xFF,evActLedFollowInv},     // FB: 12AN (temp dir from button)
+    {1751,67,52,0xFF,evActLedFollow},     // FB: 12AR   (temp dir from button)           
+    {1751,67,56,0xFF,evActLedFollowInv},     // FB: 12BN (temp dir from button)
+    {1751,67,48,0xFF,evActLedFollow},     // FB: 12BR   (temp dir from button)           
+            
+    {1711,6,26,0xFF,evActLedFollow},    // FB: 13AN
+    {1714,16,34,0xFF,evActLedFollow},  // FB: 13BN
+    {1711,6,14,0xFF,evActLedFollowInv}, // FB: 13ABR     
+    {1714,10,27,0xFF,evActLedFollow},     // FB: 14R
+    {1714,10,44,0xFF,evActLedFollowInv},     // FB: 14N       
+          
+    {1710,1,8,0xFF,evActLedFollow},     // BP overload
+    {1710,3,17,0xFF,evActLedFollow},     // IB overload
+    {1710,2,25,0xFF,evActLedFollow},     // ML overload
+    {1710,4,33,0xFF,evActLedFollow},     // Shed overload
+    {1751,1000,15,0xFF,evActLedFollow},   // SoD for panel run light
             
 //  Test events for finding out which LEDs are which - leave commented out for normal use
             
-//    {80,20,1,0xFF,evNextLed}   
+    {80,20,1,0xFF,evNextLed}   
 };
 
 // Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
 #elif defined INGLEBOROUGH
 //   Signal feedback events that set LEDs on panel - Node Number, event number, LED number, Group, action
-    {431,9,58,0xFF,evActLedFollow},     // FB: Down Home Clear
-    {431,10,59,0xFF,evActLedFollow},    // FB: Down Home Danger
-    {432,9,56,0xFF,evActLedFollowInv},     // FB: Up Starter Clear
-    {432,10,49,0xFF,evActLedFollowInv},    // FB: Up Starter Danger      
-    {432,11,60,0xFF,evActLedFollow},    // FB: Goods Loop Starter Clear
-    {432,12,61,0xFF,evActLedFollow},    // FB: Goods Loop Starter Danger    
-    {434,9,42,0xFF,evActLedFollow},     // FB: Up Outer Home Clear
-    {434,10,43,0xFF,evActLedFollow},    // FB: Up Outer Home Danger      
-    {434,11,45,0xFF,evActLedFollow},    // FB: Down Advanced Starter Clear
-    {434,12,46,0xFF,evActLedFollow},     // FB: Down Advanced Starter Danger
-    {435,16,50,0xFF,evActLedFollow},     // FB: Down Starter Clear       
-    {435,15,51,0xFF,evActLedFollow},     // FB: Down Starter Danger
-    {435,13,52,0xFF,evActLedFollowInv},     // FB: MPD Exit Clear       
-    {435,14,53,0xFF,evActLedFollowInv},     // FB: MPD Exit Danger
-
-    {436,16,54,0xFF,evActLedFollowInv},     // FB: Up Home Clear       
-    {436,15,55,0xFF,evActLedFollowInv},     // FB: Up Home Danger
-    {435,12,48,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Clear       
-    {435,11,41,0xFF,evActLedFollowInv},     // FB: Up Refuge Starter Danger   
-    {431,11,24,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
-    {431,12,17,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger   
-    {432,14,32,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Clear       
-    {432,13,25,0xFF,evActLedFollowInv},     // FB: Up Shunt 12 Danger              
-    {432,16,29,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Clear       
-    {432,15,30,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Danger               
-    {433,14,40,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Clear       
-    {433,13,33,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Danger               
-            
-//    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
-    {406,11,15,0xFF,evActLedFollowInv},     // 19A indicator
-    {406,11,14,0xFF,evActLedFollow},     // 19A reverse indicator
-    {406,9,13,0xFF,evActLedFollow},     // 19B normal indicator
-    {406,10,10,0xFF,evActLedFollowInv},     // 18A indicator
-    {406,10,11,0xFF,evActLedFollow},     // 18A reverse indicator
-    {407,11,12,0xFF,evActLedFollowInv},     // 18B indicator
-           
-    {407,10,9,0xFF,evActLedFollow},     // 27A normal 
-    {407,9,16,0xFF,evActLedFollowInv},     // 27B reversed indicator
-    {407,9,7,0xFF,evActLedFollow},     // 27B normal indicator            
-    {408,10,5,0xFF,evActLedFollow},     // 15A normal indicator
-    {408,10,4,0xFF,evActLedFollowInv},     // 15A reverse indicator
-    {408,9,3,0xFF,evActLedFollowInv},     // 15B normal indicator
-    {409,9,8,0xFF,evActLedFollowInv},  // 8 normal indicator
-    {409,9,1,0xFF,evActLedFollow},  // 8 Reverse indicator
-    {410,9,2,0xFF,evActLedFollowInv},     // 9 normal indicator
-    {410,10,6,0xFF,evActLedFollow},   // 10 reverse indicator
+    {0,101,34,0xFF,evActLedFollow},     // FB: 36R
+    {0,101,42,0xFF,evActLedFollowInv},     // FB: 36N
+    {0,102,10,0xFF,evActLedFollowInv},  // FB: 37R
+    {0,102,43,0xFF,evActLedFollow},     // FB: 37N
+    {1723,13,60,0xFF,evActLedFollowInv},  // FB: 34R
+    {1723,13,27,0xFF,evActLedFollow},     // FB: 34N
+    {1723,14,52,0xFF,evActLedFollowInv},  // FB: 35R
+    {1723,14,44,0xFF,evActLedFollow},     // FB: 35N
+    {1723,15,49,0xFF,evActLedFollow},  // FB: 33AN
+    {1723,16,26,0xFF,evActLedFollowInv},     // FB: 33BN
+    {1723,16,54,0xFF,evActLedFollow},     // FB: 33ABR
+    {1722,12,24,0xFF,evActLedFollow},  // FB: 28N
+    {1722,12,32,0xFF,evActLedFollow},     // FB: 32N
+    {1722,12,30,0xFF,evActLedFollow},     // FB: 28-32R
+    {1722,9,41,0xFF,evActLedFollow},  // FB: 27AN
+    {1722,9,48,0xFF,evActLedFollow},     // FB: 27BN
+    {1722,9,45,0xFF,evActLedFollow},     // FB: 27ABR
+    {1722,11,64,0xFF,evActLedFollow},  // FB: 31R
+    {1722,11,56,0xFF,evActLedFollowInv},     // FB: 31N
+          
+    {1710,1,8,0xFF,evActLedFollow},     // BP overload
+    {1710,3,17,0xFF,evActLedFollow},     // IB overload
+    {1710,2,25,0xFF,evActLedFollow},     // ML overload
+    {1710,4,33,0xFF,evActLedFollow},     // Shed overload
             
 //  Test events for finding out which LEDs are which - leave commented out for normal use
             
-//    {80,20,1,0xFF,evNextLed}   
+    {80,20,1,0xFF,evNextLed}   
 };
 
 

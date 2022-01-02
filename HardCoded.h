@@ -84,22 +84,22 @@ events.h - Definitions for CBUS event handling
 
 #elif defined BURNDENPARK
 
-#define HARDCODED_MAX_BUTTON  22            // Number of BUTTONS
-#define HARDCODED_MAX_LED     22            // Number of LEDs
+#define HARDCODED_MAX_BUTTON  43            // Number of BUTTONS
+#define HARDCODED_MAX_LED     43            // Number of LEDs
 #define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  6                       // Number of groups of mutually exclusive route LEDs
 
 #elif defined BURNDENSHED
 
-#define HARDCODED_MAX_BUTTON  43            // Number of BUTTONS
-#define HARDCODED_MAX_LED     43            // Number of LEDs
+#define HARDCODED_MAX_BUTTON  36            // Number of BUTTONS
+#define HARDCODED_MAX_LED    36              // Number of LEDs
 #define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
 
 #elif defined INGLEBOROUGH
 
-#define HARDCODED_MAX_BUTTON  43            // Number of BUTTONS
-#define HARDCODED_MAX_LED     43            // Number of LEDs
+#define HARDCODED_MAX_BUTTON  25            // Number of BUTTONS
+#define HARDCODED_MAX_LED     25            // Number of LEDs
 #define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
 #endif
