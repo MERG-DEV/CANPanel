@@ -185,4 +185,13 @@ void sendButtonEvent( BYTE button )
     }    
 }
 
+void setButtonState( BYTE button, BOOL buttonState )
+
+{
+    BYTE    buttonNum;
+    
+    buttonNum = buttonNumber(button);
+    buttonStatus[buttonNum].eventON = buttonState;
+}
+
 

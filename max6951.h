@@ -69,8 +69,13 @@ extern "C" {
 
 #include <spi.h>
 
+// Chip selects for first and second (f fitted) MAX chips
+    
 #define MX_CS_TRIS             (TRISCbits.TRISC6)
 #define MX_CS_IO               (LATCbits.LATC6)
+    
+#define MX_CS2_TRIS             (TRISCbits.TRISC7)
+#define MX_CS2_IO               (LATCbits.LATC7)    
    
 
 // MAX6951 definitions - see Maxim data sheet

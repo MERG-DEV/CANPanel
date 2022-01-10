@@ -226,6 +226,7 @@ void    initDefaultNVs(void);
 
 void initButtonStatus();
 void sendButtonEvent( BYTE button );
+void setButtonState( BYTE button, BOOL buttonState );
 
 
 #ifdef	__cplusplus
