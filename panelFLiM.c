@@ -67,6 +67,10 @@ const rom char          module_type[] = MODULE_TYPE;
 
 #define AMPERAGE_EVENT  1
 
+#define PBONO 0x11
+#define PBFF 0x1B
+#define PBONOFF 0x13
+
 #ifdef DEFFFLOP         // Set default NV to flip flop mode
     #define DPB 0x1B
 #elif defined( DEFPBON) // Set default NV to push button on only mode
@@ -80,6 +84,32 @@ const rom char          module_type[] = MODULE_TYPE;
 
 #pragma romdata	FLIMDATA	// Node and event variables
 
+#if defined KFY
+
+const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,0x1B,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB};
+
+#elif defined BURNDENSHED
+
+const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,
+                                        DPB,DPB,DPB,DPB,DPB,PBONOFF,PBONO,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,PBONO,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,PBONO,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,PBONO,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB}; 
+
+#else
+
 const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
@@ -89,6 +119,8 @@ const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB};   
+
+#endif
 
 // const rom EventTableEntry  eventTable[EVT_NUM];
 const rom EventTableEntry  eventTable[1];

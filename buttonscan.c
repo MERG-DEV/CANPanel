@@ -315,7 +315,7 @@ BYTE buttonNumber( BYTE buttonCode )
 
 {
     // Return a button number from 0 to 63 from the row/column button code
-    return( ((buttonCode >> 2) & 0xFC) + (buttonCode & 0x0F ) );
+    return( ((buttonCode >> 1) & 0xF8) + (buttonCode & 0x07 ) );
 }
 
 BYTE buttonCode( BYTE buttonNumber )

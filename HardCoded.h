@@ -56,14 +56,14 @@ events.h - Definitions for CBUS event handling
 #ifdef KFY
 
 #define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     24
+#define HARDCODED_MAX_LED     31
 #define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
 
 #elif defined KSIGNALS
 
 #define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     42           // Number of LED consumer event definitions implemeneted
+#define HARDCODED_MAX_LED     50           // Number of LED consumer event definitions implemeneted
 #define HARDCODED_LED_STATES    1           // Steady (on or off)
 #define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
 
@@ -91,15 +91,15 @@ events.h - Definitions for CBUS event handling
 
 #elif defined BURNDENSHED
 
-#define HARDCODED_MAX_BUTTON  36            // Number of BUTTONS
-#define HARDCODED_MAX_LED    36              // Number of LEDs
+#define HARDCODED_MAX_BUTTON  60            // Number of BUTTONS
+#define HARDCODED_MAX_LED    60              // Number of LEDs
 #define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
 
 #elif defined INGLEBOROUGH
 
-#define HARDCODED_MAX_BUTTON  25            // Number of BUTTONS
-#define HARDCODED_MAX_LED     25            // Number of LEDs
+#define HARDCODED_MAX_BUTTON  40            // Number of BUTTONS
+#define HARDCODED_MAX_LED     40            // Number of LEDs
 #define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
 #endif
@@ -141,8 +141,8 @@ typedef struct
     WORD        evEventNum;
     BYTE        ledNumber;
     BYTE        groupId;
-    evActions   ledAction:3;
-    buFollowing buttonFollow:2;
+    evActions   ledAction;
+    buFollowing buttonFollow;
     BYTE        followButton;  // Button whose toggle state will follow the state of this event (0 for none)
 } HCEvTable;
 

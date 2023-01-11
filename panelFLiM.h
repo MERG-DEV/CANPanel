@@ -56,7 +56,10 @@
 #include "FliM.h"
 
 #define NV_NUM		sizeof(ModuleNvDefs)     // Number of node variables
-#define DEFAULT_NN 	130  // Now defined in FLiM.h
+
+#ifndef DEFAULT_NN
+#define DEFAULT_NN 	130  // Now defined in FLiM.h for use with CBUSLIB
+#endif
 
 #define NUM_PBS         64
 #define NUM_LEDS        64
