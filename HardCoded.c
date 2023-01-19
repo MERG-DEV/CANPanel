@@ -134,15 +134,25 @@ const rom HCEvTable HardCodedEvents[] =
 //    {80,16,1,7,evActLedOn}     // FYDNVH
     
     #if defined KDNFY
+    // Note Button 67 must be set to flip flop, by setting NV52 to 27 (0x1B)
     {81,3,35,0xFF,evActFlashLed}, // FY slow down Caution flash
     {81,4,35,0xFF,evActLedFollow}, // FY stop
     {81,6,35,0xFF,evActLedOff},   // Cancel caution fash
+    {400,12,15,0xFF,evActLedFollow},   // Down Yard Short     
+    {434,12,49,0xFF,evActLedFollow},  // FB: Down advance Starter 4 Danger
+    {434,11,5,0xFF,evActLedFollow},     // FB: Down advance Starter 4 Clear       
+    
+    
     #endif
 
     #if defined KUPFY
+    // Note Button 67 must be set to flip flop, by setting NV52 to 27 (0x1B)
     {81,1,35,0xFF,evActFlashLed}, // FY slow down Caution
     {81,2,35,0xFF,evActLedFollow}, // FY stop
-    {81,5,35,0xFF,evActLedOff},   // Cancel caution fash        
+    {81,5,35,0xFF,evActLedOff},   // Cancel caution fash   
+    {400,11,15,0xFF,evActLedFollow},   // Up Yard Short    
+    {430,9,10,0xFF,evActLedFollowInv},  // FB: Up Advance Starter 30 Danger
+    {430,9,26,0xFF,evActLedFollow},     // FB: Up Advance Starter 30 Clear       
     #endif
     
     
@@ -179,7 +189,20 @@ const rom HCEvTable HardCodedEvents[] =
     {432,16,29,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Clear       
     {432,15,30,0xFF,evActLedFollowInv},     // FB: 11 Shunt down platform to Up Danger               
     {433,14,40,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Clear       
-    {433,13,33,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Danger               
+    {433,13,33,0xFF,evActLedFollowInv},     // FB: 16 Shunt down platform to Goods Danger   
+
+    {436,12,34,0xFF,evActLedFollow},     // FB: Shunt down main 20 Clear       
+    {436,11,35,0xFF,evActLedFollow},     // FB: Shunt down main 20 Danger
+    {436,14,36,0xFF,evActLedFollow},     // FB: Shunt shed headshunt 21 Clear       
+    {436,13,37,0xFF,evActLedFollow},     // FB: Shunt shed headshunt 21 Danger
+    {433,11,22,0xFF,evActLedFollow},     // FB: Up Platform to down starter 23 Clear       
+    {433,12,23,0xFF,evActLedFollow},     // FB: Up Platform to down starter 23 Danger
+    {433,10,27,0xFF,evActLedFollow},     // FB: Shunt to refuge 25 Clear       
+    {433,9,28,0xFF,evActLedFollow},     // FB: Shunt to refuge 25 Danger
+    {430,9,57,0xFF,evActLedFollowInv},  // FB: Up Advance Starter 30 Danger
+    {430,9,64,0xFF,evActLedFollow},     // FB: Up Advance Starter 30 Clear       
+            
+            
             
 //    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
     {406,11,15,0xFF,evActLedFollowInv},     // 19A indicator
@@ -234,17 +257,28 @@ const rom HCEvTable HardCodedEvents[] =
     {435,15,49,0xFF,evActLedFollow},     // FB: Down Starter Danger
     {435,13,59,0xFF,evActLedFollow},     // FB: MPD Exit Clear       
     {435,14,58,0xFF,evActLedFollow},     // FB: MPD Exit Danger
+            
+    {436,12,32,0xFF,evActLedFollow},     // FB: Shunt down main 20 Clear       
+    {436,11,25,0xFF,evActLedFollow},     // FB: Shunt down main 20 Danger
+    {436,14,24,0xFF,evActLedFollow},     // FB: Shunt shed headshunt 21 Clear       
+    {436,13,17,0xFF,evActLedFollow},     // FB: Shunt shed headshunt 21 Danger
+    {433,11,44,0xFF,evActLedFollow},     // FB: Up Platform to down starter 23 Clear       
+    {433,12,45,0xFF,evActLedFollow},     // FB: Up Platform to down starter 23 Danger
+    {433,10,9,0xFF,evActLedFollow},     // FB: Shunt to refuge 25 Clear       
+    {430,9,53,0xFF,evActLedFollowInv},  // FB: Up Advance Starter 30 Danger
+    {430,9,52,0xFF,evActLedFollow},     // FB: Up Advance Starter 30 Clear       
+            
+            
+            
 //    {452,103,9,0xFF,evActLedFollow},    // Emergency stop all
     {406,11,63,0xFF,evActLedFollowInv},     // 19A normal indicator
     {406,11,30,0xFF,evActLedFollow},     // 19A reverse indicator
     {406,9,47,0xFF,evActLedFollow},     // 19B normal indicator
     {406,10,31,0xFF,evActLedFollowInv},     // 18A indicator
     {406,10,38,0xFF,evActLedFollow},     // 18A reverse indicator
-    {407,11,21,0xFF,evActLedFollowInv},     // 18B indicator
-//            
-//    {407,11,28,0xFF,evActLedFollowInv},     // 18B indicator
-//    {407,11,63,0xFF,evActLedFollowInv},     // 18B alt indicator
-//            
+    {407,11,21,0xFF,evActLedFollowInv},     // 18B indicator            
+
+          
     {407,10,29,0xFF,evActLedFollow},     // 27A normal indicator 
     {407,9,5,0xFF,evActLedFollow},     // 27B reversed indicator
     {407,9,54,0xFF,evActLedFollowInv},     // 27B normal indicator          

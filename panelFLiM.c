@@ -91,7 +91,7 @@ const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,0x1B,DPB,DPB,DPB,
-                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,0x1B,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB};
