@@ -152,7 +152,9 @@ const rom HCEvTable HardCodedEvents[] =
     {81,5,35,0xFF,evActLedOff},   // Cancel caution fash   
     {400,11,15,0xFF,evActLedFollow},   // Up Yard Short    
     {430,9,10,0xFF,evActLedFollowInv},  // FB: Up Advance Starter 30 Danger
-    {430,9,26,0xFF,evActLedFollow},     // FB: Up Advance Starter 30 Clear       
+    {430,9,26,0xFF,evActLedFollow},     // FB: Up Advance Starter 30 Clear 
+    {452,83,43,0xFF,evActFlashLed},     // Up Advance Starter Request from signalman - flash blue LED
+    {450,83,43,0xFF,evActLedOff},     // Up advance starter accept from storage - turn off flashing LED    
     #endif
     
     
@@ -264,9 +266,11 @@ const rom HCEvTable HardCodedEvents[] =
     {436,13,17,0xFF,evActLedFollow},     // FB: Shunt shed headshunt 21 Danger
     {433,11,44,0xFF,evActLedFollow},     // FB: Up Platform to down starter 23 Clear       
     {433,12,45,0xFF,evActLedFollow},     // FB: Up Platform to down starter 23 Danger
-    {433,10,9,0xFF,evActLedFollow},     // FB: Shunt to refuge 25 Clear       
+    {433,10,9,0xFF,evActLedFollow},     // FB: Shunt to refuge 25 Clear   
+    {433,9,10,0xFF,evActLedFollow},     // FB: Shunt to refuge 25 Clear               
     {430,9,53,0xFF,evActLedFollowInv},  // FB: Up Advance Starter 30 Danger
     {430,9,52,0xFF,evActLedFollow},     // FB: Up Advance Starter 30 Clear       
+         
             
             
             
