@@ -140,7 +140,10 @@ const rom HCEvTable HardCodedEvents[] =
     {81,6,35,0xFF,evActLedOff},   // Cancel caution fash
     {400,12,15,0xFF,evActLedFollow},   // Down Yard Short     
     {434,12,49,0xFF,evActLedFollow},  // FB: Down advance Starter 4 Danger
-    {434,11,5,0xFF,evActLedFollow},     // FB: Down advance Starter 4 Clear       
+    {434,11,5,0xFF,evActLedFollow},     // FB: Down advance Starter 4 Clear     
+    {81,31,51,0xFF,evActFlashLed},     // Dn Advance Starter Request from signalman - flash blue LED
+    {81,32,51,0xFF,evActLedOff},     // Dn advance starter accept from storage - turn off flashing LED    
+    
     
     
     #endif
@@ -153,8 +156,8 @@ const rom HCEvTable HardCodedEvents[] =
     {400,11,15,0xFF,evActLedFollow},   // Up Yard Short    
     {430,9,10,0xFF,evActLedFollowInv},  // FB: Up Advance Starter 30 Danger
     {430,9,26,0xFF,evActLedFollow},     // FB: Up Advance Starter 30 Clear 
-    {452,83,43,0xFF,evActFlashLed},     // Up Advance Starter Request from signalman - flash blue LED
-    {450,83,43,0xFF,evActLedOff},     // Up advance starter accept from storage - turn off flashing LED    
+    {81,21,43,0xFF,evActFlashLed},     // Up Advance Starter Request from signalman - flash blue LED
+    {81,22,43,0xFF,evActLedOff},     // Up advance starter accept from storage - turn off flashing LED    
     #endif
     
     
@@ -314,6 +317,10 @@ const rom HCEvTable HardCodedEvents[] =
     {411,10,3,0xFF,evActLedFollow},   // Up Main Short    
     {411,11,20,0xFF,evActLedFollow},   // Brewery Short    
     {411,12,12,0xFF,evActLedFollow},   // MPD Short    
+            
+   {81,21,28,0xFF,evActLedFollow},   // Up slotted signal request
+   {81,31,15,0xFF,evActLedFollow},   // Down slotted signal request          
+            
      
 //  Test events for finding out which LEDs are which - leave commented out for normal use
             

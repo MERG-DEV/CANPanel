@@ -70,7 +70,7 @@ events.h - Definitions for CBUS event handling
 #elif defined KSIGNALMAN
 
 #define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     59          // Number of LED consumer event definitions implemeneted
+#define HARDCODED_MAX_LED     61          // Number of LED consumer event definitions implemeneted
 #define HARDCODED_LED_STATES    1           // Steady (on or off)
 #define LED_GROUPS  4                       //
 
