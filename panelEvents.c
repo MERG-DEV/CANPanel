@@ -176,6 +176,9 @@ void sendButtonEvent( BYTE button )
         eventState = (NV->pbSettings[buttonNum].flipflop ? !buttonStatus[buttonNum].eventON : TRUE);
         buttonStatus[buttonNum].eventON = eventState;
         buttonNode = (NV->spooofNode == 0 ? -1 : NV->spooofNode);
+        if (NV->panelFlags.sendShortEvents)
+            buttonNode = 0;
+        
         cbusSendEvent( 0, buttonNode , button, eventState );
     }    
     else // Button up or switch off

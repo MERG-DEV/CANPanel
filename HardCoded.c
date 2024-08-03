@@ -84,7 +84,59 @@ const rom BYTE    ledGroupLimits[LED_GROUPS] = {1};
 
 const rom HCEvTable HardCodedEvents[] = 
 {   
-#ifdef KFY
+#ifdef KMRSSTN
+//   Button events that start LED flashing - Node Number, event number, LED number, Group, action
+    {450,64,25,0,evActFlashLed},   // FYUPBH correct
+//    {450,64,1,0,evActFlashLed},   // FYUPBH dummy led always out
+    {450,80,32,0,evActFlashLed},    // FY01A
+    {450,96,24,1,evActFlashLed},     // FY01D
+    {450,112,8,1,evActFlashLed},     // FYUPVH   
+//    {450,112,1,5,evActFlashLed},     // FYUPVH   
+    
+    {450,81,16,0,evActFlashLed},     // FY02A
+    {450,97,17,1,evActFlashLed},     // FY02D
+    {450,82,9,0,evActFlashLed},      // FY03A
+    {450,98,18,1,evActFlashLed},     // FY03D
+    {451,84,11,2,evActFlashLed},    // FY04D
+    {451,100,20,3,evActFlashLed},     // FY04A
+    {451,69,12,2,evActFlashLed},    // FY05D
+    {451,101,21,3,evActFlashLed},     // FY05A
+    {451,70,28,2,evActFlashLed},    // FYREL
+//    {451,70,1,6,evActFlashLed},    // FYREL
+    
+    {451,86,13,2,evActFlashLed},    // FY06D
+    {451,65,22,3,evActFlashLed},    // FY06A
+    {451,66,23,3,evActFlashLed},    // FYDNVH
+//    {451,66,1,7,evActFlashLed},    // FYDNVH
+    
+  //    Feedback events from turnouts that set LED on steady - Node Number, event number, LED number, action
+    {80,13,25,4,evActLedOn},    // FYUPBH correct
+//    {80,13,1,4,evActLedOn},    // FYUPBH dummy led always out
+    {80,7,32,0,evActLedOn},     // FY01A
+    {80,1,24,1,evActLedOn},     // FY01D
+    {80,14,8,5,evActLedOn},     // FYUPVH
+//    {80,14,1,5,evActLedOn},     // FYUPVH
+    
+    {80,8,16,0,evActLedOn},     // FY02A
+    {80,2,17,1,evActLedOn},     // FY02D
+    {80,9,9,0,evActLedOn},      // FY03A
+    {80,3,18,1,evActLedOn},     // FY03D
+    {80,10,11,2,evActLedOn},    // FY04D
+    {80,4,20,3,evActLedOn},     // FY04A
+    {80,11,12,2,evActLedOn},    // FY05D
+    {80,5,21,3,evActLedOn},     // FY05A
+    {80,15,28,6,evActLedOn},    // FYREL
+//    {80,15,1,6,evActLedOn},    // FYREL
+    
+    {80,12,13,2,evActLedOn},    // FY06D
+    {80,6,22,3,evActLedOn},    // FY06A
+    {80,16,23,7,evActLedOn},     // FYDNVH
+//    {80,16,1,7,evActLedOn},     // FYDNVH
+    
+    {80,20,1,0xFF,evNextLed}    // test event to light each LED in turn 
+};    
+    
+#elif defined KFY
 //   Button events that start LED flashing - Node Number, event number, LED number, Group, action
     {450,64,25,0,evActFlashLed},   // FYUPBH correct
 //    {450,64,1,0,evActFlashLed},   // FYUPBH dummy led always out

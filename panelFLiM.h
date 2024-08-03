@@ -97,7 +97,8 @@ typedef union
         BOOL    flashAtStart:1;     // Flash all LEDs at startup
         BOOL    syncFlipFlops:1;    // Monitor events to sync flip flop states
         BOOL    unitialised:1;      // Set to 1 by default memory, so knows to initialise NVs
-        BYTE    scanDelay:4;        // Delay on each button scan in mS 1-15, set to zero for default scanning
+        BOOL    sendShortEvents:1;  // Short events for PBs
+//        BYTE    scanDelay:4;        // Delay on each button scan in mS 1-15, set to zero for default scanning
     };
     BYTE    flagByte;
 } PanelFlags;

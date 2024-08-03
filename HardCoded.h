@@ -53,7 +53,14 @@ events.h - Definitions for CBUS event handling
 #include "max6951.h"
 
 
-#ifdef KFY
+#ifdef KMRSSTN
+
+#define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
+#define HARDCODED_MAX_LED     36
+#define HARDCODED_LED_STATES    2           // Flashing and steady
+#define LED_GROUPS  1         
+
+#elif defined KFY
 
 #define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
 #define HARDCODED_MAX_LED     36
