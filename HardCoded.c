@@ -76,7 +76,8 @@
 
 
 
-const rom BYTE    hardCodedButtons[HARDCODED_MAX_BUTTON] = {64,80,96,112,81,97,82,98,84,100,69,101,70,86,65,66};
+const rom BYTE    hardCodedButtons[HARDCODED_MAX_BUTTON] = {86,87,65,00,00,00,00,00,00,00,00,83,67,66,98,70,00,00,00,00,00,80,96,112,49,00,70,00,00,55,118,48,32,33,00,00,00,00,00,103,00,97,00,21,
+                                                            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,39,7,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,64,81,37,};
 const rom BYTE    hardCodedLeds[HARDCODED_MAX_BUTTON] =    {48,56,64 ,33,41,49,42,50,35,43,51,44,45,53 ,36,37};
 const rom BYTE    ledGroupLimits[LED_GROUPS] = {1};
 
@@ -110,14 +111,14 @@ const rom HCEvTable HardCodedEvents[] =
 //    {451,66,1,7,evActFlashLed},    // FYDNVH
     
   //    Feedback events from turnouts that set LED on steady - Node Number, event number, LED number, action
-    {80,13,25,4,evActLedOn},    // FYUPBH correct
+    {1308,104,49,1,evActLedFollow},    // FB P4 down arrival
 //    {80,13,1,4,evActLedOn},    // FYUPBH dummy led always out
-    {80,7,32,0,evActLedOn},     // FY01A
-    {80,1,24,1,evActLedOn},     // FY01D
-    {80,14,8,5,evActLedOn},     // FYUPVH
-//    {80,14,1,5,evActLedOn},     // FYUPVH
+    {1308,102,26,1,evActLedFollow},     // FB P3 down arrival
+    {1308,102,51,1,evActLedFollowInv},     // FB P3 down arrival inverted
+    {1309,107,12,1,evActLedFollow},     // FYUPVH
+
     
-    {80,8,16,0,evActLedOn},     // FY02A
+    {1309,107,58,1,evActLedFollowInv},     // FY02A
     {80,2,17,1,evActLedOn},     // FY02D
     {80,9,9,0,evActLedOn},      // FY03A
     {80,3,18,1,evActLedOn},     // FY03D
@@ -617,13 +618,18 @@ BYTE hardCodedProducerMap( BYTE button )
     BYTE mappedButton;
             
     
+#ifdef BURNDEN   
     mappedButton = 99;  // Send event 99 if mapping fails
+#else
+    mappedButton = button;  // Send unchanged button number if mapping fails
             
     for (i=0; i<HARDCODED_MAX_BUTTON; i++)
         if (hardCodedButtons[i] == button) 
             mappedButton = i+1;
     
     // Special cases
+    
+#ifdef BURNDEN
     
     if (mappedButton == 13)
         mappedButton = 21;  // IN
@@ -639,6 +645,8 @@ BYTE hardCodedProducerMap( BYTE button )
       
     if (mappedButton == 17)
         mappedButton = 23;  // NEXT
+    
+#endif
     
     return(mappedButton);
 }

@@ -59,9 +59,9 @@ CANPanel Version History
 
 #define MAJOR_VER 	1
 #define MINOR_VER 	'b'        // Minor version character
-#define BETA        17
-#define WIP         17
-#define TESTBUILD   17
+#define BETA        18
+#define WIP         18
+#define TESTBUILD   18
 
 #include "hwsettings.h"
 #include <GenericTypeDefs.h>

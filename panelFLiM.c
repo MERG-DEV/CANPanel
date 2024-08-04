@@ -84,7 +84,19 @@ const rom char          module_type[] = MODULE_TYPE;
 
 #pragma romdata	FLIMDATA	// Node and event variables
 
-#if defined KFY
+#if defined KMRSSTN
+
+const rom BYTE nvTable[NV_NUM] =       { 0,0,16,0,8,0,8,8,10,0,0,0,0,0,0,0,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,0x1B,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB};
+
+#elif defined KFY
 
 const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,

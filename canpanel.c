@@ -232,8 +232,16 @@ void main(void)
             
             if (button != 0xFF)
             {   
+     
+                
+
                 
 #ifdef HARDCODED  
+                
+#ifdef KMRSSTN
+                button = hardCodedProducerMap(button);     
+#endif                
+                
 #ifdef BURNDEN
                 button = hardCodedProducerMap(button);
 //                hardCodedFlashSelected( button ); // Only used when flashing in response to events wasn't implemented
