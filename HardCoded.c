@@ -119,14 +119,21 @@ const rom HCEvTable HardCodedEvents[] =
 
     
     {1309,107,58,1,evActLedFollowInv},     // FY02A
-    {80,2,17,1,evActLedOn},     // FY02D
-    {80,9,9,0,evActLedOn},      // FY03A
-    {80,3,18,1,evActLedOn},     // FY03D
-    {80,10,11,2,evActLedOn},    // FY04D
-    {80,4,20,3,evActLedOn},     // FY04A
-    {80,11,12,2,evActLedOn},    // FY05D
-    {80,5,21,3,evActLedOn},     // FY05A
-    {80,15,28,6,evActLedOn},    // FYREL
+    
+    {1313,301,15,1,evActLedFollowInv},     // Platform 1 to 2 boiler end crossover normal
+    {1313,301,62,1,evActLedFollow},     // Platform 1 to 2 boiler end crossover reversed
+    {1313,302,47,1,evActLedFollow},     // Platform 2 to 1 boiler end crossover normal
+
+    {1304,301,56,1,evActLedFollowInv},     // Up-down bridge xover normal
+    {1304,301,30,1,evActLedFollow},     // Up-down bridge xover reversed
+    {1304,303,64,1,evActLedFollowInv},     // Down-Up  bridge xover normal
+ 
+    {1304,304,32,1,evActLedFollow},     // P3 boiler end arrival
+    {1304,304,34,1,evActLedFollowInv},     // P2 boiler end arrival
+  
+    {1304,302,24,1,evActLedFollow},     // P4 boiler end departure
+    {1304,302,33,1,evActLedFollowInv},     // P3 boiler end departure
+
 //    {80,15,1,6,evActLedOn},    // FYREL
     
     {80,12,13,2,evActLedOn},    // FY06D
