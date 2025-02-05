@@ -49,6 +49,7 @@
 */
 
 #include "canpanel.h"
+#include "panelEvents.h"
 #include "ticktime.h"
 
 
@@ -119,6 +120,21 @@ const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB}; 
+
+#elif defined SHORTEVENTS
+
+#else
+
+const rom BYTE nvTable[NV_NUM] =       { 0,10,0x10,0,8,0,8,8,10,0,0,0,0,0,0,0,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
+                                        DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB};   
+
 
 #else
 

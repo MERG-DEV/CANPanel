@@ -75,7 +75,7 @@ void initKeyscan(void)
     for (i=0; i<COLUMN_OUTPUTS; i++)
         keyStatus.buttonState.stateArray[i] = COLUMN_MASK;  // No buttons pressed (button inputs are active low)  ??? NEED TO ALLOW FOR MULTIPLE MASKS
     
-    // Keypad strobe  output pins - intialise all high
+    // Keypad strobe  output pins - initialise all high
     
     COL_LAT |= COLUMN_MASK;  
             

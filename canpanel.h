@@ -105,12 +105,15 @@ CANPanel Version History
 typedef struct
 {
     BOOL    started:1;
+    BOOL    testInput:1;
+    BOOL    msgReceived:1;
+    BOOL    doingSod:1;    
     ModuleTestMode  panelMode;
     WORD    testCount;
     BYTE    passCount;
     BYTE    eventCount;
-    BOOL    testInput;
-    BOOL    msgReceived;
+    BYTE    sodCount;
+    TickValue sodTime;
 } PanelStatus;
 
 extern PanelStatus     mainStatus;

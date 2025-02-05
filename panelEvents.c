@@ -46,6 +46,7 @@ This work is licensed under the:
 */
 
 #include "canpanel.h"
+#include "panelevents.h"
 #include "callbacks.h"
 #include "ticktime.h"
 #include "buttonscan.h"
@@ -163,28 +164,39 @@ void initButtonStatus()
 void sendButtonEvent( BYTE button )
 
 {
-    BOOL    eventState, buttonOn;
+    BOOL    buttonOn;
     BYTE    buttonNum;
-    WORD    buttonNode;
+
     
     buttonOn = !(button & 0x80);  // MS bit set for button off
     button &= 0x7F;               // Clear MS bit to leave just button number
     buttonNum = buttonNumber(button);
     
+    sendButtonNumEvent( button, buttonNum, buttonOn, TRUE );
+}    
+    
+    
+void sendButtonNumEvent( BYTE button, BYTE buttonNum, BOOL buttonOn, BOOL doFlop )    
+
+{
+    WORD    buttonNode;    
+    BOOL    eventState;
+
+    buttonNode = (NV->spooofNode == 0 ? -1 : NV->spooofNode);
+    if (NV->panelFlags.sendShortEvents)
+        buttonNode = 0;
+    
     if (buttonOn)  // Button down or switch on
     {    
-        eventState = (NV->pbSettings[buttonNum].flipflop ? !buttonStatus[buttonNum].eventON : TRUE);
+        eventState = ((NV->pbSettings[buttonNum].flipflop && doFlop) ? !buttonStatus[buttonNum].eventON : TRUE);
         buttonStatus[buttonNum].eventON = eventState;
-        buttonNode = (NV->spooofNode == 0 ? -1 : NV->spooofNode);
-        if (NV->panelFlags.sendShortEvents)
-            buttonNode = 0;
-        
+       
         cbusSendEvent( 0, buttonNode , button, eventState );
     }    
     else // Button up or switch off
     {
-        if (NV->pbSettings[buttonNum].sendOff & !NV->pbSettings[buttonNum].flipflop)
-            cbusSendEvent( 0, -1 , button, FALSE );
+        if (NV->pbSettings[buttonNum].sendOff && !NV->pbSettings[buttonNum].flipflop)
+            cbusSendEvent( 0, buttonNode , button, FALSE );
     }    
 }
 
@@ -197,4 +209,29 @@ void setButtonState( BYTE button, BOOL buttonState )
     buttonStatus[buttonNum].eventON = buttonState;
 }
 
+void doButtonsSod( PanelStatus mainStatus )
+
+{
+    BYTE buttonNum;
+    
+    if (!(mainStatus.doingSod))
+    {        
+        mainStatus.sodCount = 0;
+        mainStatus.doingSod = TRUE;
+        mainStatus.sodTime.Val = tickGet();
+    }    
+    
+        
+    // NV controlled delay between Sod response events
+
+    if ((mainStatus.sodCount == 0) || (tickTimeSince(mainStatus.sodTime) > (NV->sodResponseDelay * TEN_MILI_SECOND  )))
+    {        
+        buttonNum = mainStatus.sodCount;
+        sendButtonNumEvent( buttonCode(buttonNum), buttonNum, buttonStatus[buttonNum].eventON, FALSE );  
+        if (++mainStatus.sodCount == NUM_PBS)
+            mainStatus.doingSod = FALSE;
+        else
+            mainStatus.sodTime.Val = tickGet();
+    }
+}
 

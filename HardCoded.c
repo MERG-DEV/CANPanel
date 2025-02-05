@@ -53,11 +53,14 @@
 
  */
 
+#include "canpanel.h"
 #include "FLiM.h"
 #include "panelFLiM.h"
+#include "panelEvents.h"
 #include "callbacks.h"
 #include "max6951.h"
 #include "hardCoded.h"
+#include "canpanel.h"
 
 // Local prototypes
 
@@ -77,7 +80,7 @@
 
 
 const rom BYTE    hardCodedButtons[HARDCODED_MAX_BUTTON] = {86,87,65,00,00,00,00,00,00,00,00,83,67,66,98,70,00,00,00,00,00,80,96,112,49,00,70,00,00,55,118,48,32,33,00,00,00,00,00,103,00,97,00,21,
-                                                            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,39,7,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,64,81,37,};
+                                                            0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,39,7,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,64,81,37};
 const rom BYTE    hardCodedLeds[HARDCODED_MAX_BUTTON] =    {48,56,64 ,33,41,49,42,50,35,43,51,44,45,53 ,36,37};
 const rom BYTE    ledGroupLimits[LED_GROUPS] = {1};
 
@@ -579,9 +582,16 @@ const rom HCEvTable HardCodedEvents[] =
             
 //  Test events for finding out which LEDs are which - leave commented out for normal use
             
-    {80,20,1,0xFF,evNextLed}   
+    {80,20,1,0xFF,evNextLed}  
 };
 
+#else
+
+//  Test events for finding out which LEDs are which - leave commented out for normal use
+            
+    {80,20,1,0xFF,evNextLed},   
+    {0,19999,1,0xFF,evSod}
+};
 
 #endif
 
@@ -818,6 +828,10 @@ BOOL processHardCodedEvent( WORD eventNode, WORD eventNum, BYTE eventIndex, BYTE
             clearAllLeds(); 
             cbusSendEvent( 0, -1, ledNum, TRUE );
             setLed( ledNum++, TRUE );
+            break;
+            
+        case evSod:   // Send start of day status for each button/switch unless excluded from SoD
+            doButtonsSod(mainStatus);
             break;
             
         default:

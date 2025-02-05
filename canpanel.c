@@ -54,6 +54,7 @@
 // Node number for produced events, set to -1 to use node number of this module, set 0 for short events
         
 #include "canpanel.h"       // Also contains current version and build number
+#include "panelEvents.h"
 // #include "max6951.h"
 #include "paneltest.h"
 #include "buttonscan.h"
@@ -165,8 +166,7 @@ void main(void)
     canPanelInit(mainStatus);
     startTime.Val = tickGet();
  
-    mainStatus.started = FALSE;
-    mainStatus.panelMode = testOff;
+    
 #ifdef HARDCODED            
     initHardCoded();
 #endif 
@@ -224,17 +224,15 @@ void main(void)
         if (flimState == fsTestMode)
             panelTest();
  
-        // Strobe keyboard for button presses
+        // Strobe keyboard for button presses - does not send events in startup delay but scans to establish the current button/switch status
 
+        button = keyScan();
+        
         if (mainStatus.started)
         {
-            button = keyScan();
-            
             if (button != 0xFF)
             {   
      
-                
-
                 
 #ifdef HARDCODED  
                 
@@ -260,6 +258,9 @@ void main(void)
         // Check for any flashing status LEDs
         checkFlashing();
         
+        if (mainStatus.doingSod)
+            doButtonsSod(mainStatus);
+        
 #ifdef HARDCODED
         // Check for any routes waiting to be setup
        // checkWaitingRoutes();
@@ -272,6 +273,10 @@ void canPanelInit(PanelStatus mainStatus)
 {
     unsigned char i;
 
+    mainStatus.started = FALSE;
+    mainStatus.panelMode = testOff;
+    mainStatus.doingSod = FALSE;
+    
     initIO();
     initKeyscan();
     panelTestInit();

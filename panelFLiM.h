@@ -143,7 +143,7 @@ typedef PbFlags PbSettings[NUM_PBS];
 typedef struct
 {
         BYTE            sendSodDelay;                   // Time after start in 100mS (plus 2 seconds) to send an automatic SoD. Set to zero for no auto SoD
-        BYTE            hbDelay;                        // Interval in 100mS for automatic heartbeat. Set to zero for no heartbeat.
+        BYTE            sodResponseDelay;               // Interval in 10mS units for SoD response messages.
         PanelFlags      panelFlags;                     // Global operation flags
         SegOutputs      segDisplays;                    // Which groups of 8 are 7 segment displays
         BYTE            brightness;                     // LED brightness setting - 16 levels in 4 bits
@@ -221,16 +221,8 @@ typedef struct
 }   PbStatus;
 
 
-
-
 void	panelFlimInit(void);
 void    initDefaultNVs(void);
-
-// In panelEvents
-
-void initButtonStatus();
-void sendButtonEvent( BYTE button );
-void setButtonState( BYTE button, BOOL buttonState );
 
 
 #ifdef	__cplusplus
