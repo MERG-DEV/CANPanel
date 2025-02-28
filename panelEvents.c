@@ -168,7 +168,7 @@ void sendButtonEvent( BYTE button )
     BYTE    buttonNum;
 
     
-    buttonOn = !(button & 0x80);  // MS bit set for button off
+    buttonOn = (button & 0x80);  // MS bit set for button off
     button &= 0x7F;               // Clear MS bit to leave just button number
     buttonNum = buttonNumber(button);
     
@@ -209,29 +209,36 @@ void setButtonState( BYTE button, BOOL buttonState )
     buttonStatus[buttonNum].eventON = buttonState;
 }
 
-void doButtonsSod( PanelStatus mainStatus )
+void doButtonsSod( SoDStatusP sodStat )
 
 {
     BYTE buttonNum;
+    DWORD responseDelay;
     
-    if (!(mainStatus.doingSod))
+    if (!(sodStat->sodInProgress))
     {        
-        mainStatus.sodCount = 0;
-        mainStatus.doingSod = TRUE;
-        mainStatus.sodTime.Val = tickGet();
+        sodStat->sodCount = 0;
+        sodStat->sodInProgress = TRUE;
+        sodStat->sodTime.Val = tickGet();
     }    
     
         
     // NV controlled delay between Sod response events
 
-    if ((mainStatus.sodCount == 0) || (tickTimeSince(mainStatus.sodTime) > (NV->sodResponseDelay * TEN_MILI_SECOND  )))
+    responseDelay = NV->sodResponseDelay;
+    responseDelay *= TEN_MILI_SECOND;
+    
+    if ((sodStat->sodCount == 0) || (tickTimeSince(sodStat->sodTime) > responseDelay))
+//    if ( (tickTimeSince(sodStat.sodTime) > (NV->sodResponseDelay * TEN_MILI_SECOND  )))
+        
     {        
-        buttonNum = mainStatus.sodCount;
+        buttonNum = sodStat->sodCount;
         sendButtonNumEvent( buttonCode(buttonNum), buttonNum, buttonStatus[buttonNum].eventON, FALSE );  
-        if (++mainStatus.sodCount == NUM_PBS)
-            mainStatus.doingSod = FALSE;
+        sodStat->sodCount++;
+        if (sodStat->sodCount == NUM_PBS)
+            sodStat->sodInProgress = FALSE;
         else
-            mainStatus.sodTime.Val = tickGet();
+            sodStat->sodTime.Val = tickGet();
     }
 }
 

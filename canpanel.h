@@ -59,9 +59,9 @@ CANPanel Version History
 
 #define MAJOR_VER 	1
 #define MINOR_VER 	'b'        // Minor version character
-#define BETA        18
-#define WIP         18
-#define TESTBUILD   18
+#define BETA        19
+#define WIP         19
+#define TESTBUILD   19
 
 #include "hwsettings.h"
 #include <GenericTypeDefs.h>
@@ -99,26 +99,21 @@ CANPanel Version History
 
 #define CBUS_START_DELAY    TWO_SECOND
 
-
-
-
 typedef struct
 {
     BOOL    started:1;
     BOOL    testInput:1;
     BOOL    msgReceived:1;
-    BOOL    doingSod:1;    
     ModuleTestMode  panelMode;
     WORD    testCount;
     BYTE    passCount;
     BYTE    eventCount;
-    BYTE    sodCount;
-    TickValue sodTime;
 } PanelStatus;
 
-extern PanelStatus     mainStatus;
+typedef PanelStatus* PanelStatusP;
 
-void canPanelInit(PanelStatus mainStatus);
+
+void canPanelInit(PanelStatusP mainStatus, SoDStatusP sodStat);
 
 
 #endif	// __CANPANEL_H

@@ -322,7 +322,7 @@ BYTE buttonCode( BYTE buttonNumber )
 
 {
     // Return a row/column button code from a 0 to 63 button number
-    return( ((buttonNumber & 0xF0) << 2) + (buttonNumber & 0x0F ) );
+    return( ((buttonNumber & 0x78) << 1) + (buttonNumber & 0x07 ) );
 }
 
 

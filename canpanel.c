@@ -91,7 +91,7 @@ BOOL            Doubleflash;               // Control double flashing for FLiM
 unsigned char   FlashTime;                 // Number of main loops to hold flash of green LED on
 unsigned char	tmr0_reload;
 
-PanelStatus     mainStatus;
+
 
 
 
@@ -101,7 +101,7 @@ PanelStatus     mainStatus;
 /*
  */
 void __init(void);
-BOOL checkCBUS( BOOL display );
+BOOL checkCBUS( BOOL display, SoDStatusP sodStat );
 void ISRHigh(void);
 void high_irq_errata_fix(void);
 
@@ -162,8 +162,11 @@ void main(void)
     BYTE        button;
     TickValue   startTime, stateTime, timeNow;
     DWORD       timeDiff;
+    PanelStatus     mainStatus;
+    SoDStatus   sodStat;
+
   
-    canPanelInit(mainStatus);
+    canPanelInit(&mainStatus, &sodStat);
     startTime.Val = tickGet();
  
     
@@ -177,16 +180,16 @@ void main(void)
 
         if (!mainStatus.started && (tickTimeSince(startTime) > (NV->sendSodDelay * HUNDRED_MILI_SECOND) + TWO_SECOND))
         {
-            mainStatus.started = TRUE;
-           
-//            if (NV->sendSodDelay > 0)
-                sendStartupSod(START_SOD_EVENT);
+         
+//          if (NV->sendSodDelay > 0)
+            sendStartupSod(START_SOD_EVENT);
             
             if (NV->testFlags.startInTest)
             {
                 flimState = fsTestMode;
                 mainStatus.panelMode = NV->testFlags.panelTestMode;
             }    
+            mainStatus.started = TRUE;
         }
                
 //        for (i=1; i<64; i++)
@@ -194,7 +197,7 @@ void main(void)
             
       // Test mode checks here will be in NV - for this test build start in test display mode and cycle test modes when button pressed.
       //TODO - add in parsing CBUS command in approp place
-        mainStatus.msgReceived = checkCBUS(mainStatus.panelMode == displayMSG);    // Consume any CBUS message - display it if not display message mode
+        mainStatus.msgReceived = checkCBUS(mainStatus.panelMode == displayMSG, &sodStat);    // Consume any CBUS message - display it if not display message mode
 
         FLiMSWCheck();  // Check FLiM switch for any mode changes
 
@@ -222,7 +225,7 @@ void main(void)
         }    
             
         if (flimState == fsTestMode)
-            panelTest();
+            panelTest(&mainStatus);
  
         // Strobe keyboard for button presses - does not send events in startup delay but scans to establish the current button/switch status
 
@@ -230,6 +233,9 @@ void main(void)
         
         if (mainStatus.started)
         {
+            if (sodStat.sodInProgress == TRUE)
+               doButtonsSod(&sodStat);
+            
             if (button != 0xFF)
             {   
      
@@ -252,14 +258,15 @@ void main(void)
                 sendButtonEvent( button );
                 //  TurnOnNextLed();
 #endif
-            }    
+
+            }
+            // mainStatus.sodInProgress = FALSE;
         }
       
         // Check for any flashing status LEDs
         checkFlashing();
         
-        if (mainStatus.doingSod)
-            doButtonsSod(mainStatus);
+
         
 #ifdef HARDCODED
         // Check for any routes waiting to be setup
@@ -269,17 +276,18 @@ void main(void)
 } // main
  
 
-void canPanelInit(PanelStatus mainStatus)
+void canPanelInit(PanelStatusP mainStatus, SoDStatusP sodStat)
 {
     unsigned char i;
 
-    mainStatus.started = FALSE;
-    mainStatus.panelMode = testOff;
-    mainStatus.doingSod = FALSE;
+    mainStatus->started = FALSE;
+    mainStatus->panelMode = testOff;
+    sodStat->sodInProgress = FALSE;
+    sodStat->sodCount = 0;
     
     initIO();
     initKeyscan();
-    panelTestInit();
+    panelTestInit(mainStatus);
     panelFlimInit();
     initLedDriver(NV->brightness);
 
@@ -293,7 +301,7 @@ void canPanelInit(PanelStatus mainStatus)
     setStatusLed(flimState == fsFLiM);
 }
 
-BOOL checkCBUS( BOOL display )
+BOOL checkCBUS( BOOL display, SoDStatusP sodStat )
 
 {
     BOOL    msgReceived;
@@ -317,7 +325,7 @@ BOOL checkCBUS( BOOL display )
               displayChar(' ',i);
         }
         else
-            parseCBUSMsg(msg);                // Process the incoming message
+            parseCBUSMsg(msg, sodStat);                // Process the incoming message
 
     }
     

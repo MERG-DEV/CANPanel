@@ -57,7 +57,7 @@
 
 // In panelEvents
 
-void doButtonsSod( PanelStatus mainStatus );
+void doButtonsSod( SoDStatusP sodStat );
 void initButtonStatus();
 void sendButtonEvent( BYTE button );
 void sendButtonNumEvent( BYTE button, BYTE buttonNum, BOOL buttonOn, BOOL doFlop );    

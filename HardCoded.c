@@ -786,7 +786,7 @@ BYTE findHardCodedEvent( BYTE startIndex, WORD eventNode, WORD eventNum  )
     return( eventIndex);
 }
 
-BOOL processHardCodedEvent( WORD eventNode, WORD eventNum, BYTE eventIndex, BYTE *msg )
+BOOL processHardCodedEvent( SoDStatusP sodStat, WORD eventNode, WORD eventNum, BYTE eventIndex, BYTE *msg )
 
 {
     BOOL    eventProcessed = TRUE;
@@ -831,7 +831,7 @@ BOOL processHardCodedEvent( WORD eventNode, WORD eventNum, BYTE eventIndex, BYTE
             break;
             
         case evSod:   // Send start of day status for each button/switch unless excluded from SoD
-            doButtonsSod(mainStatus);
+            doButtonsSod(sodStat);
             break;
             
         default:

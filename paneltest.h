@@ -70,8 +70,8 @@
 
 
 
-void panelTestInit(void);
-void panelTest(void);
+void panelTestInit(PanelStatusP mainStatus);
+void panelTest(PanelStatusP mainStatus);
 
 
                 

@@ -99,38 +99,38 @@ WORD_VAL    testStatus;
 WORD        txBlockSize;
 
   
-void panelTestInit(  )
+void panelTestInit( PanelStatusP mainStatus  )
 
 {
-    mainStatus.panelMode = testOff;
-    mainStatus.testCount = 0;
-    mainStatus.passCount = 0;
-    mainStatus.eventCount = 0;
+    mainStatus->panelMode = testOff;
+    mainStatus->testCount = 0;
+    mainStatus->passCount = 0;
+    mainStatus->eventCount = 0;
 }
                
-void panelTest()
+void panelTest(PanelStatusP mainStatus)
 {
     
     BYTE    dispCount, checkCount;
     char    displayContents[9];
     BOOL    unique;
     
-    switch (mainStatus.panelMode)
+    switch (mainStatus->panelMode)
     {
         case displayTest:
-            if (mainStatus.testInput)
+            if (mainStatus->testInput)
             {
-                mainStatus.testCount = 0;
-                mainStatus.testInput = FALSE;
+                mainStatus->testCount = 0;
+                mainStatus->testInput = FALSE;
             }    
             
-            switch (mainStatus.testCount)
+            switch (mainStatus->testCount)
             {
                 case 0:
                     clearAllLeds();
                     setLedTestMode( TRUE );
                     stateTime.Val = tickGet();
-                    mainStatus.testCount++;
+                    mainStatus->testCount++;
                     break;
 
                 case 1:
@@ -140,7 +140,7 @@ void panelTest()
                         clearAllLeds();
                         sayHello();             // Message on 7 seg displays
                         stateTime.Val = tickGet();
-                        mainStatus.testCount++;
+                        mainStatus->testCount++;
                     }
                     break;
                     
@@ -149,7 +149,7 @@ void panelTest()
                     {
                         displayVersion();            // Version no. on 7 seg displays
                         stateTime.Val = tickGet();
-                        mainStatus.testCount++;
+                        mainStatus->testCount++;
                     }
                     break;
                 case 3:
@@ -161,7 +161,7 @@ void panelTest()
                         displayByte( 0x23, 2 );
                         displayNumber( 0x4567, 4, 4, 0 );
                         stateTime.Val = tickGet();
-                        mainStatus.testCount++;
+                        mainStatus->testCount++;
                     }
                     break;
 
@@ -171,7 +171,7 @@ void panelTest()
                         clearAllLeds();
                         showTestX();
                         stateTime.Val = tickGet();
-                        mainStatus.testCount++;
+                        mainStatus->testCount++;
                     }
                     break;
 
@@ -179,17 +179,17 @@ void panelTest()
                     if (tickTimeSince(stateTime) > TEST_X_TIME)
                     {
                         testStatus.Val = 0xFFFFFFFF;    // Set start of test
-                        mainStatus.passCount = 0;
+                        mainStatus->passCount = 0;
                         testStatus = ledTestCycle( testStatus);        // Start test of each LED in turn
                         stateTime.Val = tickGet();
-                        mainStatus.testCount++;                    }
+                        mainStatus->testCount++;                    }
                     break;
 
                case 6:
                     if (tickTimeSince(stateTime) > TEST_LED_TIME)
                     {
-                        if ((testStatus.Val == 0) && (++(mainStatus.passCount) >= TEST_LED_PASSES))  // WARNING!! This line depends on ++ only being executed if first test passes, so may be compiler or optimisation dependant
-                            mainStatus.testCount = 0;
+                        if ((testStatus.Val == 0) && (++(mainStatus->passCount) >= TEST_LED_PASSES))  // WARNING!! This line depends on ++ only being executed if first test passes, so may be compiler or optimisation dependant
+                            mainStatus->testCount = 0;
                         else
                         {
                             testStatus = ledTestCycle( testStatus);        // test of next LED in turn
@@ -202,24 +202,24 @@ void panelTest()
 
         case displayFIFO:
             
-            if (mainStatus.testInput)
+            if (mainStatus->testInput)
             {
-                mainStatus.testInput = FALSE;
-                mainStatus.eventCount = 0;
+                mainStatus->testInput = FALSE;
+                mainStatus->eventCount = 0;
                 maxCanRxFifo = 0;
                 rxFifoUsage = 0;
                 rxOflowCount = 0;
             }    
                 
-            if (mainStatus.msgReceived)
+            if (mainStatus->msgReceived)
             {
-                mainStatus.eventCount++;
-                mainStatus.msgReceived = FALSE;
+                mainStatus->eventCount++;
+                mainStatus->msgReceived = FALSE;
             }
 
 
             // This part is CAN specific - displays CAN RX FIFO information on the 7 segment display
-            displayByte(mainStatus.eventCount,0);
+            displayByte(mainStatus->eventCount,0);
             displayByte(maxCanRxFifo,2);
             displayByte(rxFifoUsage,4);
             displayByte(rxOflowCount,6);
@@ -229,33 +229,33 @@ void panelTest()
         case transmitTest:
             // Transmit a block of CBUS event messages
  
-            if (mainStatus.eventCount == 0)
+            if (mainStatus->eventCount == 0)
             {
-                mainStatus.testCount = 0;
+                mainStatus->testCount = 0;
                 txBlockSize = NV->testBlockSize;
-                mainStatus.eventCount++;
+                mainStatus->eventCount++;
             }    
             
-            if (mainStatus.testInput) 
+            if (mainStatus->testInput) 
             {
-                mainStatus.testInput = FALSE;
-                mainStatus.testCount = 0;
-                mainStatus.eventCount++;
+                mainStatus->testInput = FALSE;
+                mainStatus->testCount = 0;
+                mainStatus->eventCount++;
  
                 if (NV->testFlags.incTestBlock)
                     txBlockSize *= 2;
             }    
 
-            if ((mainStatus.testCount < txBlockSize) && (tickTimeSince(stateTime) > (NV->testFrameDelay*HUNDRED_MICRO_SECOND)))
+            if ((mainStatus->testCount < txBlockSize) && (tickTimeSince(stateTime) > (NV->testFrameDelay*HUNDRED_MICRO_SECOND)))
             {
-                cbusSendEvent(0,-1,mainStatus.testCount++,TRUE);
+                cbusSendEvent(0,-1,mainStatus->testCount++,TRUE);
                 stateTime.Val = tickGet();
             }
 
 
             // This part is CAN specific - displays CAN TX FIFO information on the 7 segment display
 
-            displayByte(mainStatus.testCount,0);
+            displayByte(mainStatus->testCount,0);
             displayByte(maxCanTxFifo,2);
             displayByte(txFifoUsage,4);
             displayByte(txOflowCount,6);
@@ -264,10 +264,10 @@ void panelTest()
         case randomTest:
             // Generate 8 random digits (eg: shunting puzzle)
             
-            if (mainStatus.testInput || (mainStatus.eventCount == 0 )) 
+            if (mainStatus->testInput || (mainStatus->eventCount == 0 )) 
             {
-                mainStatus.eventCount = 1;
-                mainStatus.testInput = FALSE;
+                mainStatus->eventCount = 1;
+                mainStatus->testInput = FALSE;
                 srand((TMR_H << 8) + TMR_L );   // Seed the random number generator from the free running timer
                 
                 // Loop for each digit - hard code 8 digits for now
