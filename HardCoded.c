@@ -590,7 +590,7 @@ const rom HCEvTable HardCodedEvents[] =
 //  Test events for finding out which LEDs are which - leave commented out for normal use
             
     {80,20,1,0xFF,evNextLed},   
-    {0,19999,1,0xFF,evSod}
+    {80,1999,1,0xFF,evSod}
 };
 
 #endif
