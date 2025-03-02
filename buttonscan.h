@@ -58,7 +58,7 @@
 #include "hwsettings.h"
 #include "matrix.h"
 
-#define KEY_DEBOUNCE_TIME   TWENTY_MILI_SECOND
+#define KEY_DEBOUNCE_TIME   HUNDRED_MILI_SECOND
 
 #define CR  0x13
 
