@@ -138,7 +138,7 @@ const rom BYTE nvTable[NV_NUM] =       { 0,25,0x10,0,8,0,8,8,10,0,0,0,0,0,0,0,
 
 #else
 
-const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,
+const rom BYTE nvTable[NV_NUM] =       { 0,DEFAULT_SOD_RESPONSE_DELAY,0x20,0,8,0,8,8,10,0,0,0,KEY_DEBOUNCE_TIME,0,0,0,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,

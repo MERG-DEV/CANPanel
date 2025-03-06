@@ -101,7 +101,7 @@ void initKeyscan(void)
 
 }
 
-BYTE keyScan( void )
+BYTE keyScan( BOOL scanPolarity, BYTE debounceTime )
 
 // This routine does one scan of the keypad, updating any debounce counts. It returns the value
 // of the currently pressed key, when the press has been debounced.
@@ -131,6 +131,7 @@ BYTE keyScan( void )
     BOOL        multiButtonsPressed;
     BYTE        buttonNum, colNum, rowBits, rowNum, rowDiff;
     BOOL        intState, keyOff;
+    DWORD       keyDebounceTime;
     
 
 
@@ -145,17 +146,26 @@ BYTE keyScan( void )
     for ( strobeCount = 0; strobeCount < COLUMN_OUTPUTS; strobeCount++)
     {
        
-        strobeMask = ~((0b00000001 << strobeCount) & COLUMN_MASK);    // Shifting column from bit 0
-
+        strobeMask = ((0b00000001 << strobeCount) & COLUMN_MASK);    // Shifting column from bit 0
+        
+        if (scanPolarity)  // Set means scan with output set low and look for low input (old method) Default is now the opposite
+            strobeMask = ~strobeMask;
+        
         // disable interrupts during the keypad strobe because one strobe line is
         // shared with SPI and we might get the wrong answer if it is waggled by
-        // the ISR reading a radio message via SPI.
+        // the ISR doing things via SPI.
 
         intState = INTEN;
         INTEN = 0;
 
-        COL_LAT |= COLUMN_MASK;                                 // Set all strobe column bits
-        COL_LAT &= strobeMask;                                  // Clear strobe bit to active low for this column
+        if (scanPolarity)
+        {
+            COL_LAT |= COLUMN_MASK;                                 // Set all strobe column bits
+            COL_LAT &= strobeMask;                                  // Clear strobe bit to active low for this column
+        }
+        else
+            COL_LAT &= ~COLUMN_MASK;                                 // clear all strobe column bits
+            COL_LAT |= strobeMask;                                   // Set strobe bit to active high for this column
 
         #ifdef  COL_LAT2
             KBD_STROBE6 = (strobeCount != (COLUMN_OUTPUTS-1));  // Column 6 on a different port NOTE: this is not generic at the moment, just defined to work on wicab
@@ -180,8 +190,11 @@ BYTE keyScan( void )
             strobedValue.bits.b7 = KBD_INP7;
         #endif       
                 
-
+           
         INTEN = intState; // Put interrupts back how they were
+        
+        if (!scanPolarity)
+            strobedValue.Val = ~strobedValue.Val;
 
         #ifdef RETURN_LOOKUP
             if (strobedValue  != 0x07)     // 7 = no buts   3,5,6 = 1 but  1,2,4 = 2 buts   0 = 3 buts
@@ -223,7 +236,9 @@ BYTE keyScan( void )
     {    
         if (matrixEquals(&newButtonState, &keyStatus.pendingState))       // Still the same as when we started debouncing?
         {
-            if (tickTimeSince( keyStatus.debounceStart) > KEY_DEBOUNCE_TIME)
+            keyDebounceTime = debounceTime * TEN_MILI_SECOND;
+            
+            if (tickTimeSince( keyStatus.debounceStart) > keyDebounceTime)
             {
                 #ifdef RETURN_LOOKUP
                     returnCode = keyLookup( buttonNum, newButtonState ); 

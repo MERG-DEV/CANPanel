@@ -63,6 +63,9 @@
 
 #define NUM_PBS         64
 #define NUM_LEDS        64
+#define DEFAULT_SOD_RESPONSE_DELAY  2               // 10ms units, default interval between SoD responses, set by NV
+#define KEY_DEBOUNCE_TIME   HUNDRED_MILI_SECOND     // Now moved to NV - use this value for default NV value
+
 
 
 // Node Variable definitions
@@ -98,7 +101,7 @@ typedef union
         BOOL    syncFlipFlops:1;    // Monitor events to sync flip flop states
         BOOL    unitialised:1;      // Set to 1 by default memory, so knows to initialise NVs
         BOOL    sendShortEvents:1;  // Short events for PBs
-//        BYTE    scanDelay:4;        // Delay on each button scan in mS 1-15, set to zero for default scanning
+        BOOL    oldScanPolarity:1;   // Set to use active low input scanning for backwards compatibility with old panels (default is now active high input polarity for better noise immunity)
     };
     BYTE    flagByte;
 } PanelFlags;
@@ -153,7 +156,8 @@ typedef struct
         BYTE            testFrameDelay;                 // Delay, in 100uS units, between frame transmissions (set 0 for max rate continuous)
         BYTE            spareByteNV[1];
         WORD            spooofNode;                     // When non zero, send all pushbuttons events from this node instead of ours.
-        BYTE            spareNV[4];
+        BYTE            buttonDebounceTime;             // Debounce delay in units of 10ms for debouncing button presses/switch changes
+        BYTE            spareNV[3];
         PbSettings      pbSettings;                     // Array of settings one byte per pushbutton
 } ModuleNvDefs;
 

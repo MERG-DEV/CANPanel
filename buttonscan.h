@@ -58,8 +58,6 @@
 #include "hwsettings.h"
 #include "matrix.h"
 
-#define KEY_DEBOUNCE_TIME   HUNDRED_MILI_SECOND
-
 #define CR  0x13
 
 typedef union
@@ -98,7 +96,7 @@ typedef struct
 // Function prototypes
 
 void initKeyscan(void);
-BYTE keyScan( void );
+BYTE keyScan( BOOL scanPolarity, BYTE debounceTime );
 BOOL matrixEquals( MatrixState *newState, MatrixState *currentState);
 VOID updateButtonState( MatrixState *srcButtonState, MatrixState *dstButtonState);
 BYTE buttonNumber( BYTE buttonCode );

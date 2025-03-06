@@ -229,7 +229,7 @@ void main(void)
  
         // Strobe keyboard for button presses - does not send events in startup delay but scans to establish the current button/switch status
 
-        button = keyScan();
+        button = keyScan(NV->panelFlags.oldScanPolarity, NV->buttonDebounceTime);
         
         if (mainStatus.started)
         {
