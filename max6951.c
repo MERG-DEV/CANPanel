@@ -81,24 +81,31 @@ const rom BYTE HELLO[] = "HELLO";
 #pragma udata MAIN_VARS
 
 // Copy of MAX chip registers, we need to keep copies in RAM because MAX chip is write only
-LedsMap ledsMap;
+ChipMap ledsMap;
 BYTE    decodeMode;
 
 // Local function prototypes
 
-void sendMxCmd( BYTE mxRegister, BYTE mxValue );
+void sendMxCmd( BYTE mxChipNum, BYTE mxRegister, BYTE mxValue );
+void sendMxCmdBoth( BYTE mxRegister, BYTE mxValue );
+void csMxChip( BYTE mxChipNum, BOOL enable );
 
 
 
 void initLedDriver(BYTE brightness)
 
 {
-    BYTE    regadr, regval;
+    BYTE    regadr, regval, chipNum;
 
     SCK_TRIS = 0;       // SPI clock is an output
     SDO_TRIS = 0;       // SPI data output
     MX_CS_TRIS = 0;     // MAX chip select is an output
     MX_CS_IO = 1;       // Deselect to start with
+    
+#if MAXCHIPS == 2
+    MX_CS2_TRIS = 0;     // MAX chip select is an output
+    MX_CS2_IO = 1;       // Deselect to start with 
+#endif    
 
     SPI_DONEFLAG = 0;
     SSPCON1 = SPI_MASTER_FOSCd4 + SPI_CKP_LOW;      // Set clock rate to 16MHz (ok for MAX chip) with idle clock low. SSP not enabled yet.
@@ -107,15 +114,18 @@ void initLedDriver(BYTE brightness)
 
     regadr = MX_CONF;
     regval = MX_CONF_FASTBLINK + MX_CONF_BLINKON;
-
-    sendMxCmd( MX_TEST, 0);                                     // Make sure test mode is off
-    sendMxCmd( MX_CONF, MX_CONF_CLEAR );                        // Initialise with outputs shut down and all outputs off
-    sendMxCmd( MX_SCAN_LIMIT, 0XFF );                           // Show all LEDs/digits
-    sendMxCmd( MX_INTENSITY, brightness &0x0F);                 // Brightness passed in as parameter (0-15))
-    clearAllLeds();
-    decodeMode = 0;
-    sendMxCmd( MX_CONF, MX_CONF_FASTBLINK + MX_CONF_BLINKON + MX_CONF_ENABLE );  // Enable outputs with blink feature enabled
-  //sendMxCmd( MX_TEST, 1);     // put into test mode to prove initalisation worked
+    
+    for (chipNum = 0; chipNum < MAXCHIPS; chipNum++)
+    {
+        sendMxCmd( chipNum, MX_TEST, 0);                                     // Make sure test mode is off
+        sendMxCmd( chipNum, MX_CONF, MX_CONF_CLEAR );                        // Initialise with outputs shut down and all outputs off
+        sendMxCmd( chipNum, MX_SCAN_LIMIT, 0XFF );                           // Show all LEDs/digits
+        sendMxCmd( chipNum, MX_INTENSITY, brightness &0x0F);                 // Brightness passed in as parameter (0-15))
+        clearAllLeds();
+        decodeMode = 0;
+        sendMxCmd( chipNum, MX_CONF, MX_CONF_FASTBLINK + MX_CONF_BLINKON + MX_CONF_ENABLE );  // Enable outputs with blink feature enabled
+        //sendMxCmd( MX_TEST, 1);     // put into test mode to prove initalisation worked
+    }    
 }
 
 
@@ -123,13 +133,14 @@ void initLedDriver(BYTE brightness)
 
 void setLedTestMode(BOOL testMode)
 
-{
-    // In the Maxim chip, test mode is all segments on at 50% duty cycle (half brightness)
-    sendMxCmd( MX_TEST, (BYTE) testMode);
+{   // Put both chips in test mode (any chip not fitted simply won't do it)
+    // In the Maxim chips, test mode is all segments on at 50% duty cycle (half brightness)
+    sendMxCmdBoth( MX_TEST, (BYTE) testMode);
 }
 
 
 // Run full LED test, cycling each LED on in turn, for the number of passes specified, with software delay
+// If 2 MAX chips are fitted, this does both chips simultaneously so the same LED should be on both banks at any one time
 
 void runLedTest( BYTE testPasses )
 
@@ -144,13 +155,13 @@ void runLedTest( BYTE testPasses )
   
             while (segCount != 0)
             {
-                sendMxCmd( MX_DIG_BOTH + digCount, segCount);
+                sendMxCmdBoth( MX_DIG_BOTH + digCount, segCount);
                 doSwDelay( 500 );   // ?? Convert to heartbeat delay once ISR done
                 segCount = (segCount == 0x80 ? 1 : segCount<<1);
                 if (segCount == 0x80)
                     segCount = 0;
             }    
-            sendMxCmd( MX_DIG_BOTH + digCount, 0 );
+            sendMxCmdBoth( MX_DIG_BOTH + digCount, 0 );
         }    
     }    
 }
@@ -175,7 +186,7 @@ WORD_VAL ledTestCycle( WORD_VAL testStatus )
         segCount = testStatus.byte.LB;
         if (segCount == 0)       // start of digit
         {
-            sendMxCmd( MX_DIG_BOTH + digCount++, 0 );   // Clear last digit and move to next
+            sendMxCmdBoth( MX_DIG_BOTH + digCount++, 0 );   // Clear last digit and move to next
             if (++digCount > 7)
                 digCount = 0;            
         }
@@ -183,7 +194,7 @@ WORD_VAL ledTestCycle( WORD_VAL testStatus )
     
     segCount = (segCount == 0 ? 1 : segCount<<1);    // Next segment bit in digit byte
    
-    sendMxCmd( MX_DIG_BOTH + digCount, segCount);   // Turn on one segment
+    sendMxCmdBoth( 0, MX_DIG_BOTH + digCount, segCount);   // Turn on one segment
     
     testStatus.byte.HB = digCount;
     testStatus.byte.LB = segCount;
@@ -195,14 +206,14 @@ WORD_VAL ledTestCycle( WORD_VAL testStatus )
 void showTestX(void)
 
 {
-    sendMxCmd( MX_DIG_BOTH, 0xC0);
-    sendMxCmd( MX_DIG_BOTH + 1, 0x21);
-    sendMxCmd( MX_DIG_BOTH + 2, 0x12);
-    sendMxCmd( MX_DIG_BOTH + 3, 0x0C);
-    sendMxCmd( MX_DIG_BOTH + 4, 0x0c);
-    sendMxCmd( MX_DIG_BOTH + 5, 0x12);
-    sendMxCmd( MX_DIG_BOTH + 6, 0x21);
-    sendMxCmd( MX_DIG_BOTH + 7, 0xC0);
+    sendMxCmdBoth( MX_DIG_BOTH, 0xC0);
+    sendMxCmdBoth( MX_DIG_BOTH + 1, 0x21);
+    sendMxCmdBoth( MX_DIG_BOTH + 2, 0x12);
+    sendMxCmdBoth( MX_DIG_BOTH + 3, 0x0C);
+    sendMxCmdBoth( MX_DIG_BOTH + 4, 0x0c);
+    sendMxCmdBoth( MX_DIG_BOTH + 5, 0x12);
+    sendMxCmdBoth( MX_DIG_BOTH + 6, 0x21);
+    sendMxCmdBoth( MX_DIG_BOTH + 7, 0xC0);
 }
 
 
@@ -212,12 +223,12 @@ void clearAllLeds(void)
     BYTE    digCount;
     BYTE    regadr;
 
-    sendMxCmd( MX_DECODE, 0 );  //. turn off character decoding
+    sendMxCmdBoth( MX_DECODE, 0 );  //. turn off character decoding
 
     for (digCount = 0; digCount < 8; digCount++)
     {
         regadr = MX_DIG_BOTH + digCount;
-        sendMxCmd( regadr, 0);
+        sendMxCmdBoth( regadr, 0);
      }
      memset( (void *) ledsMap, 0, sizeof(ledsMap) );                     // Set in memory map to all zeroes
        
@@ -230,14 +241,19 @@ void clearAllLeds(void)
 void setLedState( BYTE ledNumber, BOOL ledState, BOOL flashLed)
 
 {
-   BYTE    digNum, segNum, digValue, planeValueLED, planeValueFlash;
+   BYTE    chipNum, digNum, segNum, digValue, planeValueLED, planeValueFlash;
 
+    chipNum = (ledNumber > 63 ? 1 : 0 );
+    
+    if (chipNum == 1)
+        ledNumber -= 64;
+    
     digNum = --ledNumber/8;     // Work out "digit" number from LED number
-    segNum = ledNumber % 8;     // Eork out "segment" number ie: LED in this "digit"
+    segNum = ledNumber % 8;     // Work out "segment" number ie: LED in this "digit"
     digValue = 1 << segNum;     // Bit map for this LED in this "digit"
     
-    planeValueLED = ledsMap[0][digNum];    // \_ Current status of LEDs stored in memory for this "digit"
-    planeValueFlash = ledsMap[1][digNum];  // /   
+    planeValueLED = ledsMap[chipNum][0][digNum];    // \_ Current status of LEDs stored in memory for this "digit"
+    planeValueFlash = ledsMap[chipNum][1][digNum];  // /   
     
     if (flashLed) // flash led
     {    
@@ -260,11 +276,11 @@ void setLedState( BYTE ledNumber, BOOL ledState, BOOL flashLed)
     
     // Update in memory status arrays, then send to chip
     
-    ledsMap[0][digNum] = planeValueLED;    
-    ledsMap[1][digNum] = planeValueFlash;     
+    ledsMap[chipNum][0][digNum] = planeValueLED;    
+    ledsMap[chipNum][1][digNum] = planeValueFlash;     
 
-    sendMxCmd( MX_DIG_P0 + digNum, planeValueLED);
-    sendMxCmd( MX_DIG_P1 + digNum, planeValueFlash);
+    sendMxCmd( chipNum, MX_DIG_P0 + digNum, planeValueLED);
+    sendMxCmd( chipNum, MX_DIG_P1 + digNum, planeValueFlash);
 }
 
 void setLed( BYTE ledNumber, BOOL ledState )
@@ -425,31 +441,51 @@ void doSwDelay( WORD milliseconds )
         
 }
 
-void sendMxCmd( BYTE mxRegister, BYTE mxValue )
+void sendMxCmd( BYTE mxChipNum, BYTE mxRegister, BYTE mxValue )
 
 {
     BOOL    intState;
     BYTE    dummy;
+    
 
 
     intState = INTCONbits.GIEL;
     INTCONbits.GIEL = 0;             // Disable low priority interrupts whilst using SPI, as common I/O pins may be used by ISR
 
+    
+    csMxChip( mxChipNum, FALSE);    // Make sure MAX chip disabled to we start strobing a new byte in
     SSPCON1bits.SSPEN = 1;          // Enable SPI
-    MX_CS_IO = 0;                   // Enable MAX chip
+    csMxChip( mxChipNum, TRUE);     // Enable MAX chip
     SSPBUF = mxRegister;            // Send register address
     WaitForDataByte();              // Wait for transfer to complete
     SSPBUF = mxValue;               // Send data value
     WaitForDataByte();
-    MX_CS_IO = 1;                   // Transfers sent data into register
-    MX_CS_IO = 0;                   // Next command
+    csMxChip( mxChipNum, FALSE);    // Transfers sent data into register
+    csMxChip( mxChipNum, TRUE);     // Next command
     SSPBUF = MX_NOP;                // Finish with a nop so subsequent transitions on CS cause no problem
     WaitForDataByte();
     SSPBUF = 0;
     WaitForDataByte();
-    MX_CS_IO = 1;                   // Latch NOP command into MAX chip
+    csMxChip( mxChipNum, FALSE);    // Latch NOP command into MAX chip
 
     SSPCON1bits.SSPEN = 0;          // Disable SPI so pins can be used for other things
 
     INTCONbits.GIEL = intState;
+}
+
+void sendMxCmdBoth( BYTE mxRegister, BYTE mxValue )
+
+{
+    sendMxCmd( 0, mxRegister, mxValue);
+    sendMxCmd( 1, mxRegister, mxValue);    
+}
+
+void csMxChip( BYTE mxChipNum, BOOL enable )
+
+{
+    if (mxChipNum == 0)
+      MX_CS_IO = (enable ? FALSE, TRUE);
+    else
+      MX_CS2_IO = (enable ? FALSE, TRUE);  
+    
 }

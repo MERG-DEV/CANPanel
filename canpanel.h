@@ -58,7 +58,7 @@ CANPanel Version History
 */
 
 #define MAJOR_VER 	1
-#define MINOR_VER 	'c'        // Minor version character
+#define MINOR_VER 	'd'        // Minor version character
 #define BETA        1
 #define WIP         1
 #define TESTBUILD   1

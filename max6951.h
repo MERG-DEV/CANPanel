@@ -129,6 +129,7 @@ void doSwDelay( WORD milliseconds );
 
 typedef BYTE        DigitMap[8];    // One bit per segment/LED (on or off)
 typedef DigitMap    LedsMap[2];     // Two planes - for flashing status
+typedef LedsMap     ChipMap[2];    // Two chips
 
 typedef struct
 {
