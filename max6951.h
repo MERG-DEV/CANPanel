@@ -77,6 +77,7 @@ extern "C" {
 #define MX_CS2_TRIS             (TRISCbits.TRISC7)
 #define MX_CS2_IO               (LATCbits.LATC7)    
    
+#define MAXCHIPS                2    
 
 // MAX6951 definitions - see Maxim data sheet
     

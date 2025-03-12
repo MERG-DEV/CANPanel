@@ -194,7 +194,7 @@ WORD_VAL ledTestCycle( WORD_VAL testStatus )
     
     segCount = (segCount == 0 ? 1 : segCount<<1);    // Next segment bit in digit byte
    
-    sendMxCmdBoth( 0, MX_DIG_BOTH + digCount, segCount);   // Turn on one segment
+    sendMxCmdBoth( MX_DIG_BOTH + digCount, segCount);   // Turn on one segment
     
     testStatus.byte.HB = digCount;
     testStatus.byte.LB = segCount;
@@ -319,12 +319,21 @@ void displayNumber( WORD toDisplay, BYTE offset, BYTE digits, BYTE format )
 void displayDigit( BYTE toDisplay, BYTE offset )
 
 {
+    BYTE chipNum;
+    
+    chipNum = 0;
+    
+    if (offset > 3)
+    {
+        chipNum++;
+        offset -= 3;
+    }    
     toDisplay &= 0x0F;
     decodeMode |= (1<<offset);
 
     // ?? Put in validation check for offset value
-    sendMxCmd( MX_DECODE, decodeMode);
-    sendMxCmd( MX_DIG_BOTH + offset, toDisplay);
+    sendMxCmd( chipNum, MX_DECODE, decodeMode);
+    sendMxCmd( chipNum, MX_DIG_BOTH + offset, toDisplay);
 }
 
 // Display byte as 2 hex digits on the 7 segment display starting at the digit given by offset
@@ -339,12 +348,21 @@ void displayByte( BYTE toDisplay, BYTE offset )
 void displayChar( unsigned char  toDisplay, BYTE offset )
 {
     unsigned char genChar;
+    BYTE    chipNum;
 
+    chipNum = 0;
+    
+    if (offset > 3)
+    {
+        chipNum++;
+        offset -= 3;
+    }    
+    
     decodeMode &= ~(1<<offset);
-    sendMxCmd( MX_DECODE, decodeMode);   // Turn off decode for alphanumerics
+    sendMxCmd( chipNum, MX_DECODE, decodeMode);   // Turn off decode for alphanumerics
 
     genChar = (toDisplay == ' ' ? 0 : charGen[toDisplay - 0x30]);
-    sendMxCmd( MX_DIG_BOTH + offset, genChar);
+    sendMxCmd( chipNum, MX_DIG_BOTH + offset, genChar);
 }
 
 void displayString( char *toDisplay, BYTE offset)
@@ -484,8 +502,8 @@ void csMxChip( BYTE mxChipNum, BOOL enable )
 
 {
     if (mxChipNum == 0)
-      MX_CS_IO = (enable ? FALSE, TRUE);
+      MX_CS_IO = (enable ? 0 : 1);
     else
-      MX_CS2_IO = (enable ? FALSE, TRUE);  
+      MX_CS2_IO = (enable ? 0 : 1);  
     
 }
