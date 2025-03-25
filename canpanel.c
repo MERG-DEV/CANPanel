@@ -181,7 +181,7 @@ void main(void)
         if (!mainStatus.started && (tickTimeSince(startTime) > (NV->sendSodDelay * HUNDRED_MILI_SECOND) + TWO_SECOND))
         {
          
-//          if (NV->sendSodDelay > 0)
+          if (NV->sendSodDelay > 0)
             sendStartupSod(START_SOD_EVENT);
             
             if (NV->testFlags.startInTest)
@@ -242,9 +242,9 @@ void main(void)
                 
 #ifdef HARDCODED  
                 
-#ifdef KMRSSTN
-                button = hardCodedProducerMap(button);     
-#endif                
+//#ifdef KMRSSTN
+//                button = hardCodedProducerMap(button);     
+//#endif                
                 
 #ifdef BURNDEN
                 button = hardCodedProducerMap(button);
@@ -285,7 +285,7 @@ void canPanelInit(PanelStatusP mainStatus, SoDStatusP sodStat)
     sodStat->sodInProgress = FALSE;
     sodStat->sodCount = 0;
     
-    initIO();
+    initIO(NV->panelFlags.oldScanPolarity);
     initKeyscan();
     panelTestInit(mainStatus);
     panelFlimInit();

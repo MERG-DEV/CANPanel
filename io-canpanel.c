@@ -49,7 +49,7 @@
 
 #include "canpanel.h"
 
-void initIO(void) {
+void initIO(BOOL enablePullups) {
     
     INTCON = 0;     // Disable all interrupts to start with
     INTCON2 = 0;
@@ -115,10 +115,14 @@ void initIO(void) {
 
 // Enable internal pull-ups.
 
-    INTCON2bits.RBPU = 0;   // Enable pull up feature on Port B
+    
+    INTCON2bits.RBPU = ~enablePullups;   // Enable pull up feature on Port B for old scan polarity
     
 #ifdef CPUF18K
-    WPUB = PORTB_DDR;       // Data direction bits correspond to the need for pullups
+    if (enablePullups)
+        WPUB = PORTB_DDR;       // Data direction bits correspond to the need for pullups
+    else
+        WPUB = 0;
     ODCON = 0;              // Open drains all off
 #endif
     

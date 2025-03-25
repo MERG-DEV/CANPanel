@@ -64,7 +64,7 @@
 #define NUM_PBS         64
 #define NUM_LEDS        64
 #define DEFAULT_SOD_RESPONSE_DELAY  2               // 10ms units, default interval between SoD responses, set by NV
-#define KEY_DEBOUNCE_TIME   HUNDRED_MILI_SECOND     // Now moved to NV - use this value for default NV value
+#define KEY_DEBOUNCE_TIME   10                      // Now moved to NV - use this value for default NV value in 10ms units (so value of 10 is 100ms))
 
 
 

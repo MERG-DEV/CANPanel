@@ -78,7 +78,7 @@
 
 
 
-void initIO(void);
+void initIO(BOOL enablePullups);
 
 
 //void writeOutput(int port, unsigned char val);
