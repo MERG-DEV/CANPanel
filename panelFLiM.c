@@ -87,7 +87,7 @@ const rom char          module_type[] = MODULE_TYPE;
 
 #if defined KMRSSTN
 
-const rom BYTE nvTable[NV_NUM] =       { 0,0,32,0,8,0,8,8,10,0,0,0,0,0,0,0  // NV no.
+const rom BYTE nvTable[NV_NUM] =       { 0,0,0,0,8,0,8,8,10,0,0,0,0,0,0,0,  // NV no.
                                         DPB,DPB,DPB,DPB,DPB,DPB,DPB,DPB,    // 17-24
                                         DPB,DPB,DPB,DPB,DPB,0x1b,DPB,DPB,    // 18-32
                                         DPB,DPB,DPB,DPB,DPB,0x1b,DPB,DPB,    // 33-40

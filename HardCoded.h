@@ -56,9 +56,9 @@ events.h - Definitions for CBUS event handling
 #ifdef KMRSSTN
 
 #define HARDCODED_MAX_BUTTON  92            // Max button number for mapping
-#define HARDCODED_MAX_LED     36
+#define HARDCODED_MAX_LED     25
 #define HARDCODED_LED_STATES    2           // Flashing and steady
-#define LED_GROUPS  1         
+#define LED_GROUPS  2         
 
 #elif defined KFY
 

@@ -82,50 +82,35 @@
 const rom BYTE    hardCodedButtons[HARDCODED_MAX_BUTTON] = {86,87,65,00,00,00,00,00,00,00,00,83,67,66,98,70,00,00,00,00,00,80,96,112,49,00,70,00,00,55,118,48,32,33,00,00,00,00,00,103,00,97,00,21,
                                                             0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,39,7,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,64,81,37};
 const rom BYTE    hardCodedLeds[HARDCODED_MAX_BUTTON] =    {48,56,64 ,33,41,49,42,50,35,43,51,44,45,53 ,36,37};
-const rom BYTE    ledGroupLimits[LED_GROUPS] = {1};
+const rom BYTE    ledGroupLimits[LED_GROUPS] = {1,1};
 
 // Dont forget to update HARDCODED_MAX_LED in hardcoded.h if making changes here!!
 
 const rom HCEvTable HardCodedEvents[] = 
 {   
 #ifdef KMRSSTN
-//   Button events that start LED flashing - Node Number, event number, LED number, Group, action
-    {450,64,25,0,evActFlashLed},   // FYUPBH correct
-//    {450,64,1,0,evActFlashLed},   // FYUPBH dummy led always out
-    {450,80,32,0,evActFlashLed},    // FY01A
-    {450,96,24,1,evActFlashLed},     // FY01D
-    {450,112,8,1,evActFlashLed},     // FYUPVH   
-//    {450,112,1,5,evActFlashLed},     // FYUPVH   
-    
-    {450,81,16,0,evActFlashLed},     // FY02A
-    {450,97,17,1,evActFlashLed},     // FY02D
-    {450,82,9,0,evActFlashLed},      // FY03A
-    {450,98,18,1,evActFlashLed},     // FY03D
-    {451,84,11,2,evActFlashLed},    // FY04D
-    {451,100,20,3,evActFlashLed},     // FY04A
-    {451,69,12,2,evActFlashLed},    // FY05D
-    {451,101,21,3,evActFlashLed},     // FY05A
-    {451,70,28,2,evActFlashLed},    // FYREL
-//    {451,70,1,6,evActFlashLed},    // FYREL
-    
-    {451,86,13,2,evActFlashLed},    // FY06D
-    {451,65,22,3,evActFlashLed},    // FY06A
-    {451,66,23,3,evActFlashLed},    // FYDNVH
-//    {451,66,1,7,evActFlashLed},    // FYDNVH
+
     
   //    Feedback events from turnouts that set LED on steady - Node Number, event number, LED number, action
     {1308,104,49,1,evActLedFollow},    // FB P4 down arrival
-//    {80,13,1,4,evActLedOn},    // FYUPBH dummy led always out
+//    {80,13,1,4,evActLedOn},    //  dummy led always out
     {1308,102,26,1,evActLedFollow},     // FB P3 down arrival
     {1308,102,51,1,evActLedFollowInv},     // FB P3 down arrival inverted
-    {1309,107,12,1,evActLedFollow},     // FYUPVH
-
     
-    {1309,107,58,1,evActLedFollowInv},     // FY02A
+    {1308,204,61,1,evActLedFollowInv},     // Siding-Branch xover reversed
+    {1308,204,59,1,evActLedFollow},     // Siding-Branch xover normal
+    {1308,105,9,evActLedFollowInv},     // Down-Up  bridge xover normal
+ 
+    {1309,107,12,1,evActLedFollow},     // FB Up to down xover reversed
+    {1309,107,58,1,evActLedFollowInv},     // FB Down to up xover normal
     
-    {1313,301,15,1,evActLedFollowInv},     // Platform 1 to 2 boiler end crossover normal
-    {1313,301,62,1,evActLedFollow},     // Platform 1 to 2 boiler end crossover reversed
-    {1313,302,47,1,evActLedFollow},     // Platform 2 to 1 boiler end crossover normal
+    {1313,301,15,1,evActLedFollowInv},     // Platform 1 to 2 boiler end (up) crossover normal
+    {1313,301,62,1,evActLedFollow},     // Platform 1 to 2 boiler end (up)crossover reversed
+    {1313,302,47,1,evActLedFollow},     // Platform 2 to 1 boiler end (up) crossover normal
+    
+    {1401,86,55,1,evActLedFollowInv},     // Platform 1 to 2 window end (down) crossover normal
+    {1401,86,45,1,evActLedFollow},     // Platform 1 to 2 window end (down)crossover reversed
+    {1401,86,35,1,evActLedFollowInv},     // Platform 2 to 1 window end (down) crossover normal
 
     {1304,301,56,1,evActLedFollowInv},     // Up-down bridge xover normal
     {1304,301,30,1,evActLedFollow},     // Up-down bridge xover reversed
@@ -137,12 +122,10 @@ const rom HCEvTable HardCodedEvents[] =
     {1304,302,24,1,evActLedFollow},     // P4 boiler end departure
     {1304,302,33,1,evActLedFollowInv},     // P3 boiler end departure
 
-//    {80,15,1,6,evActLedOn},    // FYREL
-    
-    {80,12,13,2,evActLedOn},    // FY06D
-    {80,6,22,3,evActLedOn},    // FY06A
-    {80,16,23,7,evActLedOn},     // FYDNVH
-//    {80,16,1,7,evActLedOn},     // FYDNVH
+    {1401,5,4,2,evActLedOn},   // Boiler siding 1 
+    {1401,7,6,2,evActLedOn},    // Boiler siding 2
+    {1401,39,22,2,evActLedOn},   // Boiler siding 3
+
     
     {80,20,1,0xFF,evNextLed}    // test event to light each LED in turn 
 };    
