@@ -100,6 +100,10 @@ const rom HCEvTable HardCodedEvents[] =
     {1308,204,61,1,evActLedFollowInv},     // Siding-Branch xover reversed
     {1308,204,59,1,evActLedFollow},     // Siding-Branch xover normal
     {1308,105,9,evActLedFollowInv},     // Down-Up  bridge xover normal
+    
+    {1309,102,60,1,evActLedFollowInv},     // FB Up to down xover reversed
+    {1309,103,27,1,evActLedFollow},     // FB Down to up xover normal
+
  
     {1309,107,12,1,evActLedFollow},     // FB Up to down xover reversed
     {1309,107,58,1,evActLedFollowInv},     // FB Down to up xover normal
