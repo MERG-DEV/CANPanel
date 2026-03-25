@@ -185,7 +185,16 @@ void sendButtonNumEvent( BYTE button, BYTE buttonNum, BOOL buttonOn, BOOL doFlop
     buttonNode = (NV->spooofNode == 0 ? -1 : NV->spooofNode);
     if (NV->panelFlags.sendShortEvents)
         buttonNode = 0;
+ 
+#ifdef KMRSSTN  // Special case to send shuttle on/off event to command station
+        if (button == KMRS_SHUTTLE_BUTTON)
+        {    
+            buttonNode = CMD_SH_NODE;
+            button = CMD_SH_ENABLE_EN;
+        }
+#endif
     
+          
     if (buttonOn)  // Button down or switch on
     {    
         eventState = ((NV->pbSettings[buttonNum].flipflop && doFlop) ? !buttonStatus[buttonNum].eventON : TRUE);

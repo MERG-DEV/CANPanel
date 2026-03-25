@@ -52,11 +52,16 @@ events.h - Definitions for CBUS event handling
 // #include "EEPROM.h"
 #include "max6951.h"
 
+#define CMD_SH_NODE 162             // Command station Shuttle Control Node 
+#define	CMD_SH_ENABLE_EN 5          //   event to enable shuttles
+#define	CMD_SH__START_EN 6          //   event to start shuttles
+#define	CMD_SH_STOP_EN 7            //   event to stop shuttles
+
 
 #ifdef KMRSSTN
 
 #define HARDCODED_MAX_BUTTON  92            // Max button number for mapping
-#define HARDCODED_MAX_LED     30
+#define HARDCODED_MAX_LED     49
 #define HARDCODED_LED_STATES    2           // Flashing and steady
 #define LED_GROUPS  2         
 
