@@ -52,77 +52,85 @@ events.h - Definitions for CBUS event handling
 // #include "EEPROM.h"
 #include "max6951.h"
 
+#ifdef KMRSSTN
+
+#define HARDCODEDHEADERINC "kmrsstn.h"
+#define HARDCODEDLEDSINC  "kmrsstn.c"
+
+#endif
+
+#include HARDCODEDHEADERINC
+
 #define CMD_SH_NODE 162             // Command station Shuttle Control Node 
 #define	CMD_SH_ENABLE_EN 5          //   event to enable shuttles
 #define	CMD_SH__START_EN 6          //   event to start shuttles
 #define	CMD_SH_STOP_EN 7            //   event to stop shuttles
 
 
-#ifdef KMRSSTN
-
-#define HARDCODED_MAX_BUTTON  92            // Max button number for mapping
-#define HARDCODED_MAX_LED     49
-#define HARDCODED_LED_STATES    2           // Flashing and steady
-#define LED_GROUPS  2         
-
-#elif defined KFY
-
-#define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     36
-#define HARDCODED_LED_STATES    2           // Flashing and steady
-#define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
-
-#elif defined KSIGNALS
-
-#define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     59           // Number of LED consumer event definitions implemeneted
-#define HARDCODED_LED_STATES    1           // Steady (on or off)
-#define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
-
-#elif defined KSIGNALMAN
-
-#define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
-#define HARDCODED_MAX_LED     61          // Number of LED consumer event definitions implemeneted
-#define HARDCODED_LED_STATES    1           // Steady (on or off)
-#define LED_GROUPS  4                       //
-
-#elif defined MSM
-
-#define HARDCODED_MAX_BUTTON  22            // Number of BUTTONS
-#define HARDCODED_MAX_LED     22            // Number of LEDs
-#define HARDCODED_LED_STATES    2           // Flashing and steady
-#define LED_GROUPS  6                       // Number of groups of mutually exclusive route LEDs
 
 
-#elif defined BURNDENPARK
-
-#define HARDCODED_MAX_BUTTON  41            // Number of BUTTONS
-#define HARDCODED_MAX_LED     41            // Number of LEDs
-#define HARDCODED_LED_STATES    2           // Flashing and steady
-#define LED_GROUPS  6                       // Number of groups of mutually exclusive route LEDs
-
-#elif defined BURNDENSHED
-
-#define HARDCODED_MAX_BUTTON  60            // Number of BUTTONS
-#define HARDCODED_MAX_LED    60              // Number of LEDs
-#define HARDCODED_LED_STATES    2           // Flashing and steady
-#define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
-
-#elif defined INGLEBOROUGH
-
-#define HARDCODED_MAX_BUTTON  40            // Number of BUTTONS
-#define HARDCODED_MAX_LED     40            // Number of LEDs
-#define HARDCODED_LED_STATES    2           // Flashing and steady
-#define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
-
-#else
-
-#define HARDCODED_MAX_BUTTON  92            // Number of BUTTONS
-#define HARDCODED_MAX_LED     2            // Number of LEDs
-#define HARDCODED_LED_STATES    2           // Flashing and steady
-#define LED_GROUPS  1                       // Number of groups of mutually
-
-#endif
+//#ifdef KFY
+//
+//#define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
+//#define HARDCODED_MAX_LED     36
+//#define HARDCODED_LED_STATES    2           // Flashing and steady
+//#define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
+//#define HARDCODEDINC "KFY.h"
+//
+//#elif defined KSIGNALS
+//
+//#define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
+//#define HARDCODED_MAX_LED     59           // Number of LED consumer event definitions implemeneted
+//#define HARDCODED_LED_STATES    1           // Steady (on or off)
+//#define LED_GROUPS  4                       // Number of groups of mutually exclusive route LEDs
+//#define HARDCODEDINC "KSIGNALS.h"
+//
+//#elif defined KSIGNALMAN
+//
+//#define HARDCODED_MAX_BUTTON  16            // 16 BUTTONS
+//#define HARDCODED_MAX_LED     61          // Number of LED consumer event definitions implemeneted
+//#define HARDCODED_LED_STATES    1           // Steady (on or off)
+//#define LED_GROUPS  4                       //
+//#define HARDCODEDINC "KSIGNALMAN.h"
+//
+//#elif defined MSM
+//
+//#define HARDCODED_MAX_BUTTON  22            // Number of BUTTONS
+//#define HARDCODED_MAX_LED     22            // Number of LEDs
+//#define HARDCODED_LED_STATES    2           // Flashing and steady
+//#define LED_GROUPS  6                       // Number of groups of mutually exclusive route LEDs
+//#define HARDCODEDINC "KMRSSTN.h"
+//
+//
+//#elif defined BURNDENPARK
+//
+//#define HARDCODED_MAX_BUTTON  41            // Number of BUTTONS
+//#define HARDCODED_MAX_LED     41            // Number of LEDs
+//#define HARDCODED_LED_STATES    2           // Flashing and steady
+//#define LED_GROUPS  6                       // Number of groups of mutually exclusive route LEDs
+//
+//#elif defined BURNDENSHED
+//
+//#define HARDCODED_MAX_BUTTON  60            // Number of BUTTONS
+//#define HARDCODED_MAX_LED    60              // Number of LEDs
+//#define HARDCODED_LED_STATES    2           // Flashing and steady
+//#define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
+//
+//#elif defined INGLEBOROUGH
+//
+//#define HARDCODED_MAX_BUTTON  40            // Number of BUTTONS
+//#define HARDCODED_MAX_LED     40            // Number of LEDs
+//#define HARDCODED_LED_STATES    2           // Flashing and steady
+//#define LED_GROUPS  1                       // Number of groups of mutually exclusive route LEDs
+//
+//#else
+//
+////#define HARDCODED_MAX_BUTTON  92            // Number of BUTTONS
+////#define HARDCODED_MAX_LED     2            // Number of LEDs
+////#define HARDCODED_LED_STATES    2           // Flashing and steady
+////#define LED_GROUPS  1                       // Number of groups of mutually
+//
+//#endif
 
 
 #define MAX_STORAGE_ROAD    16                // 13 STORAGE ROADS
